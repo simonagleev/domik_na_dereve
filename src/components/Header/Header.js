@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./Header.module.css";
 import { getSeason } from "@/utils/season";
 import Link from "next/link";
+import BurgerMenu from "./BurgerMenu";
 
 //Получаем сезон
 const month = new Date().getMonth()
@@ -22,19 +23,40 @@ export default function Header() {
                 className={styles.logo}
                 src="/img/logo.svg"
                 alt="Домик на дереве лого"
-                width={150}
-                height={43}
+                width={0}
+                height={0}
                 priority
             />
             <nav className={styles.nav} >
                 <Link href="/">Главная</Link>
                 <Link href="/workshops">Мастер-классы</Link>
-                {/* <a href="/birthdays">Дни рождения</a> */}
+                {/* <Link href="/birthdays">Дни рождения</Link> */}
                 <a href="#contacts">Контакты</a>
             </nav>
             <div className={styles.phone}>
                 <a href="tel: +79149322882"> +7 (914) 932‑28‑82</a>
             </div>
+
+            {/* БУРГЕР */}
+            {/* <nav role="navigation">
+                <input type="checkbox" id="menu-toggle" className={styles.menuCheckbox} />
+                <label htmlFor="menu-toggle" className={styles.menuToggleLabel}>
+                    <span className={styles.hamburger}></span>
+                    <span className={styles.hamburger}></span>
+                    <span className={styles.hamburger}></span>
+                </label>
+
+                <div className={styles.menu}>
+                    <div className={styles.menuContainer}>
+                        <nav className={styles.menuMain}>
+                            <Link href="/">Главная</Link>
+                            <Link href="/workshops">Мастер-классы</Link>
+                            <a href="#contacts">Контакты</a>
+                        </nav>
+                    </div>
+                </div>
+            </nav> */}
+            <BurgerMenu/>
         </header>
     );
 }

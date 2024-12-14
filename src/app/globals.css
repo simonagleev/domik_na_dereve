@@ -1,14 +1,14 @@
 @font-face {
   font-family: 'Manrope';
   src: url('/fonts/Manrope-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900; 
+  font-weight: 100 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Montserrat';
   src: url('/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
-  font-weight: 100 900; 
+  font-weight: 100 900;
   font-style: normal;
 }
 
@@ -64,7 +64,13 @@ button {
   cursor: pointer
 }
 
-h2{
+h2 {
   font-weight: 500;
 }
 
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+}

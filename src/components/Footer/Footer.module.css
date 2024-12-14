@@ -27,3 +27,42 @@
     line-height: 26px;
 }
 
+
+
+@media (max-width: 480px) {
+    .footer {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .footer_item_container{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-bottom: 0;
+        padding-top: 30px;
+        width: 90%;
+    }
+    
+    .footer_logo {
+        max-width: 185px;
+        max-height: 63px;
+    }
+    .footer_heading {
+        font-size: 2.167rem;
+        line-height: 27px;
+        order: 1;
+        margin-top: 30px;
+        margin-bottom: 0;
+    }
+    .footer_heading br {
+        display: none;
+    }
+    
+    .footer_item{
+        font-size: 1.66rem;
+        line-height: 26px;
+        margin-bottom: 20px;
+    }
+}

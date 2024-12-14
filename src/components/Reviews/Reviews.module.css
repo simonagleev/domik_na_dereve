@@ -82,3 +82,75 @@
 .reviews_card_text:not(:last-child) {
     margin-bottom: 20px;
 }
+
+@media (max-width: 480px) {
+    .container {
+        margin-top: 50px;
+    }
+
+    .reviews_top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+    
+    .reviews_heading {
+        font-size: 2rem;
+        line-height: 26px;
+    }
+
+    .reviews_heading br {
+        display: none;
+    }
+    
+    .reviews_arrows_container {
+        /* display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px; */
+        display: none;
+    }
+    
+    /* .reviews_arrow {
+        background-color: rgba(211, 229, 238, 1);
+        border-radius: 15px;
+        min-width: 56px;
+        min-height: 37px;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        cursor: pointer;
+        transition: .3s;
+    } */
+    
+    .reviews_cards_container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .review_card {
+        padding: 12px 15px;
+        min-height: 257px;
+        transition: .3s;
+    }
+    
+    .reviews_arrow_img {
+        margin-bottom: 10px;
+        max-width: 38px;
+        max-height: 38px;
+    }
+    
+    .reviews_arrow_name {
+        font-size: 1.25rem;
+        line-height: 20px;
+        margin-bottom: 7px;
+    }
+    
+    .reviews_card_text{
+        line-height: 13.6px;
+        font-size: 0.833rem;
+    }
+    .reviews_card_text:not(:last-child) {
+        margin-bottom: 20px;
+    }
+}

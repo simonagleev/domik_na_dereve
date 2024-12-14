@@ -9,6 +9,9 @@
     color: rgba(84, 59, 61, 1);
     text-align: center;
     padding: 0 35px;
+    position: absolute;
+    bottom: 40px;
+    right: calc(4vw + 20px);
 }
 
 .card_social_container {
@@ -113,4 +116,30 @@
 .button:hover:before,
 .button:hover:after {
     transform: none;
+}
+
+
+@media (max-width: 480px) {
+    .card_container {
+        position: static;
+        border: 1px solid rgba(144, 125, 147, 1);
+        width: 100%;
+        margin-top: 10px;
+        flex: 1;
+    }
+
+    .card_social_container {
+        margin: 1rem 0 1rem;
+    }
+
+    .card_header {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin-bottom: 0.6875rem;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 33.01px;
+    }
+    .card_text {
+        margin-bottom: 0;
+    }
 }

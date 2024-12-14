@@ -8,20 +8,21 @@ import News from "@/components/News/News";
 export default function Home() {
   return (
     <div className={styles.component}>
+        {/* <Header /> */}
       <div className={styles.container}>
-        <Header />
         <div className={styles.home} style={{ backgroundImage: "url('/img/main_bg_winter.webp')" }}>
           <h1 className={styles.header}>Домик <br /> на дереве</h1>
           <div className={styles.right}>
-            <PaymentCard />
           </div>
         </div>
+        <PaymentCard />
       </div>
+      
       <div className={styles.content}>
         <div className={styles.content_container}>
           {/* About */}
           <h2 className={styles.content_header}>
-            Домик на дереве — <br /><span className={styles.content_header_span}>это место, где</span>
+            Домик на дереве — <br/><span className={styles.content_header_span}>это место, где</span>
           </h2>
           <div className={styles.about_container}>
 
@@ -163,7 +164,7 @@ export default function Home() {
                     width={34}
                     height={27}
                   />
-                  <p className={styles.atmosphere_btn_text}>Купить билеты</p>
+                  <p className={styles.atmosphere_btn_text}>Смотреть все фото</p>
                 </button>
               </div>
             </div>

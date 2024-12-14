@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer/Footer";
 import "./globals.css";
 import FooterTree from "@/components/FooterTree/FooterTree";
+import Header from "@/components/Header/Header";
 
 export const metadata = {
   title: "Домик на дереве",
@@ -13,8 +14,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ru">
       <body>
+        <Header />
         <main>{children}</main>
-        <FooterTree/>
+        <FooterTree />
         <Footer />
       </body>
     </html>
