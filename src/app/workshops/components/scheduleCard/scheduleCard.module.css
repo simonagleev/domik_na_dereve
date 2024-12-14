@@ -1,0 +1,58 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+    flex: 1;
+    border-radius: 30px;
+    padding: 25px;
+    background-color: #fff;
+    flex-grow: 1;
+}
+
+.card_image_container {
+    width: 100%;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.card_image {
+    width: 100%;
+    height: auto;
+}
+
+.age {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 1.625rem;
+    line-height: 34px;
+}
+
+.card_date {
+    color: rgba(103, 151, 175, 1);
+    font-size: 2.1875rem;
+    line-height: 45px;
+    margin: 25px 0 6px;
+}
+
+.workshop_items_container {
+    width: 100%;
+}
+.workshop_item {
+    width: 100%;
+}
+
+.card_title {
+    font-size: 1.5rem;
+    line-height: 31px;
+    margin: 5px 0;
+}
+
+.card_text {
+    font-weight: 500;
+    line-height: 22px;
+}

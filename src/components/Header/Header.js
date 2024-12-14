@@ -27,7 +27,7 @@ export default function Header() {
             />
             <nav className={styles.nav} >
                 <a href="/">Главная</a>
-                <a href="/master-classes">Мастер-классы</a>
+                <a href="/workshops">Мастер-классы</a>
                 <a href="/birthdays">Дни рождения</a>
                 <a href="#contacts">Контакты</a>
             </nav>

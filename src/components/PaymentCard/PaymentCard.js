@@ -63,7 +63,7 @@ export default function PaymentCard() {
                     </filter>
                 </defs>
             </svg>
-            {isModalOpen && <PaymentForm />}
+            {isModalOpen && <PaymentForm type={'main'} date={'10 декабря'} time={'00:00'} title={'Test MK'}/>}
         </div>
     );
 }

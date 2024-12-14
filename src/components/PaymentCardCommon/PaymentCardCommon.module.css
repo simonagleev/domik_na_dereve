@@ -1,0 +1,44 @@
+.card_container {
+    background-color: #fff;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1107px;
+    color: rgba(84, 59, 61, 1);
+    text-align: center;
+    padding: 24px 50px 30px;
+}
+
+.card_header {
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 0.6875rem;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 34px;
+}
+
+.color_word {
+    color: rgba(124, 152, 120, 1);
+}
+
+.card_text {
+    margin-bottom: 26px;
+    line-height: 19.5px;
+}
+
+.buy_btn {
+    width: 100%;
+    background-color: rgba(124, 152, 120, 1);
+    font-weight: 400;
+    padding: 15px 68px 20px;
+    line-height: 24px;
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
