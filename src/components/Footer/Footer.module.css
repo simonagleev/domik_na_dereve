@@ -1,0 +1,29 @@
+.footer {
+    width: 100%;
+    background-color: rgba(62, 110, 61, 1);
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    z-index: 10; /*чтоб трава не перекрывала верхнюю строчку */
+}
+
+.footer_item_container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 50px;
+    padding-top: 30px;
+}
+
+.footer_heading {
+    font-weight: 500;
+    font-size: 2.5rem;
+    line-height: 41px;
+    margin-bottom: 42px;
+}
+
+.footer_item{
+    font-size: 1.25rem;
+    line-height: 26px;
+}
+

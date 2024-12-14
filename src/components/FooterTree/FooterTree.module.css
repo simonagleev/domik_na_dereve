@@ -1,0 +1,75 @@
+.footer_tree{
+    width: 100%;
+    background-color: rgba(186, 214, 228, 1);
+    position: relative;
+}
+
+.footer_tree_header {
+    font-weight: 700;
+    color: rgba(202, 225, 236, 1);
+    font-size: 13rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer_tree_header_line_1 {
+    align-self: flex-start;
+    line-height: 200px;
+
+}
+
+.footer_tree_header_line_2 {
+    line-height: 200px;
+    padding-left: 10%;
+}
+
+.footer_tree_girl_tree {
+    position: relative;
+
+    width: 100%;
+}
+.girl_img {
+    max-height: 805px;
+    max-width: 550px;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 0;
+    top: -5%;
+    right: 15%;
+}
+
+.tree_img{
+    max-width: 1764px;
+    max-height: 1075px;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 0;
+    bottom: -15%;
+    right: -11%;
+}
+
+.tree_and_girl_img {
+    max-width: 1764px;
+    max-height: 1075px;
+    width: 100%;
+    height: auto;
+    position: absolute;
+    z-index: 0;
+    bottom: -15%;
+    right: -25%;
+}
+
+.grass {
+    width: 100%;
+    margin-bottom: -5%;
+    position: relative;
+    z-index: 1;
+}
+.grass_img {
+    width: 110%;
+    height: auto;
+    margin-left: -5%;
+}
+

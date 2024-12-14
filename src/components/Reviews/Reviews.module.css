@@ -1,0 +1,84 @@
+.container {
+    width: 100%;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.reviews_top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 55px;
+}
+
+.reviews_heading {
+    font-weight: 500;
+    font-size: 2.5rem;
+    line-height: 51px;
+}
+
+.reviews_arrows_container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.reviews_arrow {
+    background-color: rgba(211, 229, 238, 1);
+    border-radius: 15px;
+    min-width: 56px;
+    min-height: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.reviews_arrow:hover {
+    transition: .3s;
+    transform: scale(1.1);
+}
+
+.reviews_arrow:active {
+    transition: .3s;
+    transform: scale(.9);
+}
+.reviews_cards_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.review_card {
+    background-color: #fff;
+    padding: 30px 24px;
+    border-radius: 30px;
+    flex: 1;
+    min-height: 386px;
+    transition: .3s;
+}
+
+.reviews_arrow_img {
+    margin-bottom: 14px;
+    max-width: 54px;
+}
+
+.reviews_arrow_name {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 31px;
+    margin-bottom: 9px;
+}
+
+.reviews_card_text{
+    font-weight: 500;
+    line-height: 22px;
+}
+.reviews_card_text:not(:last-child) {
+    margin-bottom: 20px;
+}
