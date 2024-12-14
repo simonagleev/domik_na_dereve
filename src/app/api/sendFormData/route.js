@@ -1,7 +1,7 @@
 import axios from 'axios';
 import fs from 'fs';
 
-const telegramBotToken = '8194525050:AAHauaq2b2WLYM3YOc4StgS0bWRke4GR1wo'; // ваш токен
+const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN; // ваш токен
 
 // Функция для сохранения chat_id
 const saveChatIds = (chatId) => {
@@ -60,9 +60,7 @@ const sendMessageToAllUsers = async (message) => {
 // Основная функция обработки запроса
 export async function POST(req) {
   const { name, phone, email, date, time, title } = await req.json();
-  console.log(date)
-  console.log(time)
-  console.log(title)
+  
   const message = `
     Новый запрос на запись 
     Дата и время: ${date} в ${time}:

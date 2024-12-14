@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer className={styles.footer}>
+        <footer className={styles.footer} id="contacts">
             <div className={styles.footer_item_container}>
                 <h3 className={styles.footer_heading}>
                     Навстречу<br /> <span style={{color: 'rgba(103, 159, 191, 1)'}}>волшебству и<br /> приключениям!</span>
