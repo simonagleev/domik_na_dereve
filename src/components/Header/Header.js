@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./Header.module.css";
 import { getSeason } from "@/utils/season";
+import Link from "next/link";
 
 //Получаем сезон
 const month = new Date().getMonth()
@@ -26,8 +27,8 @@ export default function Header() {
                 priority
             />
             <nav className={styles.nav} >
-                <a href="/">Главная</a>
-                <a href="/workshops">Мастер-классы</a>
+                <Link href="/">Главная</Link>
+                <Link href="/workshops">Мастер-классы</Link>
                 {/* <a href="/birthdays">Дни рождения</a> */}
                 <a href="#contacts">Контакты</a>
             </nav>
