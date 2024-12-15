@@ -46,3 +46,40 @@
     cursor: pointer;
 }
 
+
+
+
+@media (max-width: 480px) {
+    .card_container {
+        align-items: center;
+        padding: 44px 50px;
+        position: static;
+        border: 2px solid rgba(144, 125, 147, 1);
+        width: 100%;
+        transform: none;
+        flex: 1;
+    }
+
+    .card_header {
+        font-size: 2.25rem;
+        margin-bottom: 0.6875rem;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 34px;
+    }
+
+    .color_word {
+        color: rgba(124, 152, 120, 1);
+    }
+
+    .card_text {
+        margin-bottom: 26px;
+        line-height: 17px;
+        font-size: 1.167rem;        ;
+    }
+
+    .buy_btn {
+        padding: 13px;
+        line-height: 22px;
+        font-size: 1.5rem;
+    }
+}

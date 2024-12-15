@@ -41,6 +41,7 @@
 .workshop_items_container {
     width: 100%;
 }
+
 .workshop_item {
     width: 100%;
 }
@@ -54,4 +55,49 @@
 .card_text {
     font-weight: 500;
     line-height: 22px;
+}
+
+
+@media (max-width: 480px) {
+    .card {
+        display: flex;
+        flex: 1;
+        border-radius: 30px;
+        padding: 15px;
+        background-color: #fff;
+        flex-grow: 1;
+    }
+
+    .card_image_container {
+        width: 100%;
+        position: relative;
+    }
+
+    .card_image {
+        width: 100%;
+        height: auto;
+    }
+
+    .age {
+        font-size: 1.25rem;
+        line-height: 19px;
+    }
+
+    .card_date {
+        font-size: 1.667rem;
+        line-height: 26px;
+        margin: 11px 0 6px;
+    }
+
+    .card_title {
+        font-size: 1.25rem;
+        line-height: 19px;
+        margin: 0 0 5px 0;
+    }
+
+    .card_text {
+        font-weight: 500;
+        line-height: 24px;
+        font-size: 0.833rem;
+    }
 }

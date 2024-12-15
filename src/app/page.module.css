@@ -312,6 +312,7 @@
   }
   .content_container {
     width: 100%;
+    position: static;
   }
 
   /* ABOUT */
