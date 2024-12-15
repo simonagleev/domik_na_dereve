@@ -13,10 +13,11 @@ export default function Workshops() {
                         <h1 className={styles.header}>МАСТЕР</h1>
                         <h1 className={styles.header}>КЛАССЫ</h1>
                     </div>
-                    <div className={styles.payment_card}>
-                        <PaymentCardCommon type={'mk'} />
-                    </div>
+
                 </div>
+                {/* <div className={styles.payment_card}> */}
+                    <PaymentCardCommon type={'mk'} />
+                {/* </div> */}
             </div>
             <div className={styles.content}>
                 <WorkshopsSchedule />

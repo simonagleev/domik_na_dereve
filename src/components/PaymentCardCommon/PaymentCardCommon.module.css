@@ -9,6 +9,10 @@
     color: rgba(84, 59, 61, 1);
     text-align: center;
     padding: 24px 50px 30px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .card_header {
