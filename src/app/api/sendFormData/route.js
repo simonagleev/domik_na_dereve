@@ -1,22 +1,24 @@
 import axios from 'axios';
-import fs from 'fs';
+// import fs from 'fs';
 
-const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN; // ваш токен
-
+// const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN; // ваш токен
+const telegramBotToken = '8194525050:AAHauaq2b2WLYM3YOc4StgS0bWRke4GR1wo'
 // Функция для сохранения chat_id
 const saveChatIds = (chatId) => {
   const filePath = 'chatIds.json';
 
   // Чтение существующих chat_id
-  const chatIds = fs.existsSync(filePath)
-    ? JSON.parse(fs.readFileSync(filePath))
-    : [];
+  // const chatIds = fs.existsSync(filePath)
+  //   ? JSON.parse(fs.readFileSync(filePath))
+  //   : [];
+
+  const chatIds = [303004588, 426304059, 1945327470]
 
   // Добавление нового chat_id, если его нет в списке
-  if (!chatIds.includes(chatId)) {
-    chatIds.push(chatId);
-    fs.writeFileSync(filePath, JSON.stringify(chatIds));
-  }
+  // if (!chatIds.includes(chatId)) {
+  //   chatIds.push(chatId);
+  //   fs.writeFileSync(filePath, JSON.stringify(chatIds));
+  // }
 };
 
 // Функция для получения всех chat_id пользователей
@@ -38,8 +40,11 @@ const getChatIds = async () => {
 
 // Функция для отправки сообщения всем пользователям
 const sendMessageToAllUsers = async (message) => {
-  const chatIds = JSON.parse(fs.readFileSync('chatIds.json'));
-
+  // const chatIds = JSON.parse(fs.readFileSync('chatIds.json'));
+  
+  const chatIds = [303004588, 426304059, 1945327470]
+  console.log('telegramBotToken')
+  console.log(telegramBotToken)
   // Отправляем сообщение всем сохраненным chat_id
   chatIds.forEach(async (chatId) => {
     try {
@@ -71,7 +76,7 @@ export async function POST(req) {
   `;
 
   // Получение всех chat_id
-  await getChatIds();
+  // await getChatIds();
 
   // Отправка сообщения всем пользователям
   await sendMessageToAllUsers(message);

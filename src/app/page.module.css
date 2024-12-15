@@ -308,7 +308,6 @@
 @media (max-width: 480px) {
   .content {
     background: linear-gradient(180deg, rgba(186, 214, 228, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 55%, rgba(186, 214, 228, 1) 100%);
-
   }
   .content_container {
     width: 100%;

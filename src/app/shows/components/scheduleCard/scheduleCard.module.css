@@ -1,0 +1,118 @@
+.card {
+    width: 100%;
+    display: flex;
+    flex: 1;
+    border-radius: 30px;
+    padding: 25px;
+    background-color: #fff;
+    flex-grow: 1;
+}
+
+.card_info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: start;
+    max-width: 50%;
+}
+
+.card_name {
+    font-weight: 700;
+    line-height: 111px;
+    font-size: 7.6875rem;
+    margin-bottom: 26px;
+    color: rgba(169, 197, 156, 1);
+}
+
+.card_description {
+    font-weight: 500;
+    line-height: 21px;
+    color: rgba(38, 38, 38, 1);
+    margin-bottom: 20px;
+}
+.price {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 21px;
+    color: rgba(38, 38, 38, 1);
+    margin-bottom: 20px;
+}
+
+.card_image {
+    width: 100%;
+    height: auto;
+    flex: 1;
+}
+
+
+.card_date {
+    color: rgba(103, 151, 175, 1);
+    font-size: 2.1875rem;
+    line-height: 45px;
+    margin: 25px 0 6px;
+}
+
+.workshop_items_container {
+    width: 100%;
+}
+
+.workshop_item {
+    width: 100%;
+}
+
+.card_title {
+    font-size: 1.5rem;
+    line-height: 31px;
+    margin: 5px 0;
+}
+
+.card_text {
+    font-weight: 500;
+    line-height: 22px;
+}
+
+
+@media (max-width: 480px) {
+    .card {
+        display: flex;
+        flex: 1;
+        border-radius: 30px;
+        padding: 15px;
+        background-color: #fff;
+        flex-grow: 1;
+    }
+
+    .card_image_container {
+        width: 100%;
+        position: relative;
+    }
+
+    .card_image {
+        width: 100%;
+        height: auto;
+    }
+
+    .age {
+        font-size: 1.25rem;
+        line-height: 19px;
+    }
+
+    .card_date {
+        font-size: 1.667rem;
+        line-height: 26px;
+        margin: 11px 0 6px;
+    }
+
+    .card_title {
+        font-size: 1.25rem;
+        line-height: 19px;
+        margin: 0 0 5px 0;
+    }
+
+    .card_text {
+        font-weight: 500;
+        line-height: 24px;
+        font-size: 0.833rem;
+    }
+}

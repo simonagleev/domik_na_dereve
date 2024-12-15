@@ -8,7 +8,7 @@ export default function PaymentCardCommon({ type }) {
     let buttonText = null
 
     switch (type) {
-        case 'common':
+        case 'shows':
             title = <h2 className={styles.card_header}>
                 Погружение в<br />
                 волшебный мир вместе<br />
