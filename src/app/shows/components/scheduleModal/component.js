@@ -46,6 +46,7 @@ export default function ScheduleModal({ schedule }) {
                     <button className={styles.close_button} onClick={closeModal} aria-label="Закрыть форму">
                         &times;
                     </button>
+                    test
                 </div>
        
             </div>
