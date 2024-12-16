@@ -89,6 +89,9 @@
 
 }
 
+.button:last-of-type{
+}
+
 .button:before,
 .button:after {
     width: 5.4em;

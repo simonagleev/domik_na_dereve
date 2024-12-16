@@ -4,76 +4,31 @@ export const useShowsStore = create((set) => ({
     isModalOpen: false,
     openModal: () => set({ isModalOpen: true }),
     closeModal: () => set({ isModalOpen: false }),
+
+    schedules: [], // Список всех расписаний
+    showSchedules: [], // Список расписаний, сгруппированных по шоу
+    // Обновление общего массива расписаний
+    updateSchedules: (newSchedules) => {
+      set({ schedules: newSchedules });
+      // После обновления расписаний, формируем showSchedules
+      const shows = [{ id: 1, name: 'Дары времени' }, { id: 2, name: 'Снегурочка' }]; // или передавайте список извне
+      const updatedShowSchedules = shows.map((show) => {
+        const showSchedules = newSchedules.filter((schedule) => schedule.ShowID === show.id);
+        return { ...show, schedules: showSchedules };
+      });
+      set({ showSchedules: updatedShowSchedules });
+    },
+    // Явное обновление showSchedules, если нужно вручную
+    updateShowSchedules: (newShowSchedules) => set({ showSchedules: newShowSchedules }),
+
+
+    pickedShow: null,
+    updatePickedShow: (item) => set({ pickedShow: item }),
+
+    idToSend: null,
+    updateIdToSend: (id) => set({ idToSend: id }),
     
-    // data: [
-    //     {
-    //         ID: 1,
-    //         name: 'Дары времени',
-    //         imageURL: "/img/workshops/venok_bg.svg",
-    //         description: "В волшебном мире остановилось время. Но у храброго гнома Бигли Бэгли есть чёткий план как восстановить ход времени. Он собирается найти всех 4 духов времен года. Но помогут ли они ему завести волшебные часы, и кто виновен в том, что время замерло?",
-    //         date: '16 декабря',
-    //         schedule: [
-    //             "2024-21-12 12:00",
-    //             "2024-21-12 15:00",
-    //             "2024-21-12 18:00",
-    //             "2024-22-12 11:00",
-    //             "2024-22-12 13:00",
-    //         ],
-    //     },
-    //     {
-    //         ID: 2,
-    //         imageURL: "/img/workshops/santa.svg",
-    //         age: 5,
-    //         date: '18 декабря',
-    //         workshops: [
-    //             {
-    //                 name: "Новогодний рисунок Дедушки Мороза на холсте",
-    //                 time: "17:00",
-    //                 text: "Холст, гуашь",
-    //                 details: "Длительность: 1 час",
-    //             },
-    //             {
-    //                 name: "Новогодний рисунок снеговика на холсте",
-    //                 time: "18:30",
-    //                 text: "Холст, гуашь",
-    //                 details: "Длительность: 1 час",
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         ID: 3,
-    //         imageURL: "/img/workshops/venok_bg.svg",
-    //         age: 15,
-    //         date: '126 декабря',
-    //         workshops: [
-    //             {
-    //                 name: "TEST",
-    //                 time: "17:00",
-    //                 text: "Создайте яркий новогодний венок из цветной бумаги своими руками!",
-    //                 details: "Длительность: 1 час",
-    //             },
-    //             {
-    //                 name: "TEST",
-    //                 time: "18:30",
-    //                 text: "Яркий новогодний венок из бумаги и гуаши своими руками!",
-    //                 details: "Длительность: 1 час",
-    //             },
-    //         ],
-    //     },
-    // ],
-
-    // pickedWorkshopTime: null,
-    // pickedWorkshopName: null,
-
-    // // Метод для обновления данных (опционально)
-    // updateData: (newData) => set({ data: newData }),
+    ticketCount: null,
+    updateTicketCount: (count) => set({ ticketCount: count }),
     
-    // // Метод для обновления выбранного времени
-    // setPickedWorkshopTime: (time) => set({ pickedWorkshopTime: time }),
-
-    // // Метод для обновления выбранного названия мастер-класса
-    // setPickedWorkshopName: (name) => set({ pickedWorkshopName: name }),
-
-    // // Метод для сброса выбора мастер-класса
-    // resetPickedWorkshop: () => set({ pickedWorkshopTime: null, pickedWorkshopName: null }),
 }));

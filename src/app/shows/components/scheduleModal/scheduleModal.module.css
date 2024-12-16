@@ -13,14 +13,19 @@
     /* Поверх всех остальных элементов */
 }
 
-.payment_form {
+.form_container {
     background-color: #fff;
-    padding: 0 20px;
+    padding: 20px;
     border-radius: 30px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    width: 40%;
-    max-width: 637px;
-    text-align: center;
+    width: 90%;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    position: relative;
 }
 
 .close_button_container {
@@ -37,8 +42,11 @@
     cursor: pointer;
     line-height: 1;
     color: #333;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     transition: .3s;
+    position: absolute;
+    top: 10px;
+    right: 20px;
 }
 
 .close_button:hover {
@@ -46,14 +54,141 @@
     font-weight: 700;
 }
 
+/* ITEM */
+.item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(186, 214, 228, 0.6);
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 20%;
+}
+
+.item_line {
+    border-radius: 30px;
+    width: 100%;
+    background-color: #fff;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.date {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.time {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* COUNTER */
+.counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button {
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.button:disabled {
+    background-color: #d3d3d3;
+    cursor: not-allowed;
+}
+
+.value {
+    font-size: 18px;
+    font-weight: bold;
+}
 
 
+.buy_btn {
+    margin: 10px 0 20px;
+    background-color: rgba(124, 152, 120, 1);
+    color: #fff;
+    border: none;
+    padding: 15px 0;
+    border-radius: 30px;
+    width: 100%;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    line-height: 29px;
+    transition: .3s;
+}
+
+.buy_btn:hover {
+    transition: .3s;
+    transform: scale(1.05);
+}
+
+.buy_btn:active {
+    transition: .3s;
+    transform: scale(.95);
+}
 
 
 @media (max-width: 480px) {
     .payment_form {
         padding: 0 11px;
         width: 90%;
+    }
+
+    .form_container {
+        gap: 10px;
+        width: 90%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        position: relative;
+        overflow-y: scroll;
+    }
+
+    .item {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        background-color: rgba(186, 214, 228, 0.6);
+        padding: 10px;
+        border-radius: 20px;
+        flex: 1;
+        min-width: 150px;
+    }
+
+    .item_line {
+        border-radius: 30px;
+        width: 100%;
+        background-color: #fff;
+        text-align: center;
+        margin-bottom: 1rem;
+        padding: 5px;
+    }
+
+    .date {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .time {
+        font-size: 1.75rem;
+        font-weight: 700;
     }
 
     .close_button_container {
@@ -66,35 +201,23 @@
     .close_button {
         font-size: 36px;
         line-height: 1;
-        padding-top: 10px;
-        padding-right: 10px;
-    }
-
-    .payment_form_heading {
-        margin-bottom: 15px;
-        font-family: 1.333rem;
-        line-height: 21px;
-    }
-
-    .form_group {
-        margin-bottom: 10px;
-        font-size: 1.1rem;
-        line-height: 16px;
-    }
-
-    .form_group input {
-        padding: 7px 0;
-        border-radius: 30px;
-        font-size: 1.1rem;
-        line-height: 16px;
+        padding-top: 0px;
+        padding-right: 0px;
+        position: absolute;
+        top: 30px;
+        right: 0;
     }
 
 
-    .submit_btn {
-        margin: 12px 0 16px;
-        padding: 7px 0;
-        font-size: 1.1rem;
-        line-height: 16px;
+
+    .buy_btn {
+        margin: 10px 0 15px;
+        padding: 8px 0;
+        font-size: 1.167rem;
+        line-height: 17px;
     }
 
+    .buy_btn:last-of-type {
+        margin-bottom: 0;
+    }
 }

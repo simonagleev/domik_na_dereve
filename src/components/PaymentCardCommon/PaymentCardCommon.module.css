@@ -52,7 +52,7 @@
 @media (max-width: 480px) {
     .card_container {
         align-items: center;
-        padding: 44px 50px;
+        padding: 30px 20px;
         position: static;
         border: 2px solid rgba(144, 125, 147, 1);
         width: 100%;
@@ -62,9 +62,13 @@
 
     .card_header {
         font-size: 2.25rem;
-        margin-bottom: 0.6875rem;
+        margin-bottom: 1rem;
         font-family: 'Montserrat', sans-serif;
         line-height: 34px;
+    }
+
+    .card_header br {
+        display: none;
     }
 
     .color_word {
@@ -74,12 +78,14 @@
     .card_text {
         margin-bottom: 26px;
         line-height: 17px;
-        font-size: 1.167rem;        ;
+        font-size: 1.167rem;
+        
     }
 
     .buy_btn {
-        padding: 13px;
+        padding: 13px 40px;
         line-height: 22px;
         font-size: 1.5rem;
+        width: 100%;
     }
 }

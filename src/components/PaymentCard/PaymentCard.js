@@ -4,6 +4,7 @@ import styles from "./PaymentCard.module.css";
 import { getSeason } from "@/utils/season";
 import { usePaymentModalStore } from "@/store/PaymentModalStore";
 import PaymentForm from "../PaymentForm/PaymentForm";
+import Link from "next/link";
 
 //Получаем сезон
 const month = new Date().getMonth()
@@ -42,7 +43,7 @@ export default function PaymentCard() {
                 </a>
             </div>
             <h2 className={styles.card_header}>
-                Творчество и <span className={styles.color_word}>эмоции </span> <br/>
+                Творчество и <span className={styles.color_word}>эмоции </span> <br />
                 в каждом моменте!
             </h2>
             <p className={styles.card_text}>
@@ -52,8 +53,9 @@ export default function PaymentCard() {
                 onClick={() => console.log('BUY')}>
                 Купить билеты
             </button> */}
-            <div className={styles.wrapper} onClick={openModal}>
-                <a className={styles.button} href="#">Купить билеты</a>
+            <div className={styles.wrapper} >
+                <Link className={styles.button} href="/shows">Спектакли</Link>
+                {/* <a className={styles.button} href="/">Купить билеты</a> */}
             </div>
             <svg style={{ visibility: "hidden", position: "absolute" }} width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
                 <defs>
@@ -63,7 +65,20 @@ export default function PaymentCard() {
                     </filter>
                 </defs>
             </svg>
-            {isModalOpen && <PaymentForm type={'main'} date={'10 декабря'} time={'00:00'} title={'Test MK'}/>}
+
+            <div className={styles.wrapper} >
+                <Link className={styles.button} href="/workshops">Мастер-классы</Link>
+                {/* <a className={styles.button} href="/">Купить билеты</a> */}
+            </div>
+            <svg style={{ visibility: "hidden", position: "absolute" }} width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                <defs>
+                    <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+                    </filter>
+                </defs>
+            </svg>
+            {/* {isModalOpen && <PaymentForm type={'main'} date={'10 декабря'} time={'00:00'} title={'Test MK'}/>} */}
         </div>
     );
 }

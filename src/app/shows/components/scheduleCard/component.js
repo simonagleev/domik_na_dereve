@@ -8,14 +8,26 @@ import ScheduleModal from "../scheduleModal/component";
 import { useState, useEffect } from "react";
 
 export default function ScheduleCard({ data }) {
+
+
     // Модалка для оплаты ()
     const isModalOpen = useShowsStore((state) => state.isModalOpen);
     const openModal = useShowsStore((state) => state.openModal);
 
+    const {pickedShow, updatePickedShow} = useShowsStore();
+    const handeOpenModal = () => {
+        console.log('data CLICK')
+        console.log(data)
+
+        updatePickedShow(data ? data : 'no data')
+
+        openModal()
+    }
+
     return (
         <div className={styles.card} key={data.id}>
             <div className={styles.card_info}>
-                <div>
+                <div className={styles.card_info_text}>
                     <h2 className={styles.card_name}>
                         {data.name}
                     </h2>
@@ -30,7 +42,7 @@ export default function ScheduleCard({ data }) {
                     </p>
                 </div>
 
-                <PaymentButton type={'main'} handler={openModal}/>
+                <PaymentButton type={'main'} handler={handeOpenModal}/>
             </div>
             <Image
                 className={styles.card_image}
@@ -40,7 +52,7 @@ export default function ScheduleCard({ data }) {
                 height={0}
             />
 
-            {isModalOpen && <ScheduleModal schedule={data.schedules ? data.schedules : []}  />}
+            {isModalOpen && <ScheduleModal id={data.id}/>}
         </div>
     );
 }

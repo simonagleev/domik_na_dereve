@@ -43,8 +43,6 @@ const sendMessageToAllUsers = async (message) => {
   // const chatIds = JSON.parse(fs.readFileSync('chatIds.json'));
   
   const chatIds = [303004588, 426304059, 1945327470]
-  console.log('telegramBotToken')
-  console.log(telegramBotToken)
   // Отправляем сообщение всем сохраненным chat_id
   chatIds.forEach(async (chatId) => {
     try {
@@ -67,7 +65,7 @@ export async function POST(req) {
   const { name, phone, email, date, time, title } = await req.json();
   
   const message = `
-    Новый запрос на запись 
+    Новый запрос на запись MK
     Дата и время: ${date} в ${time}:
     Название: ${title}
       Имя: ${name}

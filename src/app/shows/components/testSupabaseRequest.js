@@ -5,12 +5,7 @@ import { useEffect, useState } from 'react';
 export default function WorkshopsPage() {
     const [schedule, setSchedule] = useState([]);
     const [error, setError] = useState(null);
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-    console.log('ENV')
-    console.log(supabaseUrl)
-    console.log(supabaseAnonKey)
     
     useEffect(() => {
         console.log('ЗАПРОС НАЧАЛСЯ')

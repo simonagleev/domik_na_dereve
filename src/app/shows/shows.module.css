@@ -69,11 +69,12 @@
         align-items: flex-end;
         padding-bottom: 20px;
         margin-bottom: 10px;
+        flex: 1.5;
     }
   
     .header {
       line-height: 70px;
-      font-size: 70px;
+      font-size: 50px;
     }
 
     .main_header_container .header:last-of-type {

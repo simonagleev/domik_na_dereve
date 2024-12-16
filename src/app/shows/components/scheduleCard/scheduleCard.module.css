@@ -31,6 +31,7 @@
     color: rgba(38, 38, 38, 1);
     margin-bottom: 20px;
 }
+
 .price {
     font-weight: 500;
     font-size: 1.5rem;
@@ -76,11 +77,28 @@
 @media (max-width: 480px) {
     .card {
         display: flex;
+        flex-direction: column;
         flex: 1;
         border-radius: 30px;
         padding: 15px;
         background-color: #fff;
         flex-grow: 1;
+        gap: 15px;
+    }
+
+    .card_info {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .card_info_text {
+        width: 100%;
+    }
+
+    .card_name {
+        line-height: 50px;
+        font-size: 3.5rem;
+        margin-bottom: 15px;
     }
 
     .card_image_container {
@@ -91,6 +109,8 @@
     .card_image {
         width: 100%;
         height: auto;
+        border: 1px solid #673326;
+        border-radius: 30px;
     }
 
     .age {
