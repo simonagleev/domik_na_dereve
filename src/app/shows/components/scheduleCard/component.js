@@ -5,22 +5,14 @@ import Image from "next/image";
 import PaymentButton from "@/components/PaymentButton/PaymentButton";
 import { useShowsStore } from "@/store/showsStore";
 import ScheduleModal from "../scheduleModal/component";
-import { useState, useEffect } from "react";
 
 export default function ScheduleCard({ data }) {
-
-
-    // Модалка для оплаты ()
     const isModalOpen = useShowsStore((state) => state.isModalOpen);
     const openModal = useShowsStore((state) => state.openModal);
 
     const {pickedShow, updatePickedShow} = useShowsStore();
     const handeOpenModal = () => {
-        console.log('data CLICK')
-        console.log(data)
-
         updatePickedShow(data ? data : 'no data')
-
         openModal()
     }
 

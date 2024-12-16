@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from 'react';
 import { useShowsStore } from "@/store/showsStore";
 
-export default function ItemCard({ data, index }) {
+export default function ItemCard({ data, key }) {
     const pickedShow = useShowsStore((state) => state.pickedShow);
     const closeModal = useShowsStore((state) => state.closeModal);
     const idToSend = useShowsStore((state) => state.idToSend)
@@ -32,7 +32,7 @@ export default function ItemCard({ data, index }) {
     };
 
     return (
-        <div className={styles.item} key={index}>
+        <div className={styles.item} key={key}>
             <div className={styles.item_line}>
                 <h2 className={styles.date}>{data.StartDateTime.split('T')[0]}</h2>
             </div>
