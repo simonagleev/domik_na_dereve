@@ -10,10 +10,10 @@ export async function POST(request) {
     const secretKey = process.env.YOOKASSA_SECRET_KEY;
 
     const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
+
     console.log('PROPS')
-    console.log(amount)
-    console.log(return_url)
-    console.log(description)
+    console.log(`Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`)
+    console.log(new Date().toLocaleString())
 
     try {
         // Шаг 1: Запрос к ЮKassa
@@ -53,7 +53,7 @@ export async function POST(request) {
             {
                 OrderAcquiringID: orderId,
                 Status: orderStatus,  //Тут должно быть 'pending'
-                Date: new Date().toLocaleString(),
+                Date: new Date().toISOString(),
                 Amount: amount,
                 Type: type,
                 Phone: phone,
