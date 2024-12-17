@@ -10,11 +10,15 @@ export default function PaymentForm({ type, data }) {
         count,
         updateCount,
         formData,
-        updateFormData
+        updateFormData,
+        resetCount,
+        resetFormData
     } = usePaymentModalStore();
 
     const handleClickOutside = (e) => {
         if (e.target.classList.contains(styles.modal_overlay)) {
+            resetCount()
+            resetFormData()
             closePaymentFormModal();
         }
     };
@@ -33,6 +37,8 @@ export default function PaymentForm({ type, data }) {
     }
 
     const handleIncrement = () => {
+        console.log('TESt 2')
+        console.log(data)
         if (count < data.RemainingCount) {
             updateCount((prevCount) => {
                 const newCount = prevCount + 1;
@@ -52,8 +58,14 @@ export default function PaymentForm({ type, data }) {
         updateFormData('itemID', data.ID)
         updateFormData('amount', count * data.Price);
 
-    }, [])
+    }, [data, type])
 
+    const handleClose = () => {
+        resetCount()
+        resetFormData()
+        closePaymentFormModal();
+    }
+    
     const handleSubmit = async (e) => {
         e.preventDefault();
         // try {
@@ -120,7 +132,7 @@ export default function PaymentForm({ type, data }) {
             <div className={styles.payment_form}>
                 {/* Кнопка крестик */}
                 <div className={styles.close_button_container}>
-                    <button className={styles.close_button} onClick={closePaymentFormModal} aria-label="Закрыть форму">
+                    <button className={styles.close_button} onClick={handleClose} aria-label="Закрыть форму">
                         &times;
                     </button>
                 </div>

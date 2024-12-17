@@ -43,7 +43,7 @@ export default function ScheduleCard({ data }) {
                 height={0}
             />
 
-            {isModalOpen && <ScheduleModal id={data.id}/>}
+            {isModalOpen && <ScheduleModal key={data.id}/>}
         </div>
     );
 }

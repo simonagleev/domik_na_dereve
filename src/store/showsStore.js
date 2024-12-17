@@ -23,7 +23,7 @@ export const useShowsStore = create((set, get) => ({
 
 
   pickedShow: null,
-  updatePickedShow: (item) => {set({ pickedShow: item })}, // Тут шоу из моего массива, не из бд, у него будет массив расписания, где будут уже из бБД записи
+  updatePickedShow: (item) => { set({ pickedShow: item }) }, // Тут шоу из моего массива, не из бд, у него будет массив расписания, где будут уже из бБД записи
 
   idToSend: null,
   updateIdToSend: (id) => set({ idToSend: id }),
@@ -39,7 +39,5 @@ export const useShowsStore = create((set, get) => ({
     date: '',
     comments: ''
   },  // А это уже запись из БД отдельная
-  updateCurrentShowItem: (data) => set({ currentShow: data })
-
-
+  updateCurrentShowItem: (data) => set({ currentShowItem: data })
 }));

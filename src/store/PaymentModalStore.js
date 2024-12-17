@@ -10,7 +10,7 @@ export const usePaymentModalStore = create((set) => ({
     // date: '',
     // time: '',
     // title: '',
-    
+
     // amount: 0,
     // type: null,
     // itemID: null,
@@ -43,6 +43,20 @@ export const usePaymentModalStore = create((set) => ({
                 [field]: value, // обновляем только указанное поле
             },
         })),
+
+    resetCount: () => set({ count: 1 }),
+    resetFormData: () => set({
+        formData: {
+            name: '',
+            phone: '',
+            email: '',
+            amount: 0,
+            type: null,
+            itemID: null,
+            date: '',
+            info: '',
+        }
+    }),
 
     // //base
     // setName: (data) => set({ name: data }),
