@@ -6,9 +6,10 @@ import Reviews from "@/components/Reviews/Reviews";
 import News from "@/components/News/News";
 
 export default function Home() {
+
   return (
     <div className={styles.component}>
-        {/* <Header /> */}
+      {/* <Header /> */}
       <div className={styles.container}>
         <div className={styles.home} style={{ backgroundImage: "url('/img/main_bg_winter.webp')" }}>
           <h1 className={styles.header}>Домик <br /> на дереве</h1>
@@ -17,12 +18,12 @@ export default function Home() {
         </div>
         <PaymentCard />
       </div>
-      
+
       <div className={styles.content}>
         <div className={styles.content_container}>
           {/* About */}
           <h2 className={styles.content_header}>
-            Домик на дереве — <br/><span className={styles.content_header_span}>это место, где</span>
+            Домик на дереве — <br /><span className={styles.content_header_span}>это место, где</span>
           </h2>
           <div className={styles.about_container}>
 

@@ -20,6 +20,27 @@ export default function PaymentCard() {
     const isModalOpen = usePaymentModalStore((state) => state.isModalOpen);
     const openModal = usePaymentModalStore((state) => state.openModal);
 
+    const handleTest = () => {
+        console.log('HANDLE TEST')
+        const fetchData = async () => {
+          try {
+            const response = await fetch('/api/testenv');
+            const data = await response.json();
+    
+            if (response.ok) {
+              console.log('OK')
+              console.log(data)
+            } else {
+              console.log('RESPONSE ERROR');
+              setError(data.error);
+            }
+          } catch (error) {
+            setError('Ошибка при загрузке данных');
+          }
+        };
+    
+        fetchData();
+      }
     return (
         <div className={styles.card_container} >
             <div className={styles.card_social_container}>
@@ -42,7 +63,7 @@ export default function PaymentCard() {
                     />
                 </a>
             </div>
-            <h2 className={styles.card_header}>
+            <h2 className={styles.card_header} onClick={handleTest}>
                 Творчество и <span className={styles.color_word}>эмоции </span> <br />
                 в каждом моменте!
             </h2>
