@@ -5,6 +5,8 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 
 export default function PaymentForm({ type, data }) {
+    const isDev = process.env.NODE_ENV === 'development';
+
     const {
         closePaymentFormModal,
         count,
@@ -108,7 +110,7 @@ export default function PaymentForm({ type, data }) {
                 body: JSON.stringify({
                     amount: formData.amount,
                     description: 'Оплата заказа',
-                    return_url: type === 'show' ? 'http://localhost:3000/shows' : 'https://domiknadereve-irk.ru', //Доделать, прописть все ссылки на проде потом
+                    return_url: isDev? 'http://localhost:3000/' : 'https://domiknadereve-irk.ru', //Доделать, прописть все ссылки на проде потом
                     phone: formData.phone,
                     itemID: formData.itemID,
                     type: type,
