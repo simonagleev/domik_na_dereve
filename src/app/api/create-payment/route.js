@@ -3,7 +3,7 @@ import { supabase } from '../../../../lib/supabase';
 
 export async function POST(request) {
     console.log('PAYMENT STARTED')
-    const { amount, description, return_url, phone, itemID, type, info } = await request.json();
+    const { amount, description, return_url, phone, itemID, type, info, count } = await request.json();
 
     // Данные магазина из .env
     const shopId = process.env.YOOKASSA_SHOP_ID;
@@ -67,7 +67,20 @@ export async function POST(request) {
             return NextResponse.json({ error: 'Ошибка записи в базу данных' }, { status: 500 });
         }
 
-        // Шаг 3: Возвращение ссылки на оплату
+        // Шаг 3: уменьшение RemainingCount предварительное
+        const { data, error: dbError2 } = await supabase
+        .rpc('update_remaining_count', {
+          item_id: itemID,
+          count: count,
+        });
+        
+        if (dbError2) {
+            console.log('ОШИБКА обновления RemainingCount')
+            console.log(dbError2)
+            return NextResponse.json({ error: dbError2.error }, { status: 500 });
+        }
+
+        // Шаг 4: Возвращение ссылки на оплату
         return NextResponse.json({ confirmationUrl });
     } catch (error) {
         console.error('Ошибка создания платежа:', error);

@@ -57,7 +57,6 @@ export default function PaymentForm({ type, data }) {
         updateFormData('date', data.StartDateTime)
         updateFormData('itemID', data.ID)
         updateFormData('amount', count * data.Price);
-
     }, [data, type])
 
     const handleClose = () => {
@@ -65,7 +64,7 @@ export default function PaymentForm({ type, data }) {
         resetFormData()
         closePaymentFormModal();
     }
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         // try {
@@ -92,8 +91,14 @@ export default function PaymentForm({ type, data }) {
 
     const [loading, setLoading] = useState(false);
 
-    const handlePayment = async () => {
-        console.log('PAYMENT STARTED')
+    const handlePayment = async (e) => {
+        
+        if (!formData.name || !formData.phone || !formData.email) { //проверка на заполнение данных
+            e.preventDefault(); //чтоб не закрывалась форма после алерта
+            alert('Пожалуйста, заполните все поля!');
+            return;
+        }
+
         setLoading(true);
 
         try {
@@ -108,6 +113,7 @@ export default function PaymentForm({ type, data }) {
                     itemID: formData.itemID,
                     type: type,
                     info: formData.info,
+                    count: count
                 }),
             });
 
@@ -126,61 +132,66 @@ export default function PaymentForm({ type, data }) {
         }
     };
 
+    const handleTest = () => {
+        console.log('PAYMENT STARTED')
+        console.log(formData)
+    }
+
     return (
         <div className={styles.modal_overlay} onClick={handleClickOutside}>
-            {!loading ? 
-            <div className={styles.payment_form}>
-                {/* Кнопка крестик */}
-                <div className={styles.close_button_container}>
-                    <button className={styles.close_button} onClick={handleClose} aria-label="Закрыть форму">
-                        &times;
-                    </button>
-                </div>
-
-                <h2 className={styles.payment_form_heading}>Заполните форму для записи</h2>
-                <form onSubmit={handlePayment}>
-                    <div className={styles.form_group}>
-                        <input type="text" id="name" name="name" placeholder="Имя ребенка"
-                            value={formData.name || ''}
-                            onChange={(e) => updateFormData('name', e.target.value)} />
-                    </div>
-                    <div className={styles.form_group}>
-                        <input id="phone" name="phone" placeholder="Номер телефона для связи"
-                            value={formData.phone || ''}
-                            onChange={(e) => handlePhoneChange(e)} />
-                    </div>
-                    <div className={styles.form_group}>
-                        <input type="email" id="email" name="email" placeholder="Email"
-                            value={formData.email || ''}
-                            onChange={(e) => updateFormData('email', e.target.value)} />
+            {!loading ?
+                <div className={styles.payment_form}>
+                    {/* Кнопка крестик */}
+                    <div className={styles.close_button_container}>
+                        <button className={styles.close_button} onClick={handleClose} aria-label="Закрыть форму">
+                            &times;
+                        </button>
                     </div>
 
-                    <div className={styles.form_group}>
-                        <div className={styles.counter_container}>
-                            <div className={styles.count_btn} onClick={handleDecrement}>-</div>
-                            <div className={styles.count}>{count}</div>
-                            <div className={styles.count_btn} onClick={handleIncrement}>+</div>
+                    <h2 className={styles.payment_form_heading}>Заполните форму для записи</h2>
+                    <form onSubmit={handlePayment}>
+                        <div className={styles.form_group}>
+                            <input type="text" id="name" name="name" placeholder="Имя ребенка"
+                                value={formData.name}
+                                onChange={(e) => updateFormData('name', e.target.value)} />
                         </div>
-                        <div className={styles.sum_block}>
-                            Сумма: <b>{formData.amount ? formData.amount : data.Price}</b> руб.
+                        <div className={styles.form_group}>
+                            <input id="phone" name="phone" placeholder="Номер телефона для связи"
+                                value={formData.phone}
+                                onChange={(e) => handlePhoneChange(e)} />
                         </div>
-                    </div>
+                        <div className={styles.form_group}>
+                            <input type="email" id="email" name="email" placeholder="Email"
+                                value={formData.email}
+                                onChange={(e) => updateFormData('email', e.target.value)} />
+                        </div>
 
-                    <button className={styles.submit_btn} type="submit">
-                        {type === 'show' ?
-                            'Купить билеты' : type === 'mk' ?
-                                'Записаться на мастер класс' :
-                                'Отправить'}
-                    </button>
-                </form>
+                        <div className={styles.form_group}>
+                            <div className={styles.counter_container}>
+                                <div className={styles.count_btn} onClick={handleDecrement}>-</div>
+                                <div className={styles.count}>{count}</div>
+                                <div className={styles.count_btn} onClick={handleIncrement}>+</div>
+                            </div>
+                            <div className={styles.sum_block} onClick={handleTest}>
+                                Сумма: <b>{formData.amount ? formData.amount : data.Price}</b> руб.
+                            </div>
+                        </div>
 
-                <h2 className={styles.payment_form_heading}>
-                    Или свяжитесь с нами<br /> самостоятельно по номеру:
-                </h2>
-                <h2 className={styles.payment_form_heading}>
-                    +7 (333) 355-44-77
-                </h2>
-            </div> : <div>LOADING</div>}
+                        <button className={styles.submit_btn} type="submit">
+                            {type === 'show' ?
+                                'Купить билеты' : type === 'mk' ?
+                                    'Записаться на мастер класс' :
+                                    'Отправить'}
+                        </button>
+                    </form>
+
+                    <h2 className={styles.payment_form_heading}>
+                        Или свяжитесь с нами<br /> самостоятельно по номеру:
+                    </h2>
+                    <h2 className={styles.payment_form_heading}>
+                        +7 (333) 355-44-77
+                    </h2>
+                </div> : <div>LOADING</div>}
         </div>
     );
 }

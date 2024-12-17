@@ -1,12 +1,24 @@
 'use client'
 import styles from "./scheduleModal.module.css";
+import Image from "next/image";
 import { useShowsStore } from "@/store/showsStore";
+import { usePaymentModalStore } from "@/store/PaymentModalStore";
+import PaymentForm from "@/components/PaymentForm/PaymentForm";
 
 export default function ItemCard({ data }) {
+    const {
+        isPaymentFormModalOpen,
+        closePaymentFormModal,
+        openPaymentFormModal,
+    } = usePaymentModalStore();
+
+    const closeModal = useShowsStore((state) => state.closeModal);
     const updateCurrentShowItem = useShowsStore((state) => state.updateCurrentShowItem)
 
     const handleClick = () => {
         updateCurrentShowItem(data)
+
+        !isPaymentFormModalOpen ? openPaymentFormModal() : console.log('PAYMENT FORM ALREADY OPENED')
     }
 
     return (
@@ -24,6 +36,8 @@ export default function ItemCard({ data }) {
             <button className={styles.buy_btn} onClick={handleClick}>
                 Купить
             </button>
+
+            {/* {isPaymentFormModalOpen && <PaymentForm type={'show'} data={data} key={data.ID}/>} */}
         </div>
     )
 }

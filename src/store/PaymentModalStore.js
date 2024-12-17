@@ -47,9 +47,9 @@ export const usePaymentModalStore = create((set) => ({
     resetCount: () => set({ count: 1 }),
     resetFormData: () => set({
         formData: {
-            name: '',
-            phone: '',
-            email: '',
+            name: null,
+            phone: null,
+            email: null,
             amount: 0,
             type: null,
             itemID: null,
