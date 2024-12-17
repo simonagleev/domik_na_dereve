@@ -1,35 +1,25 @@
 'use client'
 import styles from "./scheduleModal.module.css";
 import Image from "next/image";
-import { useState, useEffect } from 'react';
 import { useShowsStore } from "@/store/showsStore";
+import { usePaymentModalStore } from "@/store/PaymentModalStore";
+import PaymentForm from "@/components/PaymentForm/PaymentForm";
 
 export default function ItemCard({ data, key }) {
-    const pickedShow = useShowsStore((state) => state.pickedShow);
+    const {
+        isPaymentFormModalOpen,
+        closePaymentFormModal,
+        openPaymentFormModal,
+    } = usePaymentModalStore();
+
     const closeModal = useShowsStore((state) => state.closeModal);
-    const idToSend = useShowsStore((state) => state.idToSend)
-    const updateIdToSend = useShowsStore((state) => state.updateIdToSend)
-    const { ticketCount, updateTicketCount } = useShowsStore();
+    const updateCurrentShowItem = useShowsStore((state) => state.updateCurrentShowItem)
 
     const handleClick = () => {
-        updateIdToSend(data.ID)
-        closeModal()
+        updateCurrentShowItem(data)
+
+        openPaymentFormModal()
     }
-
-
-    const minCount = 1;
-    const maxCount = 14;
-    const increment = () => {
-        if (ticketCount < maxCount) {
-            updateTicketCount(ticketCount + 1);
-        }
-    };
-
-    const decrement = () => {
-        if (ticketCount > minCount) {
-            updateTicketCount(ticketCount - 1);
-        }
-    };
 
     return (
         <div className={styles.item} key={key}>
@@ -42,20 +32,12 @@ export default function ItemCard({ data, key }) {
             <div className={styles.item_line}>
                 <p className={styles.remainings}> Билетов осталось: {data.RemainingCount}</p>
             </div>
-            {/* <div className={styles.item_line}>
-                <div className={styles.counter}>
-                    <button onClick={decrement} className={styles.button} disabled={ticketCount === minCount}>
-                        -
-                    </button>
-                    <span className={styles.value}>{ticketCount}</span>
-                    <button onClick={increment} className={styles.button} disabled={ticketCount === maxCount}>
-                        +
-                    </button>
-                </div>
-            </div> */}
+
             <button className={styles.buy_btn} onClick={handleClick}>
                 Купить
             </button>
+
+            {isPaymentFormModalOpen && <PaymentForm type={'show'} data={data}/>}
         </div>
     )
 }

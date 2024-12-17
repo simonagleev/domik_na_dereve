@@ -8,8 +8,8 @@ import PaymentForm from "@/components/PaymentForm/PaymentForm";
 import { useWorkshopsStore } from "@/store/workshopsStore";
 
 export default function ScheduleCard({ data }) {
-    const isModalOpen = usePaymentModalStore((state) => state.isModalOpen);
-    const openModal = usePaymentModalStore((state) => state.openModal);
+    const isPaymentFormModalOpen = usePaymentModalStore((state) => state.isPaymentFormModalOpen);
+    const openPaymentFormModal = usePaymentModalStore((state) => state.openPaymentFormModal);
     const { setPickedWorkshopTime,
         setPickedWorkshopName,
         pickedWorkshopTime,
@@ -18,7 +18,7 @@ export default function ScheduleCard({ data }) {
     const handlePickWorkshop = (time, workshop) => {
         setPickedWorkshopTime(time);
         setPickedWorkshopName(workshop);
-        openModal()
+        openPaymentFormModal()
     }
 
     return (
@@ -55,7 +55,7 @@ export default function ScheduleCard({ data }) {
                     )
                 })}
             </div>
-            {isModalOpen && <PaymentForm type={'mk'} date={data.date} time={pickedWorkshopTime} title={pickedWorkshopName} />}
+            {isPaymentFormModalOpen && <PaymentForm type={'mk'} date={data.date} time={pickedWorkshopTime} title={pickedWorkshopName} />}
         </div>
     );
 }

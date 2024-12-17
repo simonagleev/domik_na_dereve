@@ -5,8 +5,6 @@ import Image from "next/image";
 import ScheduleCard from "../scheduleCard/component";
 import { useShowsStore } from "@/store/showsStore";
 
-const shows = [{id: 1, name: 'Дары времени'}, {id: 2, name: 'Снегурочка'}];
-
 export default function ShowssSchedule({ type }) {
 
     const [error, setError] = useState(null);
@@ -33,11 +31,6 @@ export default function ShowssSchedule({ type }) {
 
         fetchData();
     }, [updateSchedules]);
-
-    console.log('schedules 1');
-    console.log(schedules);   
-    console.log('showSchedules 2'); 
-    console.log(showSchedules); 
 
     return (
         <div className={styles.schedule} >
