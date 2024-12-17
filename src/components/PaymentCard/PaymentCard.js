@@ -28,8 +28,7 @@ export default function PaymentCard() {
             const data = await response.json();
     
             if (response.ok) {
-              console.log('OK')
-              console.log(data)
+              console.log('OK test')
             } else {
               console.log('RESPONSE ERROR');
               setError(data.error);
