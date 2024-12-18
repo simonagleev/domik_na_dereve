@@ -24,6 +24,8 @@ export async function POST(request) {
 
         const { object, event } = body; // Данные из вебхука
         const { id: orderAcquiringID, status: newStatus } = object;
+        console.log('BODY')
+        console.log(body)
 
         if (newStatus === ('canceled' || 'rejected' || 'refunded')) {
             console.log('PAYMENT FAILED')
