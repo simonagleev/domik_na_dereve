@@ -59,6 +59,7 @@ export async function POST(request) {
                 Type: type,
                 Phone: phone,
                 ItemID: itemID,
+                TicketCount: count,
                 Info: info ? info : '',
             },
         ]);
