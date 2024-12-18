@@ -11,16 +11,18 @@ export async function POST(request) {
         const secretKey = process.env.YOOKASSA_SECRET_KEY;
         const signature = request.headers.get('Authorization');
 
-        if (!signature || signature !== `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`) {
-            return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+        console.log(`Received signature: ${signature}`);
+        const expectedSignature = `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`;
+        console.log(`Expected signature: ${expectedSignature}`);
+        
+        if (!signature || signature !== expectedSignature) {
+            console.error('Authorization failed');
+            return NextResponse.json({ error: 'Unauthorized вебхук' }, { status: 401 });
         }
 
         const { object, event } = body; // Данные из вебхука
         const { id: orderAcquiringID, status: newStatus } = object;
-        console.log('NEW DATA form yookassa')
-        console.log(orderAcquiringID)
-        console.log(newStatus)
-
+ 
         // Обновление статуса платежа в Supabase
         const { error } = await supabase
             .from('onlineTransactions')
