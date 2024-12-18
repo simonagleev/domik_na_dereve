@@ -6,7 +6,8 @@ export async function POST(request) {
     const { amount, description, return_url, phone, itemID, type, info, count } = await request.json();
 
     // Данные магазина из .env
-
+    const shopId = process.env.YOOKASSA_SHOP_ID;
+    const secretKey = process.env.YOOKASSA_SECRET_KEY;
 
     const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
 
