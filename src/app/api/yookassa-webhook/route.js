@@ -25,7 +25,7 @@ export async function POST(request) {
         const { object, event } = body; // Данные из вебхука
         const { id: orderAcquiringID, status: newStatus } = object;
 
-        if (paymentData.status === ('canceled' || 'rejected' || 'refunded')) {
+        if (newStatus === ('canceled' || 'rejected' || 'refunded')) {
             console.log('PAYMENT FAILED')
             const { data, error: dbError2 } = await supabase
                 .rpc('increase_remaining_count', {
