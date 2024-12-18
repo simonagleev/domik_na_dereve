@@ -48,6 +48,7 @@ export async function POST(request) {
         const orderId = paymentData.id; // ID платежа из ЮKassa
         const confirmationUrl = paymentData.confirmation.confirmation_url;
         const orderStatus = paymentData.status
+        
         // Шаг 2: Запись в Supabase
         const { error: dbError } = await supabase.from('onlineTransactions').insert([
             {

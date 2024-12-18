@@ -20,25 +20,13 @@ export default function PaymentCard() {
     const isModalOpen = usePaymentModalStore((state) => state.isModalOpen);
     const openModal = usePaymentModalStore((state) => state.openModal);
 
-    const handleTest = () => {
-        console.log('HANDLE TEST')
-        const fetchData = async () => {
-          try {
-            const response = await fetch('/api/testenv');
-            const data = await response.json();
-    
-            if (response.ok) {
-              console.log('OK test')
-            } else {
-              console.log('RESPONSE ERROR');
-              setError(data.error);
-            }
-          } catch (error) {
-            setError('Ошибка при загрузке данных');
-          }
-        };
-    
-        fetchData();
+    const handleTest = async () => {
+        console.log('TEST rere')
+        const orderId = '2ef4a337-000f-5000-8000-1c1d084f19ed'; 
+        const response = await fetch(`/api/yookassa-get-payment-status?orderId=${orderId}`);
+        const result = await response.json();
+        console.log('Статус платежа:', result.status);
+        
       }
     return (
         <div className={styles.card_container} >
