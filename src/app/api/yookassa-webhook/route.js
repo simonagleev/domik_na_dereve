@@ -11,14 +11,14 @@ export async function POST(request) {
         const secretKey = process.env.YOOKASSA_SECRET_KEY;
         const signature = request.headers.get('Authorization');
 
-        console.log(`Received signature: ${signature}`);
+        console.log(`РЕКЕСТ: ${request}`);
         const expectedSignature = `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`;
         console.log(`Expected signature: ${expectedSignature}`);
         
-        if (!signature || signature !== expectedSignature) {
-            console.error('Authorization failed');
-            return NextResponse.json({ error: 'Unauthorized вебхук' }, { status: 401 });
-        }
+        // if (!signature || signature !== expectedSignature) {
+        //     console.error('Authorization failed');
+        //     return NextResponse.json({ error: 'Unauthorized вебхук' }, { status: 401 });
+        // }
 
         const { object, event } = body; // Данные из вебхука
         const { id: orderAcquiringID, status: newStatus } = object;
