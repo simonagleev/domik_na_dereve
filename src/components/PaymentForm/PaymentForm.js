@@ -4,7 +4,6 @@ import { usePaymentModalStore } from "@/store/PaymentModalStore";
 import { useEffect, useState } from "react";
 
 export default function PaymentForm({ type, data }) {
-
     const isDev = process.env.NODE_ENV === 'development';
 
     const {
@@ -77,7 +76,7 @@ export default function PaymentForm({ type, data }) {
 
     const handlePhonKeyDown = (e) => {
         const inputValue = e.target.value;
-    
+
         // Проверяем текущую длину номера и запрещаем ввод, если превышен лимит
         if (
             inputValue.startsWith('+7') &&
@@ -91,7 +90,6 @@ export default function PaymentForm({ type, data }) {
     const [loading, setLoading] = useState(false);
 
     const handlePayment = async (e) => {
-        
         if (!formData.name || !formData.phone || !formData.email) { //проверка на заполнение данных
             e.preventDefault(); //чтоб не закрывалась форма после алерта
             alert('Пожалуйста, заполните все поля!');
@@ -107,7 +105,7 @@ export default function PaymentForm({ type, data }) {
                 body: JSON.stringify({
                     amount: formData.amount,
                     description: 'Оплата заказа',
-                    return_url: isDev? 'http://localhost:3000/' : 'https://domiknadereve-irk.ru',
+                    return_url: isDev ? 'http://localhost:3000/' : 'https://domiknadereve-irk.ru',
                     phone: formData.phone,
                     itemID: formData.itemID,
                     type: type,
@@ -116,12 +114,34 @@ export default function PaymentForm({ type, data }) {
                 }),
             });
 
-            const data = await response.json();
+            const dataResponse = await response.json();
 
-            if (response.ok && data.confirmationUrl) {
-                window.location.href = data.confirmationUrl; // Редирект на ЮKassa
+            if (response.ok && dataResponse.confirmationUrl) {
+                window.location.href = dataResponse.confirmationUrl; // Редирект на ЮKassa
+
+                // Отправляем сообщение в телеграм
+                const responseTG = await fetch('/api/send-data-tg', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: formData.name,
+                        phone: formData.phone,
+                        email: formData.email,
+                        type: type,
+                        count: count,
+                        orderID: new URL(dataResponse.confirmationUrl).searchParams.get('orderId'),
+                        title: type === 'mk' ? data.Name : data.ShowID,
+                        date: data.StartDateTime
+                    }),
+                });
+                const dataTG = await responseTG.json();
+                if (responseTG.ok) {
+                    console.log('ОТПРАВЛЕНО В ТЕЛЕГРАМ')
+                } else {
+                    console.error('Ошибка при получении ссылки на оплату:', dataTG);
+                }
             } else {
-                console.error('Ошибка при получении ссылки на оплату:', data);
+                console.error('Ошибка при получении ссылки на оплату:', dataResponse);
             }
         } catch (error) {
             console.error('Ошибка при запросе на сервер:', error);
@@ -152,9 +172,9 @@ export default function PaymentForm({ type, data }) {
                             <input id="phone" name="phone" placeholder="Номер телефона для связи"
                                 maxLength={12}
                                 value={formData.phone}
-                                onChange={(e) => handlePhoneChange(e)} 
+                                onChange={(e) => handlePhoneChange(e)}
                                 onKeyDown={(e) => handlePhonKeyDown(e)}
-                                />
+                            />
                         </div>
                         <div className={styles.form_group}>
                             <input type="email" id="email" name="email" placeholder="Email"
@@ -185,7 +205,7 @@ export default function PaymentForm({ type, data }) {
                         Или свяжитесь с нами<br /> самостоятельно по номеру:
                     </h2>
                     <h2 className={styles.payment_form_heading}>
-                        +7 (914) 932-28-82 
+                        +7 (914) 932-28-82
                     </h2>
                 </div> : <div>LOADING</div>}
         </div>
