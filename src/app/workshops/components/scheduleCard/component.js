@@ -4,14 +4,12 @@ import styles from "./scheduleCard.module.css";
 import Image from "next/image";
 import { usePaymentModalStore } from "@/store/PaymentModalStore";
 import PaymentButton from "@/components/PaymentButton/PaymentButton";
-import PaymentForm from "@/components/PaymentForm/PaymentForm";
 import { useWorkshopsStore } from "@/store/workshopsStore";
 
 export default function ScheduleCard({ data }) {
     const isPaymentFormModalOpen = usePaymentModalStore((state) => state.isPaymentFormModalOpen);
     const openPaymentFormModal = usePaymentModalStore((state) => state.openPaymentFormModal);
     const { setPickedWorkshopTime,
-        setPickedWorkshopName,
         updateCurrentWorkshopItem,
     } = useWorkshopsStore();
 

@@ -1,8 +1,6 @@
-// src/app/api/schedule/route.js
 import { supabase } from '../../../../lib/supabase';
 
 export async function GET(req) {
-  console.log('GET STARTED')
   try {
     // Получаем все данные из таблицы 'schedule'
     const { data, error } = await supabase

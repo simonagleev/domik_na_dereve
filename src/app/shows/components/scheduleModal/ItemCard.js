@@ -1,6 +1,5 @@
 'use client'
 import styles from "./scheduleModal.module.css";
-import Image from "next/image";
 import { useShowsStore } from "@/store/showsStore";
 import { usePaymentModalStore } from "@/store/PaymentModalStore";
 

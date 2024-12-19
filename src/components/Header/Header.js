@@ -14,8 +14,6 @@ const gradientMap = {
     winter: "linear-gradient(to right, #7E94B3, #907D93)",
 };
 
-
-
 export default function Header() {
     return (
         <header className={styles.header} style={{ background: gradientMap[season] || "transparent" }}>
@@ -37,26 +35,6 @@ export default function Header() {
             <div className={styles.phone}>
                 <a href="tel: +79149322882"> +7 (914) 932‑28‑82</a>
             </div>
-
-            {/* БУРГЕР */}
-            {/* <nav role="navigation">
-                <input type="checkbox" id="menu-toggle" className={styles.menuCheckbox} />
-                <label htmlFor="menu-toggle" className={styles.menuToggleLabel}>
-                    <span className={styles.hamburger}></span>
-                    <span className={styles.hamburger}></span>
-                    <span className={styles.hamburger}></span>
-                </label>
-
-                <div className={styles.menu}>
-                    <div className={styles.menuContainer}>
-                        <nav className={styles.menuMain}>
-                            <Link href="/">Главная</Link>
-                            <Link href="/workshops">Мастер-классы</Link>
-                            <a href="#contacts">Контакты</a>
-                        </nav>
-                    </div>
-                </div>
-            </nav> */}
             <BurgerMenu/>
         </header>
     );

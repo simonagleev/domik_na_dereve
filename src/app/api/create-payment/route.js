@@ -11,10 +11,6 @@ export async function POST(request) {
 
     const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
 
-    console.log('PROPS')
-    console.log(`Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`)
-    console.log(new Date().toLocaleString())
-
     try {
         // Шаг 1: Запрос к ЮKassa
         const yookassaResponse = await fetch('https://api.yookassa.ru/v3/payments', {
@@ -73,11 +69,6 @@ export async function POST(request) {
             type === 'mk' ?
                 'decrease_remaining_count_workshops' :
                 'decrease_remaining_count_birthdays'
-        console.log('TABLE')
-        console.log(currentTable)       
-        console.log(itemID)
-        console.log(count)
-
 
         // Шаг 3: уменьшение RemainingCount предварительное
         const { data, error: dbError2 } = await supabase

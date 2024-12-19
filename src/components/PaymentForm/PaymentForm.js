@@ -1,12 +1,9 @@
 'use client'
 import styles from "./PaymentForm.module.css";
 import { usePaymentModalStore } from "@/store/PaymentModalStore";
-import axios from 'axios';
 import { useEffect, useState } from "react";
 
 export default function PaymentForm({ type, data }) {
-    console.log(type)
-    console.log(data)
 
     const isDev = process.env.NODE_ENV === 'development';
 
@@ -42,8 +39,6 @@ export default function PaymentForm({ type, data }) {
     }
 
     const handleIncrement = () => {
-        console.log('TESt 2')
-        console.log(data)
         if (count < data.RemainingCount) {
             updateCount((prevCount) => {
                 const newCount = prevCount + 1;
@@ -68,19 +63,6 @@ export default function PaymentForm({ type, data }) {
         resetFormData()
         closePaymentFormModal();
     }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // try {
-        //     // Отправка данных в Telegram через API
-        //     await axios.post('/api/sendFormData', formData);
-        //     alert('Данные отправлены в Telegram!');
-        //     closePaymentFormModal();
-        // } catch (error) {
-        //     console.error('Error sending data to Telegram:', error);
-        //     alert('Ошибка отправки данных.');
-        // }
-    };
 
     const handlePhoneChange = (e) => {
         let value = e.target.value;
@@ -125,7 +107,7 @@ export default function PaymentForm({ type, data }) {
                 body: JSON.stringify({
                     amount: formData.amount,
                     description: 'Оплата заказа',
-                    return_url: isDev? 'http://localhost:3000/' : 'https://domiknadereve-irk.ru', //Доделать, прописть все ссылки на проде потом
+                    return_url: isDev? 'http://localhost:3000/' : 'https://domiknadereve-irk.ru',
                     phone: formData.phone,
                     itemID: formData.itemID,
                     type: type,
@@ -137,7 +119,6 @@ export default function PaymentForm({ type, data }) {
             const data = await response.json();
 
             if (response.ok && data.confirmationUrl) {
-                console.log('COOL')
                 window.location.href = data.confirmationUrl; // Редирект на ЮKassa
             } else {
                 console.error('Ошибка при получении ссылки на оплату:', data);
@@ -148,11 +129,6 @@ export default function PaymentForm({ type, data }) {
             setLoading(false);
         }
     };
-
-    const handleTest = () => {
-        console.log('PAYMENT STARTED')
-        console.log(formData)
-    }
 
     return (
         <div className={styles.modal_overlay} onClick={handleClickOutside}>
@@ -192,7 +168,7 @@ export default function PaymentForm({ type, data }) {
                                 <div className={styles.count}>{count}</div>
                                 <div className={styles.count_btn} onClick={handleIncrement}>+</div>
                             </div>
-                            <div className={styles.sum_block} onClick={handleTest}>
+                            <div className={styles.sum_block}>
                                 Сумма: <b>{formData.amount ? formData.amount : data.Price}</b> руб.
                             </div>
                         </div>
@@ -209,7 +185,7 @@ export default function PaymentForm({ type, data }) {
                         Или свяжитесь с нами<br /> самостоятельно по номеру:
                     </h2>
                     <h2 className={styles.payment_form_heading}>
-                        +7 (333) 355-44-77
+                        +7 (914) 932-28-82 
                     </h2>
                 </div> : <div>LOADING</div>}
         </div>

@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabase } from '../../../../lib/supabase';
-
+// Это тестовое тест
 export async function GET(request) {
-    console.log('GET STATUS STARTED')
     const { searchParams } = new URL(request.url);
     const orderId = searchParams.get('orderId');
 
@@ -21,8 +20,6 @@ export async function GET(request) {
     }
 
     const paymentData = await response.json();
-    console.log('APYMENTA DATA')
-    console.log(paymentData)
     
     const { error } = await supabase
         .from('onlineTransactions')
@@ -46,8 +43,6 @@ export async function GET(request) {
             console.log(dbError2)
             return NextResponse.json({ error: dbError2.error }, { status: 500 });
         }
-
-
     }
     return NextResponse.json({ status: paymentData.status });
 }

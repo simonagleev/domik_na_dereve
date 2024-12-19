@@ -6,36 +6,31 @@ import ScheduleCard from "../scheduleCard/component";
 import { useWorkshopsStore } from "@/store/workshopsStore"; // Импортируем ваш Zustand store
 import PaymentForm from "@/components/PaymentForm/PaymentForm";
 import { usePaymentModalStore } from "@/store/PaymentModalStore";
+import Loader from "@/components/Loader/Loader";
 
-export default function WorkshopsSchedule({ type }) {
+export default function WorkshopsSchedule({ }) {
+    const [loading, setLoading] = useState(false)
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [plusIndex, setPlusIndex] = useState(3);
     const { schedule, updateSchedule, currentWorkshopItem } = useWorkshopsStore();
     const { isPaymentFormModalOpen } = usePaymentModalStore();
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [plusIndex, setPlusIndex] = useState(3);
-
     const handleNext = () => {
-        console.log(schedule.length)
-        if (currentIndex < schedule.length - 3) {
-            setCurrentIndex((prev) => prev + 3);
-        }
+        currentIndex < schedule.length - 3 ? setCurrentIndex((prev) => prev + 3) : null
     };
 
     const handlePrev = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex((prev) => prev - 3);
-        }
+        currentIndex > 0 ? setCurrentIndex((prev) => prev - 3) : null
     };
 
     const handleMore = () => {
         setCurrentIndex(1);
         setPlusIndex((prev) => prev + 3);
-
     };
 
     const [error, setError] = useState(null);
     useEffect(() => {
-        console.log('Useeffect happened')
+        setLoading(true)
         const fetchData = async () => {
             try {
                 const response = await fetch('/api/get-workshop-schedule');
@@ -47,22 +42,22 @@ export default function WorkshopsSchedule({ type }) {
                     console.log('RESPONSE ERROR');
                     setError(data.error);
                 }
+                setLoading(false)
             } catch (error) {
                 setError('Ошибка при загрузке расписания мастер-классов');
+                setLoading(false)
             }
         };
 
         fetchData();
     }, [updateSchedule]);
 
-    const slicedSchedule = schedule.slice(currentIndex, currentIndex + 3)
-
     return (
         <div className={styles.schedule} >
             <h2 className={styles.schedule_heading}>
                 Наши мастер классы
             </h2>
-            <div className={styles.arrows_container}>
+            {schedule.length > 0 ? <div className={styles.arrows_container}>
                 <div className={styles.arrow} onClick={handlePrev}>
                     <Image
                         className={styles.arrows_img}
@@ -81,13 +76,13 @@ export default function WorkshopsSchedule({ type }) {
                         height={10}
                     />
                 </div>
-            </div>
+            </div> : null}
             <div className={styles.cards_container} id="workshop_schedule">
-                {schedule.slice(currentIndex, currentIndex + plusIndex).map((e) => {
+                {!loading ? schedule.slice(currentIndex, currentIndex + plusIndex).map((e) => {
                     return <ScheduleCard data={e} key={e.ID} />
-                })}
+                }) : <Loader />}
             </div>
-            <div className={styles.more} onClick={handleMore}>Еще...</div>
+            {schedule.length > 0 ? <div className={styles.more} onClick={handleMore}>Еще...</div> : null}
 
             {isPaymentFormModalOpen && currentWorkshopItem && (
                 <PaymentForm type={'mk'} data={currentWorkshopItem} />)}

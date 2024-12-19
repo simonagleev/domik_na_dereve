@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 import { supabase } from '../../../../lib/supabase';
 
 export async function POST(request) {
-    console.log('WEBHOOK STARTED')
     try {
         const body = await request.json();
 
@@ -29,7 +28,6 @@ export async function POST(request) {
                 console.log(dbErrorType)
                 return NextResponse.json({ error: dbErrorType.error }, { status: 500 });
             } else {
-                console.log(orderTypeData)
                 const orderType = orderTypeData.length > 0 ? orderTypeData[0].Type : null;
                 if (orderType && orderType === 'show') {
                     const { data, error: dbError2 } = await supabase
@@ -55,10 +53,7 @@ export async function POST(request) {
                     }
                 }
             }
-
-
         } else if (newStatus === 'succeeded') {
-            console.log('PAYMENT SUCCESS')
             // Обновление статуса платежа в Supabase
             const { error } = await supabase
                 .from('onlineTransactions')
@@ -72,7 +67,6 @@ export async function POST(request) {
         } else {
             console.log(`SOMETHING STRANGE HAPPENED TO THE PATMENT ${orderAcquiringID}`)
         }
-
 
         return NextResponse.json({ success: true });
     } catch (error) {

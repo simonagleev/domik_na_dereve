@@ -43,10 +43,6 @@ export default function PaymentCard() {
             <p className={styles.card_text}>
                 Театральные постановки, увлекательные <br /> мастер-классы и яркие праздники ждут<br /> вашего ребенка.
             </p>
-            {/* <button className={styles.buy_btn}
-                onClick={() => console.log('BUY')}>
-                Купить билеты
-            </button> */}
             <div className={styles.wrapper}>
                 <a className={styles.button} href="#">Купить билеты</a>
             </div>

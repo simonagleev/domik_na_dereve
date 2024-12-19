@@ -6,7 +6,6 @@ export default function Workshops() {
     return (
         <div className={styles.component}>
             <div className={styles.container}>
-                {/* <Header /> */}
                 <div className={styles.home} style={{ backgroundImage: "url('/img/workshops_bg.jpg')" }}>
                     <div className={styles.main_header_container}>
                         <h1 className={styles.header}>МАСТЕР</h1>
