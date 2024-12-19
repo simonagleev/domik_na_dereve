@@ -2,12 +2,16 @@
 import { supabase } from '../../../../lib/supabase';
 
 export async function GET(req) {
-  console.log('GET STARTED')
+  console.log('GET WORKSHOPS STARTED')
+
+  const today = new Date().toISOString();
+
   try {
     // Получаем все данные из таблицы 'schedule'
     const { data, error } = await supabase
-      .from('schedule') // Название вашей таблицы
+      .from('workshopSchedule') // Название вашей таблицы
       .select('*') // Получаем все поля
+      .gte('StartDateTime', today)
       .order('StartDateTime', { ascending: true });
       
     // Проверка на ошибки

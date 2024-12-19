@@ -4,19 +4,6 @@ export const usePaymentModalStore = create((set) => ({
     isPaymentFormModalOpen: false,
     count: 1,
 
-    // name: null,
-    // phone: null,
-    // email: null,
-    // date: '',
-    // time: '',
-    // title: '',
-
-    // amount: 0,
-    // type: null,
-    // itemID: null,
-    // dateTime: '',
-    // info: '',
-
     formData: {
         name: '',
         phone: '',
@@ -29,7 +16,7 @@ export const usePaymentModalStore = create((set) => ({
     },
 
 
-    //moal
+    //modal
     openPaymentFormModal: () => set({ isPaymentFormModalOpen: true }),
     closePaymentFormModal: () => set({ isPaymentFormModalOpen: false }),
 
@@ -58,18 +45,4 @@ export const usePaymentModalStore = create((set) => ({
         }
     }),
 
-    // //base
-    // setName: (data) => set({ name: data }),
-    // setPhone: (data) => set({ phone: data }),
-    // setEmail: (data) => set({ email: data }),
-    // setDate: (data) => set({ date: data }),
-    // setTime: (data) => set({ time: data }),
-    // setTitle: (data) => set({ title: data }),
-
-    // //needed for db
-    // setAmount: (data) => set({ amount: data }),
-    // setType: (data) => set({ type: data }),
-    // setItemID: (data) => set({ itemID: data }),
-    // setDateTime: (data) => set({ dateTime: data }),
-    // setInfo: (data) => set({ info: data }),
 }));

@@ -8,16 +8,27 @@
     padding: 25px;
     background-color: #fff;
     flex-grow: 1;
+
+    /* NEW */
+    width: 100%;
+    max-width: 33.333%;
+
 }
 
 .card_image_container {
     width: 100%;
     position: relative;
+    /* NEW */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    overflow: hidden;
+    
 }
 
 .card_image {
-    width: 100%;
-    height: auto;
+    flex: 1;
 }
 
 .age {
@@ -40,10 +51,17 @@
 
 .workshop_items_container {
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .workshop_item {
     width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card_title {
@@ -56,7 +74,13 @@
     font-weight: 500;
     line-height: 22px;
 }
-
+.price {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 21px;
+    color: rgba(38, 38, 38, 1);
+    margin: 10px 0
+}
 
 @media (max-width: 480px) {
     .card {
@@ -66,6 +90,7 @@
         padding: 15px;
         background-color: #fff;
         flex-grow: 1;
+        max-width: 100%;
     }
 
     .card_image_container {
@@ -99,5 +124,9 @@
         font-weight: 500;
         line-height: 24px;
         font-size: 0.833rem;
+    }
+
+    .price {
+        margin-bottom: 0;
     }
 }

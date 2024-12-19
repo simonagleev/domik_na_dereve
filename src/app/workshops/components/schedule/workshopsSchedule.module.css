@@ -40,6 +40,7 @@
     transition: .3s;
 }
 
+
 .arrow:hover {
     transition: .3s;
     transform: scale(1.1);
@@ -50,6 +51,21 @@
     transform: scale(.9);
 }
 
+.more {
+    background-color: rgba(124, 152, 120, 1);
+    border-radius: 15px;
+    min-width: 56px;
+    min-height: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: .3s;
+    color: #fff;
+    margin-top: 5px;
+    display: none;
+    padding: 0 5px 0 10px;
+}
 
 .cards_container {
     width: 100%;
@@ -77,10 +93,11 @@
         margin-bottom: 28px;
     }
 
-
+    .more {
+        display: flex;
+    }
     .arrows_container {
         display: none;
-
     }
 /* 
     .arrow {

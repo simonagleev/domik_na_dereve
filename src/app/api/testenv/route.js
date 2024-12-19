@@ -10,3 +10,14 @@ export async function GET() {
       }
     );
   }
+
+
+export async function GET(req) {
+  try {
+
+
+    return new Response(JSON.stringify(data), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  }
+}

@@ -12,50 +12,45 @@ export default function ScheduleCard({ data }) {
     const openPaymentFormModal = usePaymentModalStore((state) => state.openPaymentFormModal);
     const { setPickedWorkshopTime,
         setPickedWorkshopName,
-        pickedWorkshopTime,
-        pickedWorkshopName } = useWorkshopsStore();
+        updateCurrentWorkshopItem,
+    } = useWorkshopsStore();
 
-    const handlePickWorkshop = (time, workshop) => {
-        setPickedWorkshopTime(time);
-        setPickedWorkshopName(workshop);
-        openPaymentFormModal()
+    const handleClick = () => {
+        updateCurrentWorkshopItem(data)
+        !isPaymentFormModalOpen ? openPaymentFormModal() : console.log('PAYMENT FORM ALREADY OPENED')
     }
 
     return (
         <div className={styles.card} key={data.ID}>
-            <div className={styles.card_image_container}>
-                <Image
-                    className={styles.card_image}
-                    src={data.imageURL}
-                    alt="венок"
-                    width={0}
-                    height={0}
-                />
-                <p className={styles.age}>с {data.age} лет</p>
-
-            </div>
-            <h2 className={styles.card_date}>
-                {data.date}
-            </h2>
             <div className={styles.workshop_items_container}>
-                {data.workshops.map((e, index) => {
-                    return (
-                        <div className={styles.workshop_item} key={index}>
-                            <h2 className={styles.card_title}>
-                                {e.name + " " + e.time}
-                            </h2>
-                            <p className={styles.card_tezt}>
-                                {e.text}
-                            </p>
-                            <p className={styles.card_tezt}>
-                                {e.details}
-                            </p>
-                            <PaymentButton type={'mk'} handler={() => handlePickWorkshop(e.time, e.name)} />
-                        </div>
-                    )
-                })}
+                <h2 className={styles.card_date}>
+                    {new Intl.DateTimeFormat('ru-RU', { day: '2-digit', month: 'long' }).format(new Date(data.StartDateTime)) + ' в ' + data.StartDateTime.split('T')[1].slice(0, 5)}
+                </h2>
+                <div className={styles.workshop_item}>
+                    <div className={styles.card_image_container}>
+                        <Image
+                            className={styles.card_image}
+                            src={`/img/workshops/${data.ImageName}`}
+                            alt="мк фото"
+                            width={200}
+                            height={300}
+                        />
+                    </div>
+                    <h2 className={styles.card_title}>
+                        {data.Name}
+                    </h2>
+                    <p className={styles.card_tezt}>
+                        {data.Description ? data.Description : null}
+                    </p>
+                    <p className={styles.card_tezt}>
+                        Длительность: {data.Duration} {data.Duration > 1 ? 'часа' : 'час'}
+                    </p>
+                    <p className={styles.price}>
+                        Цена билета: {data.Price} рублей
+                    </p>
+                    <PaymentButton type={'mk'} handler={handleClick} />
+                </div>
             </div>
-            {isPaymentFormModalOpen && <PaymentForm type={'mk'} date={data.date} time={pickedWorkshopTime} title={pickedWorkshopName} />}
         </div>
     );
 }

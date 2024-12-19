@@ -66,10 +66,33 @@ export const useWorkshopsStore = create((set) => ({
 
     pickedWorkshopTime: null,
     pickedWorkshopName: null,
+    schedule: [],
+    updateSchedule: (data) => {
+        // Группируем по датам
+        // const groupedByDate = data.reduce((acc, item) => {
+        //     // Получаем только дату без времени
+        //     const dateKey = item.StartDateTime.split('T')[0];
+        //     // Если такая дата уже есть в объекте, добавляем в массив
+        //     if (!acc[dateKey]) {
+        //         acc[dateKey] = [];
+        //     }
+        //     acc[dateKey].push(item);
+
+        //     return acc;
+        // }, {});
+        // // Преобразуем в массив и сортируем по датам
+        // const sortedByDate = Object.entries(groupedByDate)
+        //     .map(([date, items]) => ({ date, items }))
+        //     .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        // console.log(sortedByDate)
+        console.log(data)
+        set({ schedule: data });
+    },
 
     // Метод для обновления данных (опционально)
     updateData: (newData) => set({ data: newData }),
-    
+
     // Метод для обновления выбранного времени
     setPickedWorkshopTime: (time) => set({ pickedWorkshopTime: time }),
 
@@ -78,4 +101,15 @@ export const useWorkshopsStore = create((set) => ({
 
     // Метод для сброса выбора мастер-класса
     resetPickedWorkshop: () => set({ pickedWorkshopTime: null, pickedWorkshopName: null }),
+
+
+    currentWorkshopItem: {
+        id: null,
+        workShopID: null,
+        price: 0,
+        remainingCount: 0,
+        date: '',
+        comments: ''
+      },  // А это уже запись из БД отдельная
+      updateCurrentWorkshopItem: (data) => set({ currentWorkshopItem: data })
 }));

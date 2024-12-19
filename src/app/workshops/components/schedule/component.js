@@ -1,27 +1,61 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./workshopsSchedule.module.css";
 import Image from "next/image";
 import ScheduleCard from "../scheduleCard/component";
 import { useWorkshopsStore } from "@/store/workshopsStore"; // Импортируем ваш Zustand store
-
+import PaymentForm from "@/components/PaymentForm/PaymentForm";
+import { usePaymentModalStore } from "@/store/PaymentModalStore";
 
 export default function WorkshopsSchedule({ type }) {
-    const data = useWorkshopsStore((state) => state.data);
+    const { schedule, updateSchedule, currentWorkshopItem } = useWorkshopsStore();
+    const { isPaymentFormModalOpen } = usePaymentModalStore();
 
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [plusIndex, setPlusIndex] = useState(3);
 
     const handleNext = () => {
-        if (currentIndex < data.length - 2) {
-            setCurrentIndex((prev) => prev + 1);
+        console.log(schedule.length)
+        if (currentIndex < schedule.length - 3) {
+            setCurrentIndex((prev) => prev + 3);
         }
     };
 
     const handlePrev = () => {
         if (currentIndex > 0) {
-            setCurrentIndex((prev) => prev - 1);
+            setCurrentIndex((prev) => prev - 3);
         }
     };
+
+    const handleMore = () => {
+        setCurrentIndex(1);
+        setPlusIndex((prev) => prev + 3);
+
+    };
+
+    const [error, setError] = useState(null);
+    useEffect(() => {
+        console.log('Useeffect happened')
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/api/get-workshop-schedule');
+                const data = await response.json();
+
+                if (response.ok) {
+                    updateSchedule(data);
+                } else {
+                    console.log('RESPONSE ERROR');
+                    setError(data.error);
+                }
+            } catch (error) {
+                setError('Ошибка при загрузке расписания мастер-классов');
+            }
+        };
+
+        fetchData();
+    }, [updateSchedule]);
+
+    const slicedSchedule = schedule.slice(currentIndex, currentIndex + 3)
 
     return (
         <div className={styles.schedule} >
@@ -49,11 +83,14 @@ export default function WorkshopsSchedule({ type }) {
                 </div>
             </div>
             <div className={styles.cards_container}>
-                {data.slice(currentIndex, currentIndex + 2).map((e) => {
-                    return <ScheduleCard data={e} key={e.ID}/>
+                {schedule.slice(currentIndex, currentIndex + plusIndex).map((e) => {
+                    return <ScheduleCard data={e} key={e.ID} />
                 })}
             </div>
-            
+            <div className={styles.more} onClick={handleMore}>Еще...</div>
+
+            {isPaymentFormModalOpen && currentWorkshopItem && (
+                <PaymentForm type={'mk'} data={currentWorkshopItem} />)}
         </div>
     );
 }

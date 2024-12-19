@@ -5,6 +5,9 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 
 export default function PaymentForm({ type, data }) {
+    console.log(type)
+    console.log(data)
+
     const isDev = process.env.NODE_ENV === 'development';
 
     const {
@@ -51,7 +54,6 @@ export default function PaymentForm({ type, data }) {
         } else (
             console.log('Превышен лимит билетов')
         )
-
     }
 
     useEffect(() => {
@@ -89,6 +91,19 @@ export default function PaymentForm({ type, data }) {
             value = `+7${value.slice(1)}`; // Заменяем первый символ на +7
         }
         updateFormData('phone', value);
+    };
+
+    const handlePhonKeyDown = (e) => {
+        const inputValue = e.target.value;
+    
+        // Проверяем текущую длину номера и запрещаем ввод, если превышен лимит
+        if (
+            inputValue.startsWith('+7') &&
+            inputValue.length >= 12 &&
+            !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight'].includes(e.key)
+        ) {
+            e.preventDefault();
+        }
     };
 
     const [loading, setLoading] = useState(false);
@@ -159,8 +174,11 @@ export default function PaymentForm({ type, data }) {
                         </div>
                         <div className={styles.form_group}>
                             <input id="phone" name="phone" placeholder="Номер телефона для связи"
+                                maxLength={12}
                                 value={formData.phone}
-                                onChange={(e) => handlePhoneChange(e)} />
+                                onChange={(e) => handlePhoneChange(e)} 
+                                onKeyDown={(e) => handlePhonKeyDown(e)}
+                                />
                         </div>
                         <div className={styles.form_group}>
                             <input type="email" id="email" name="email" placeholder="Email"
