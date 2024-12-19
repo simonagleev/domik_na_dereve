@@ -37,14 +37,17 @@ export default function ScheduleCard({ data }) {
                     <h2 className={styles.card_title}>
                         {data.Name}
                     </h2>
-                    <p className={styles.card_tezt}>
+                    <p className={styles.card_text}>
                         {data.Description ? data.Description : null}
                     </p>
-                    <p className={styles.card_tezt}>
+                    <p className={styles.card_text}>
                         Длительность: {data.Duration} {data.Duration > 1 ? 'часа' : 'час'}
                     </p>
                     <p className={styles.price}>
                         Цена билета: {data.Price} рублей
+                    </p>
+                    <p className={styles.card_text}>
+                        Мест осталось: <b>{data.RemainingCount}</b>
                     </p>
                     <PaymentButton type={'mk'} handler={handleClick} />
                 </div>

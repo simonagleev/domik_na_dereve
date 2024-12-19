@@ -72,7 +72,6 @@
 
 .card_text {
     font-weight: 500;
-    line-height: 22px;
 }
 .price {
     font-weight: 500;
@@ -122,11 +121,5 @@
 
     .card_text {
         font-weight: 500;
-        line-height: 24px;
-        font-size: 0.833rem;
-    }
-
-    .price {
-        margin-bottom: 0;
     }
 }
