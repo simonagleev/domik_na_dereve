@@ -31,7 +31,7 @@ export default function Footer() {
                 <div className={styles.footer_item}>
                     <h5 className={styles.footer_item_title}>Социальные сети:</h5>
                     <p className={styles.footer_item_text}>
-                        <a href="https://t.me/DomiknaDereve38">TG: Домик на дереве</a>
+                        <a href="https://t.me/DomiknaDereve38" target="_blank" rel="noopener noreferrer">TG: Домик на дереве</a>
                     </p>
                 </div>
             </div>

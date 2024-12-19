@@ -73,6 +73,34 @@
     line-height: 29px;
 }
 
+.counter_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.count_btn {
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 6px 0;
+    background-color: var(--green);
+    color: #fff;
+    font-weight: 700;
+    font-size: 2rem;
+    width: 55px;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.count_btn:hover{
+    transition: .3s;
+    transform: scale(1.1);
+}
+.count_btn:active{
+    transition: .3s;
+    transform: scale(0.9);
+}
 
 .submit_btn {
     margin: 25px 0 18px;

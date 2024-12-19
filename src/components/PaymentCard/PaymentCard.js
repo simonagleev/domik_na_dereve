@@ -27,7 +27,7 @@ export default function PaymentCard() {
                         height={45}
                     />
                 </a>
-                <a href="https://www.telegram.com" target="_blank" rel="noopener noreferrer">
+                <a href="https://t.me/DomiknaDereve38" target="_blank" rel="noopener noreferrer">
                     <Image
                         className={styles.image}
                         src="/img/telegram_icon.svg"
