@@ -62,7 +62,7 @@ const sendMessageToAllUsers = async (message) => {
 // Основная функция обработки запроса
 export async function POST(req) {
   const { type, name, phone, email, date, title, count, orderID } = await req.json();
-  console.log(type, name, phone, email, date, title, count, orderID)
+  
   const messageWorkshop = `
     Новый запрос на запись MK:
   Дата и время: ${date.split('T')[0]} в ${date.split('T')[1].substring(0, 5)},
