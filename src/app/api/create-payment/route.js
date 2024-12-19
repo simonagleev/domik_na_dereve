@@ -68,14 +68,17 @@ export async function POST(request) {
             console.error('Ошибка записи в Supabase:', dbError);
             return NextResponse.json({ error: 'Ошибка записи в базу данных' }, { status: 500 });
         }
+        const currentTable = type === 'show' ?
+            'update_remaining_count' :
+            type === 'mk' ?
+                'decrease_remaining_count_workshops' :
+                'decrease_remaining_count_birthdays'
+        console.log('TABLE')
+        console.log(currentTable)
 
         // Шаг 3: уменьшение RemainingCount предварительное
         const { data, error: dbError2 } = await supabase
-            .rpc(type === 'show' ?
-                'update_remaining_count' :
-                type === 'mk' ?
-                    'decrease_remaining_count_workshops' :
-                    'decrease_remaining_count_birthdays', {
+            .rpc(currentTable, {
                 item_id: itemID,
                 count: count,
             });
