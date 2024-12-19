@@ -25,6 +25,10 @@
     color: rgba(169, 197, 156, 1);
 }
 
+.card_name_long {
+    font-size: 6.5rem;
+}
+
 .card_description {
     font-weight: 500;
     line-height: 21px;
@@ -41,11 +45,11 @@
 }
 
 .card_image {
-    width: 100%;
-    height: auto;
+    /* width: 100%; */
+    /* height: auto; */
+    max-width: 625px;
     flex: 1;
 }
-
 
 .card_date {
     color: rgba(103, 151, 175, 1);
@@ -89,6 +93,7 @@
     .card_info {
         width: 100%;
         max-width: 100%;
+        order: 2;
     }
 
     .card_info_text {
@@ -101,6 +106,10 @@
         margin-bottom: 15px;
     }
 
+    .card_name_long {
+        font-size: 3.5rem;
+    }
+    
     .card_image_container {
         width: 100%;
         position: relative;

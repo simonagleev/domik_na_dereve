@@ -62,7 +62,7 @@ export default function WorkshopsSchedule({ type }) {
             <h2 className={styles.schedule_heading}>
                 Наши мастер классы
             </h2>
-            <div className={styles.arrows_container} id="workshop_schedule">
+            <div className={styles.arrows_container}>
                 <div className={styles.arrow} onClick={handlePrev}>
                     <Image
                         className={styles.arrows_img}
@@ -82,7 +82,7 @@ export default function WorkshopsSchedule({ type }) {
                     />
                 </div>
             </div>
-            <div className={styles.cards_container}>
+            <div className={styles.cards_container} id="workshop_schedule">
                 {schedule.slice(currentIndex, currentIndex + plusIndex).map((e) => {
                     return <ScheduleCard data={e} key={e.ID} />
                 })}

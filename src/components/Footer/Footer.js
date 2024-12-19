@@ -38,15 +38,15 @@ export default function Footer() {
             <div className={styles.footer_item_container}>
                 <div className={styles.footer_item}>
                     <h5 className={styles.footer_item_title}>Адрес:</h5>
-                    <p className={styles.footer_item_text}>Иркутск, ул. Ленина, 25, ТЦ «Творческий квартал»,<br /> 3-й этаж, офис 305
+                    <p className={styles.footer_item_text}>Иркутск, Адрес: г. Иркутск, ул. Лермонтова 275/9
                     </p>
                 </div>
                 <div className={styles.footer_item}>
                     <h5 className={styles.footer_item_title}>Время работы:</h5>
                     <p className={styles.footer_item_text}>
-                        Понедельник - Пятница: 10:00 - 18:00<br/>
-                        Суббота: 11:00 - 15:00<br/>
-                        Воскресенье: выходной<br/>
+                        Понедельник - Пятница: 10:00 - 20:00<br/>
+                        Суббота: по предварительной записи<br/>
+                        Воскресенье: по предварительной записи<br/>
                     </p>
                 </div>
             </div>

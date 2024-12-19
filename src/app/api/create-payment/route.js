@@ -74,7 +74,10 @@ export async function POST(request) {
                 'decrease_remaining_count_workshops' :
                 'decrease_remaining_count_birthdays'
         console.log('TABLE')
-        console.log(currentTable)
+        console.log(currentTable)       
+        console.log(itemID)
+        console.log(count)
+
 
         // Шаг 3: уменьшение RemainingCount предварительное
         const { data, error: dbError2 } = await supabase

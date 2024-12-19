@@ -1,5 +1,4 @@
 import styles from "./Workshops.module.css";
-// import Header from "@/components/Header/Header";
 import PaymentCardCommon from "@/components/PaymentCardCommon/PaymentCardCommon";
 import WorkshopsSchedule from "./components/schedule/component";
 
@@ -14,9 +13,7 @@ export default function Workshops() {
                         <h1 className={styles.header}>КЛАССЫ</h1>
                     </div>
                 </div>
-                {/* <div className={styles.payment_card}> */}
                 <PaymentCardCommon type={'mk'} />
-                {/* </div> */}
             </div>
             <div className={styles.content}>
                 <WorkshopsSchedule />

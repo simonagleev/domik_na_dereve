@@ -65,4 +65,7 @@
         line-height: 26px;
         margin-bottom: 20px;
     }
+    .footer_item_text {
+        font-size: 1.35rem;
+    }
 }

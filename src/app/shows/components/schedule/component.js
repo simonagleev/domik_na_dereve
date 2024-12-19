@@ -1,18 +1,16 @@
 'use client'
 import { useState, useEffect } from "react";
 import styles from "./showssSchedule.module.css";
-import Image from "next/image";
 import ScheduleCard from "../scheduleCard/component";
 import { useShowsStore } from "@/store/showsStore";
 
 export default function ShowssSchedule({ type }) {
 
     const [error, setError] = useState(null);
-    const { schedules, updateSchedules, updateShowSchedules, showSchedules } = useShowsStore();
+    const { updateSchedules, showSchedules } = useShowsStore();
     
     // Получаем данные из SUPABASE DB
     useEffect(() => {
-        console.log('ЗАПРОС НАЧАЛСЯ');
         const fetchData = async () => {
             try {
                 const response = await fetch('/api/showsSchedule');
@@ -38,7 +36,7 @@ export default function ShowssSchedule({ type }) {
                 Наши спектакли
             </h2>
             
-            <div className={styles.cards_container}>
+            <div className={styles.cards_container} id="shows_schedule">
                 {showSchedules.map((e) => {
                     return <ScheduleCard data={e} key={e.id} />;  // Передаем данные шоу, включая расписания
                 })}

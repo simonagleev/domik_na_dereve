@@ -26,7 +26,7 @@ export default function ScheduleModal({ }) {
                 </button>
                 {pickedShow.schedules.map((e, index) => {
                     return (
-                        < ItemCard data={e} key={e.id || index} />)
+                        <ItemCard data={e} key={e.id || index} />)
                 })}
 
                 {isPaymentFormModalOpen && currentShowItem && (
