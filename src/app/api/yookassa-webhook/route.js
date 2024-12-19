@@ -11,29 +11,52 @@ export async function POST(request) {
         const secretKey = process.env.YOOKASSA_SECRET_KEY;
         const signature = request.headers.get('Authorization');
 
-        console.log(`headerS: ${request.headers}`);
-        console.log(`headeers string: ${JSON.stringify(request.headers)}`);
-
         const expectedSignature = `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`;
-        console.log(`Expected signature: ${expectedSignature}`);
 
         const { object, event } = body; // Данные из вебхука
         const { id: orderAcquiringID, status: newStatus } = object;
-        console.log('BODY')
-        console.log(body)
 
         if (newStatus === ('canceled' || 'rejected' || 'refunded')) {
             console.log('PAYMENT FAILED')
-            const { data, error: dbError2 } = await supabase
-                .rpc('increase_remaining_count', {
-                    order_id: orderAcquiringID,
-                });
 
-            if (dbError2) {
-                console.log('ОШИБКА обновления RemainingCount')
-                console.log(dbError2)
-                return NextResponse.json({ error: dbError2.error }, { status: 500 });
+            const { orderTypeData, error: dbErrorType } = await supabase
+                .from('schedule')
+                .select('Type')
+                .eq('OrderAcquiringID', orderAcquiringID)
+
+            if (dbErrorType) {
+                console.log('ОШИБКА получения типа из транзакции')
+                console.log(dbErrorType)
+                return NextResponse.json({ error: dbErrorType.error }, { status: 500 });
+            } else {
+                console.log(orderTypeData)
+                const orderType = orderTypeData.length > 0 ? orderTypeData[0].Type : null;
+                if (orderType && orderType === 'show') {
+                    const { data, error: dbError2 } = await supabase
+                        .rpc('increase_remaining_count', {
+                            order_id: orderAcquiringID,
+                        });
+
+                    if (dbError2) {
+                        console.log('ОШИБКА обновления RemainingCount в спетаклях')
+                        console.log(dbError2)
+                        return NextResponse.json({ error: dbError2.error }, { status: 500 });
+                    }
+                } else if (orderType && orderType === 'mk') {
+                    const { data, error: dbError2 } = await supabase
+                        .rpc('increase_workshops_remaining_count', {
+                            order_id: orderAcquiringID,
+                        });
+
+                    if (dbError2) {
+                        console.log('ОШИБКА обновления RemainingCount в мастер-классах')
+                        console.log(dbError2)
+                        return NextResponse.json({ error: dbError2.error }, { status: 500 });
+                    }
+                }
             }
+
+
         } else if (newStatus === 'succeeded') {
             console.log('PAYMENT SUCCESS')
             // Обновление статуса платежа в Supabase

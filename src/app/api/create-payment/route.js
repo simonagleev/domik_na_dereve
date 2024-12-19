@@ -48,7 +48,7 @@ export async function POST(request) {
         const orderId = paymentData.id; // ID платежа из ЮKassa
         const confirmationUrl = paymentData.confirmation.confirmation_url;
         const orderStatus = paymentData.status
-        
+
         // Шаг 2: Запись в Supabase
         const { error: dbError } = await supabase.from('onlineTransactions').insert([
             {
@@ -71,11 +71,15 @@ export async function POST(request) {
 
         // Шаг 3: уменьшение RemainingCount предварительное
         const { data, error: dbError2 } = await supabase
-        .rpc('update_remaining_count', {
-          item_id: itemID,
-          count: count,
-        });
-        
+            .rpc(type === 'show' ?
+                'update_remaining_count' :
+                type === 'mk' ?
+                    'decrease_remaining_count_workshops' :
+                    'decrease_remaining_count_birthdays', {
+                item_id: itemID,
+                count: count,
+            });
+
         if (dbError2) {
             console.log('ОШИБКА обновления RemainingCount')
             console.log(dbError2)
