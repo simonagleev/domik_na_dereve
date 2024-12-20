@@ -52,7 +52,7 @@ export default function PaymentCardCommon({ type }) {
             <button
                 className={styles.buy_btn}
                 onClick={() => {
-                    const target = document.getElementById(`${type === 'main' ? "shows_schedule" : type === 'mk'? "workshop_schedule" : "birthdays" }`);
+                    const target = document.getElementById(`${type === 'shows' ? "shows_schedule" : type === 'mk'? "workshop_schedule" : "birthdays" }`);
                     if (target) {
                         target.scrollIntoView({ behavior: "smooth" });
                     }
