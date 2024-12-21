@@ -10,7 +10,9 @@ export async function POST(request) {
     const secretKey = process.env.YOOKASSA_SECRET_KEY;
 
     const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
-
+    console.log('YOOKASSA_SHOP_ID:', shopId);
+    console.log('YOOKASSA_SECRET_KEY:', secretKey);
+    
     try {
         // Шаг 1: Запрос к ЮKassa
         const yookassaResponse = await fetch('https://api.yookassa.ru/v3/payments', {
