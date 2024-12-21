@@ -24,14 +24,17 @@ export default function Footer() {
                         <a className={styles.footer_item_text} href="tel: +79149322882"> +7 (914) 932‑28‑82</a>
                     </p>
                 </div>
-                <div className={styles.footer_item}>
+                {/* <div className={styles.footer_item}>
                     <h5 className={styles.footer_item_title}>Электронная почта:</h5>
                     <p className={styles.footer_item_text}>info@domiknadereve-irkutsk.ru</p>
-                </div>
+                </div> */}
                 <div className={styles.footer_item}>
                     <h5 className={styles.footer_item_title}>Социальные сети:</h5>
                     <p className={styles.footer_item_text}>
                         <a href="https://t.me/DomiknaDereve38" target="_blank" rel="noopener noreferrer">TG: Домик на дереве</a>
+                    </p>
+                    <p className={styles.footer_item_text}>
+                        <a href="https://www.instagram.com/domiknadereve38/profilecard" target="_blank" rel="noopener noreferrer">Instagramm</a>
                     </p>
                 </div>
             </div>

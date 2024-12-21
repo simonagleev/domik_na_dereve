@@ -18,7 +18,7 @@ export default function PaymentCard() {
     return (
         <div className={styles.card_container} >
             <div className={styles.card_social_container}>
-                <a href="https://www.vk.com" target="_blank" rel="noopener noreferrer">
+                {/* <a href="https://www.vk.com" target="_blank" rel="noopener noreferrer">
                     <Image
                         className={styles.image}
                         src="/img/vk_icon.svg"
@@ -26,12 +26,21 @@ export default function PaymentCard() {
                         width={45}
                         height={45}
                     />
-                </a>
+                </a> */}
                 <a href="https://t.me/DomiknaDereve38" target="_blank" rel="noopener noreferrer">
                     <Image
                         className={styles.image}
                         src="/img/telegram_icon.svg"
                         alt="Телеграм"
+                        width={45}
+                        height={45}
+                    />
+                </a>
+                <a href="https://www.instagram.com/domiknadereve38/profilecard" target="_blank" rel="noopener noreferrer">
+                    <Image
+                        className={styles.image}
+                        src="/img/instagramm_icon.svg"
+                        alt="instagramm"
                         width={45}
                         height={45}
                     />
