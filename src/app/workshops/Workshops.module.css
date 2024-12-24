@@ -88,41 +88,6 @@
   
   }
 
-/*   
-@media (max-width: 434px) and (min-width: 421px) {
-    .header {
-      line-height: 70px;
-      font-size: 60px;
-    }
-
-    .home {
-        flex: 1;
-      }
-  }
-  
-  @media (max-width: 420px) {
-    .header {
-      line-height: 70px;
-      font-size: 60px;
-    }
-
-    .home {
-        flex: 1;
-      }
-  }
-  
-  @media (max-width: 400px) {
-    .header {
-      line-height: 65px;
-      font-size: 53px;
-    }
-
-    .home {
-        flex: 1;
-      }
-  } */
-
-
   
 @media (max-width: 480px) and (min-width: 435px) {
   .container {

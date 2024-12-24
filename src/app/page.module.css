@@ -271,8 +271,6 @@
   margin-bottom: 20px;
 }
 
-.atmosphere_icon {}
-
 .atmosphere_btn_text {
   color: rgba(103, 159, 191, 1);
   font-weight: 500;
@@ -309,6 +307,7 @@
   .content {
     background: linear-gradient(180deg, rgba(186, 214, 228, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 1) 55%, rgba(186, 214, 228, 1) 100%);
   }
+
   .content_container {
     width: 100%;
     position: static;
@@ -407,7 +406,9 @@
     line-height: 26px;
   }
 
-  .why_heading br {display: none;}
+  .why_heading br {
+    display: none;
+  }
 
   .why_text {
     font-size: 1.125rem;
@@ -459,8 +460,7 @@
     gap: 10px;
   }
 
-  .atmosphere_left {
-  }
+  .atmosphere_left {}
 
   .atmosphere_heading {
     font-size: 1.667rem;
@@ -551,5 +551,101 @@
   .header {
     line-height: 65px;
     font-size: 53px;
+  }
+}
+
+/* Стили для мобильных в landscape  */
+@media (min-width: 481px) and (max-width: 767px) {
+
+}
+
+/* Стили для планшетов в Portrait */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content_container {
+    width: 100%;
+  }
+
+  .about_number {
+    margin-bottom: 2.375rem
+  }
+  .why_heading {
+    line-height: 40px;
+  }
+  .why_left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .why_img {
+    width: 100%;
+  }
+
+  .why_right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .why_card {
+    gap: 20px;
+    padding: 15px 20px;
+    margin: 0;
+  }
+
+  .why_card_text br{
+    display: none;
+  }
+
+  /* ATMOSTPHERE */
+
+.atmosphere_container {
+  gap: 15px;
+}
+
+.atmosphere_left {
+  /* flex: 1; */
+}
+
+.atmosphere_heading {
+  font-size: 2rem;
+  line-height: 35px;
+  margin-bottom: 20px;
+}
+.atmosphere_heading br{
+  display: none;
+}
+.atmosphere_left_card {
+  height: auto;
+  flex: 1;
+}
+
+.atmosphere_right {
+  gap: 10px;
+  flex: 1.5;
+}
+
+.atmosphere_right_first {
+  flex: 1;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.atmosphere_right_img {
+  border-radius: 30px;
+  width: 100%;
+  height: auto;
+}
+
+
+}
+
+/* Стили для планшетов в landscape и небольших экранов */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .why_left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 }

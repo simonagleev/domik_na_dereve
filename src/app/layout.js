@@ -6,7 +6,7 @@ import Header from "@/components/Header/Header";
 export const metadata = {
   title: "Домик на дереве",
   description: "Представления для детей",
-  keywords: "мастер-классы, билеты, дети, развлечения, обучение, творчество"
+  keywords: "мастер-классы, билеты, дети, Иркутск, развлечения, обучение, творчество, театр"
 };
 export const viewport = "width=device-width, initial-scale=1";
 
