@@ -40,7 +40,7 @@ export default function PaymentCard() {
                     <Image
                         className={styles.image}
                         src="/img/instagramm_icon.svg"
-                        alt="instagramm"
+                        alt=""
                         width={45}
                         height={45}
                     />

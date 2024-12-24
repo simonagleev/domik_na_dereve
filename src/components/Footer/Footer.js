@@ -34,7 +34,7 @@ export default function Footer() {
                         <a href="https://t.me/DomiknaDereve38" target="_blank" rel="noopener noreferrer">TG: Домик на дереве</a>
                     </p>
                     <p className={styles.footer_item_text}>
-                        <a href="https://www.instagram.com/domiknadereve38/profilecard" target="_blank" rel="noopener noreferrer">Instagramm</a>
+                        <a href="https://www.instagram.com/domiknadereve38/profilecard" target="_blank" rel="noopener noreferrer">Instagram</a>
                     </p>
                 </div>
             </div>
