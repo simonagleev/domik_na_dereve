@@ -20,16 +20,16 @@
     margin: 1.375rem 0 3.125rem;
 }
 
-.image{
+.image {
     transition: .3s;
 }
 
-.image:hover{
+.image:hover {
     transition: .3s;
     transform: scale(1.1);
 }
 
-.image:active{
+.image:active {
     transition: .3s;
     transform: scale(.9);
 }
@@ -89,8 +89,7 @@
 
 }
 
-.button:last-of-type{
-}
+.button:last-of-type {}
 
 .button:before,
 .button:after {
@@ -142,18 +141,19 @@
         font-family: 'Montserrat', sans-serif;
         line-height: 33.01px;
     }
+
     .card_text {
         margin-bottom: 0;
     }
 }
 
-@media (max-width: 480px) {
+@media (min-width: 481px) and (max-width: 767px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
     .card_container {
-        position: static;
-        border: 1px solid rgba(144, 125, 147, 1);
-        width: 100%;
         margin-top: 10px;
         flex: 1;
+        padding: 0 20px;
     }
 
     .card_social_container {
@@ -167,7 +167,20 @@
         font-family: 'Montserrat', sans-serif;
         line-height: 33.01px;
     }
+
     .card_text {
-        margin-bottom: 0;
+        margin-bottom: 10px;
+    }
+
+    .wrapper {
+        padding: 0;
+        filter: url('#goo');
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .button {
+        padding: 12px 0;
     }
 }
+
+@media (min-width: 1025px) and (max-width: 1280px) {}

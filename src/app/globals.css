@@ -88,6 +88,7 @@ h2 {
 }
 
 @media (min-width: 1025px) and (max-width: 1280px) {
+
   /* Стили для планшетов в landscape и небольших экранов */
   html {
     font-size: 14px;

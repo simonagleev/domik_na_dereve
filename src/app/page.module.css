@@ -555,12 +555,13 @@
 }
 
 /* Стили для мобильных в landscape  */
-@media (min-width: 481px) and (max-width: 767px) {
-
-}
+@media (min-width: 481px) and (max-width: 767px) {}
 
 /* Стили для планшетов в Portrait */
 @media (min-width: 768px) and (max-width: 1024px) {
+  .header {
+    font-size: 5.825rem;
+  }
   .content_container {
     width: 100%;
   }
@@ -568,9 +569,19 @@
   .about_number {
     margin-bottom: 2.375rem
   }
+
+  .buy_logo {
+    margin-bottom: 50px;
+  }
+
+  .why_container {
+    gap: 15px;
+    padding: 30px 25px;
+  }
   .why_heading {
     line-height: 40px;
   }
+
   .why_left {
     flex: 1;
     display: flex;
@@ -582,60 +593,62 @@
     width: 100%;
   }
 
-  .why_right{
+  .why_right {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
+
   .why_card {
     gap: 20px;
     padding: 15px 20px;
     margin: 0;
   }
 
-  .why_card_text br{
+  .why_card_text br {
     display: none;
   }
 
   /* ATMOSTPHERE */
+  .atmosphere_container {
+    gap: 15px;
+  }
 
-.atmosphere_container {
-  gap: 15px;
-}
+  .atmosphere_left {
+    /* flex: 1; */
+  }
 
-.atmosphere_left {
-  /* flex: 1; */
-}
+  .atmosphere_heading {
+    font-size: 2rem;
+    line-height: 35px;
+    margin-bottom: 20px;
+  }
 
-.atmosphere_heading {
-  font-size: 2rem;
-  line-height: 35px;
-  margin-bottom: 20px;
-}
-.atmosphere_heading br{
-  display: none;
-}
-.atmosphere_left_card {
-  height: auto;
-  flex: 1;
-}
+  .atmosphere_heading br {
+    display: none;
+  }
 
-.atmosphere_right {
-  gap: 10px;
-  flex: 1.5;
-}
+  .atmosphere_left_card {
+    height: auto;
+    flex: 1;
+  }
 
-.atmosphere_right_first {
-  flex: 1;
-  gap: 5px;
-  justify-content: space-between;
-}
+  .atmosphere_right {
+    gap: 10px;
+    flex: 1.5;
+  }
 
-.atmosphere_right_img {
-  border-radius: 30px;
-  width: 100%;
-  height: auto;
-}
+  .atmosphere_right_first {
+    flex: 1;
+    gap: 5px;
+    justify-content: space-between;
+  }
+
+  .atmosphere_right_img {
+    border-radius: 30px;
+    width: 100%;
+    height: auto;
+  }
 
 
 }

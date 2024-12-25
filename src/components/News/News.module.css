@@ -218,3 +218,27 @@
         background-color: rgba(0, 0, 0, 0.7);
     }
 }
+
+@media (min-width: 481px) and (max-width: 767px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        margin-top: 50px;
+    }
+    .news_title {
+        font-size: 6rem;
+        line-height: 100px;
+        margin-bottom: 0;
+    }
+
+    .news_card_container {
+        padding: 10px;
+    }
+
+    .news_card_title {
+        margin: 15px 0 6px;
+        line-height: 22px;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}
