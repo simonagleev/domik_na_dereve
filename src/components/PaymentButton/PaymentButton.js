@@ -10,7 +10,7 @@ export default function PaymentButton({ type, handler }) {
         <button className={styles.payment_btn} onClick={handler ? handler : () => console.log('no handler')}>
             {type === 'main' ?
                 'Купить билеты' : type === 'mk' ?
-                    'Записатя на мК' :
+                    'Записаться на мК' :
                     'Узнать стоимость'}
         </button>
     );
