@@ -25,7 +25,7 @@ export default function ScheduleCard({ data }) {
                         {data.schedules[0] ? data.schedules[0].Description : 'Описание'}
                     </p>
                     <p className={styles.card_description}>
-                        Приходите, пожалуйста, за 15 минут до начала спектякля!
+                        Приходите, пожалуйста, за 15 минут до начала спектакля!
                     </p>
                     <p className={styles.price}>
                         Цена билета: {data.schedules[0] ? data.schedules[0].Price : 'Цена'} рублей
