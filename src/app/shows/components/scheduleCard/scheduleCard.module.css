@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     flex: 1;
+    gap: 5px;
     border-radius: 30px;
     padding: 25px;
     background-color: #fff;
@@ -17,6 +18,19 @@
     max-width: 50%;
 }
 
+.card_info_text {
+    width: 100%;
+    text-align: center;
+}
+
+.card_image_container {
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .card_name {
     font-weight: 700;
     line-height: 111px;
@@ -26,7 +40,8 @@
 }
 
 .card_name_long {
-    font-size: 6.5rem;
+    font-size: 6rem;
+    line-height: 90px;
 }
 
 .card_description {

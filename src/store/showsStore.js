@@ -11,7 +11,7 @@ export const useShowsStore = create((set, get) => ({
   // Обновление общего массива расписаний
   updateSchedules: (newSchedules) => {
     set({ schedules: newSchedules });
-    const shows = [{ id: 1, name: 'Дары времени' }, { id: 2, name: 'Снегурочка' }];
+    const shows = [{ id: 1, name: 'Дары времени' }, { id: 2, name: 'Снегурочка' }, { id: 3, name: 'Малыш, потерявший фантазию' },];
     const updatedShowSchedules = shows.map((show) => {
       const showSchedules = newSchedules.filter((schedule) => schedule.ShowID === show.id);
       return { ...show, schedules: showSchedules };

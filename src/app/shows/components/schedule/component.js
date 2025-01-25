@@ -42,7 +42,7 @@ export default function ShowssSchedule({ type }) {
             </h2>
             <div className={styles.cards_container} id="shows_schedule">
                 {!loading ? showSchedules.map((e) => {
-                    return <ScheduleCard data={e} key={e.id} />;  // Передаем данные шоу, включая расписания
+                    return e.schedules.length > 0 ? <ScheduleCard data={e} key={e.id} /> : null;  // Передаем данные шоу, включая расписания
                 }) : <Loader/>}
             </div>
         </div>

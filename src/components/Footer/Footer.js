@@ -41,7 +41,7 @@ export default function Footer() {
             <div className={styles.footer_item_container}>
                 <div className={styles.footer_item}>
                     <h5 className={styles.footer_item_title}>Адрес:</h5>
-                    <p className={styles.footer_item_text}>Иркутск, Адрес: г. Иркутск, ул. Лермонтова 275/9
+                    <p className={styles.footer_item_text}>г. Иркутск, ул. Лермонтова 275/9
                     </p>
                 </div>
                 <div className={styles.footer_item}>
