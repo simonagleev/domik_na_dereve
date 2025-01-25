@@ -15,11 +15,16 @@ export default function ItemCard({ data }) {
         updateCurrentShowItem(data)
         !isPaymentFormModalOpen ? openPaymentFormModal() : console.log('PAYMENT FORM ALREADY OPENED')
     }
+    
+    const formatDate = (dateString) => {
+        const [year, month, day] = dateString.split('-');
+        return `${day}.${month}.${year}`;
+    };
 
     return (
         <div className={styles.item} key={data.ID}>
             <div className={styles.item_line}>
-                <h2 className={styles.date}>{data.StartDateTime.split('T')[0]}</h2>
+                <h2 className={styles.date}>{formatDate(data.StartDateTime.split('T')[0])}</h2>
             </div>
             <div className={styles.item_line}>
                 <p className={styles.time}>{data.StartDateTime.split('T')[1].substring(0, 5)}</p>
