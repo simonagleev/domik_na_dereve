@@ -24,9 +24,11 @@ export default function ItemCard({ data }) {
             <div className={styles.item_line}>
                 <p className={styles.time}>{data.StartDateTime.split('T')[1].substring(0, 5)}</p>
             </div>
-            <div className={styles.item_line}>
-                <p className={styles.remainings}> Билетов осталось: {data.RemainingCount}</p>
-            </div>
+            {data.RemainingCoun <= 2 ?
+                <div className={styles.item_line}>
+                    <p className={styles.remainings}> Билетов осталось: {data.RemainingCount}</p>
+                </div> : null
+            }
 
             <button className={styles.buy_btn} onClick={handleClick}>
                 Купить
