@@ -8,6 +8,8 @@ import ScheduleModal from "../scheduleModal/component";
 
 export default function ScheduleCard({ data }) {
     const { isModalOpen, openModal, updatePickedShow } = useShowsStore();
+    console.log('data')
+    console.log(data)
 
     const handeOpenModal = () => {
         updatePickedShow(data ? data : 'no data')

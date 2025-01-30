@@ -107,6 +107,29 @@
   font-size: 1rem;
   font-weight: 500;
 }
+.more_btn {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 33px;
+  padding: 17px 101px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: none;
+  border-radius: 20px;
+  border: none;
+  transition: .3s;
+  margin-top: 1rem;
+}
+.more_btn:hover {
+  transition: .3s;
+  transform: scale(1.05);
+}
+
+.more_btn:active {
+  transition: .3s;
+  transform: scale(.9);
+}
 
 /* BUY */
 .buy_container {
@@ -350,6 +373,11 @@
     font-size: 1rem;
   }
 
+  .more_btn {
+    font-size: 1rem;
+    line-height: 15px;
+    padding: 4px 10px;
+  }
 
   /* BUY */
   .buy_container {

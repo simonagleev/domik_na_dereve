@@ -31,12 +31,17 @@ export default function Home() {
               <div className={styles.about_number} style={{ color: 'rgba(108, 181, 106, 1)' }}>01</div>
               <h2 className={styles.about_card_header}>
                 Рождается <span style={{ color: 'rgba(108, 181, 106, 1)' }}>творчество:</span>
+                {/* <span style={{ color: 'rgba(108, 181, 106, 1)' }}>Театр</span> «Домик на дереве» - */}
               </h2>
               <p className={styles.about_card_text}>
                 дети обучаются актерскому мастерству, участвуют в <br />
                 спектаклях и развивают свои таланты в увлекательной<br />
                 и поддерживающей атмосфере.
+                {/* это иммерсивный детский театр. */}
               </p>
+              {/* <button className={styles.more_btn} style={{ backgroundColor: 'rgba(108, 181, 106, 1)' }}>
+                Подробнее
+              </button> */}
             </div>
 
             <div className={styles.about_card}>
