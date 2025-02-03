@@ -10,8 +10,8 @@ export async function POST(request) {
     const secretKey = process.env.YOOKASSA_SECRET_KEY;
 
     const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
-    console.log('YOOKASSA_SHOP_ID:', shopId);
-    console.log('YOOKASSA_SECRET_KEY:', secretKey);
+    // console.log('YOOKASSA_SHOP_ID:', shopId);
+    // console.log('YOOKASSA_SECRET_KEY:', secretKey);
     
     try {
         // Шаг 1: Запрос к ЮKassa
@@ -33,11 +33,27 @@ export async function POST(request) {
                     return_url, // URL возврата после успешной оплаты
                 },
                 description,
+                receipt: {
+                    customer: {
+                        phone: phone, // Укажите email покупателя
+                    },
+                    items: [
+                        {
+                            description: `Оплата билета в "Домик на дереве"`, // Описание товара
+                            quantity: count, // Количество
+                            amount: {
+                                value: amount, // Стоимость товара
+                                currency: 'RUB',
+                            },
+                            vat_code: 4, // Код НДС (1 = 20%, 2 = 10%, 3 = 0%, 4 = без НДС)
+                        },
+                    ],
+                },
             }),
         });
 
         const paymentData = await yookassaResponse.json();
-
+        console.log()
         if (!yookassaResponse.ok) {
             console.log('yookassa RESPONSE NOT OK')
             return NextResponse.json({ error: paymentData }, { status: yookassaResponse.status });
