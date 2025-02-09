@@ -34,7 +34,7 @@
     min-height: 37px;
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: flex-end;
     cursor: pointer;
     transition: .3s;
 }
@@ -120,7 +120,7 @@
         min-height: 37px;
         display: flex;
         justify-content: center;
-        align-items: end;
+        align-items: flex-end;
         cursor: pointer;
         transition: .3s;
     } */

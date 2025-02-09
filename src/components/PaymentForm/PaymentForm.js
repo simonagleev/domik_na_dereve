@@ -55,7 +55,7 @@ export default function PaymentForm({ type, data }) {
         updateFormData('date', data.StartDateTime)
         updateFormData('itemID', data.ID)
         updateFormData('amount', count * data.Price);
-    }, [data, type])
+    }, [data, type, count, updateFormData])
 
     const handleClose = () => {
         resetCount()
