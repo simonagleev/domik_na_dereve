@@ -3,6 +3,7 @@ import "./globals.css";
 import FooterTree from "@/components/FooterTree/FooterTree";
 import Header from "@/components/Header/Header";
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata = {
   title: "Домик на дереве",
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
         <FooterTree />
         <Footer />
         <SpeedInsights />
+        <Analytics />
       </body>
     </html>
   );
