@@ -61,6 +61,7 @@ const sendMessageToAllUsers = async (message) => {
 
 // Основная функция обработки запроса
 export async function POST(req) {
+  console.log('TELEGRAM STARTED')
   const { type, name, phone, email, date, title, count, orderID } = await req.json();
   
   const messageWorkshop = `
@@ -89,9 +90,10 @@ export async function POST(req) {
 
   // Получение всех chat_id
   // await getChatIds();
-
+  console.log('BEFOR sendMessageToAllUsers')
   // Отправка сообщения всем пользователям
   await sendMessageToAllUsers(type === 'show' ? messageShow : type === 'mk' ? messageWorkshop : 'Что-то непредвиденное произошло');
+  console.log('AFTER sendMessageToAllUsers')
 
   // Возвращаем успешный ответ
   return new Response(JSON.stringify({ message: 'Data sent to Telegram' }), {

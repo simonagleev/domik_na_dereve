@@ -95,9 +95,9 @@ export default function Home() {
               <h3 className={styles.buy_header}>
                 Профессиональные<br /> педагоги, уютная атмосфера,<br /> участие в спектаклях
               </h3>
-              <button className={styles.buy_buy_btn}>
+              {/* <button className={styles.buy_buy_btn}>
                 Купить билеты
-              </button>
+              </button> */}
             </div>
           </div>
 

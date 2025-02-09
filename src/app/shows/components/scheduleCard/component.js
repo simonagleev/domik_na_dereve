@@ -44,7 +44,7 @@ export default function ScheduleCard({ data }) {
                         <p card_description style={{fontWeight: 700}}>
                             {commentsArray[0]}
                         </p>
-                        <p card_description style={{}}>
+                        <p card_description>
                             {commentsArray[1]}
                         </p>
                     </div>

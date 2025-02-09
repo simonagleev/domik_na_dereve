@@ -115,31 +115,62 @@ export default function PaymentForm({ type, data }) {
             });
 
             const dataResponse = await response.json();
-
+            console.log('BEFORE TELEGRAM CHECK 1')
             if (response.ok && dataResponse.confirmationUrl) {
+                console.log('IF YES')
+
                 window.location.href = dataResponse.confirmationUrl; // Редирект на ЮKassa
 
                 // Отправляем сообщение в телеграм
-                const responseTG = await fetch('/api/send-data-tg', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        name: formData.name,
-                        phone: formData.phone,
-                        email: formData.email,
-                        type: type,
-                        count: count,
-                        orderID: new URL(dataResponse.confirmationUrl).searchParams.get('orderId'),
-                        title: type === 'mk' ? data.Name : data.ShowID,
-                        date: data.StartDateTime
-                    }),
-                });
-                const dataTG = await responseTG.json();
-                if (responseTG.ok) {
-                    console.log('ОТПРАВЛЕНО В ТЕЛЕГРАМ')
-                } else {
-                    console.error('Ошибка при получении ссылки на оплату:', dataTG);
-                }
+                // const responseTG = await fetch('/api/send-data-tg', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         name: formData.name,
+                //         phone: formData.phone,
+                //         email: formData.email,
+                //         type: type,
+                //         count: count,
+                //         orderID: new URL(dataResponse.confirmationUrl).searchParams.get('orderId'),
+                //         title: type === 'mk' ? data.Name : data.ShowID,
+                //         date: data.StartDateTime
+                //     }),
+                // });
+
+                // const requestBody = {
+                //     name: formData.name,
+                //     phone: formData.phone,
+                //     email: formData.email,
+                //     type: type,
+                //     count: count,
+                //     orderID: new URL(dataResponse.confirmationUrl).searchParams.get('orderId'),
+                //     title: type === 'mk' ? data.Name : data.ShowID,
+                //     date: data.StartDateTime,
+                // };
+                
+                // console.log('requestBody')
+                // console.log(requestBody)
+
+                // // Проверка на наличие всех полей
+                // if (!requestBody.name || !requestBody.phone || !requestBody.email || !requestBody.type || !requestBody.count || !requestBody.orderID || !requestBody.title || !requestBody.date) {
+                //     console.error('Missing required fields in request body');
+                //     return;
+                // }
+
+                // const responseTG = await fetch('/api/send-data-tg', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(requestBody),
+                // });
+
+                // const dataTG = await responseTG.json();
+
+                // if (responseTG.ok) {
+                //     console.log('ОТПРАВЛЕНО В ТЕЛЕГРАМ')
+                // } else {
+                //     console.error('Ошибка при отправке сообщения в Телеграм:', dataTG);
+                // }
+
             } else {
                 console.error('Ошибка при получении ссылки на оплату:', dataResponse);
             }
