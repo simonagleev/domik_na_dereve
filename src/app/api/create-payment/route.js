@@ -6,13 +6,13 @@ export async function POST(request) {
     const { amount, description, return_url, phone, itemID, type, info, count } = await request.json();
 
     // Данные магазина из .env
-    const shopId = process.env.YOOKASSA_SHOP_ID;
-    const secretKey = process.env.YOOKASSA_SECRET_KEY;
+    // const shopId = process.env.YOOKASSA_SHOP_ID;
+    // const secretKey = process.env.YOOKASSA_SECRET_KEY;
+    const shopId = process.env.YOOKASSA_SHOP_ID_TEST;
+    const secretKey = process.env.YOOKASSA_SECRET_KEY_TEST;
 
     const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
-    // console.log('YOOKASSA_SHOP_ID:', shopId);
-    // console.log('YOOKASSA_SECRET_KEY:', secretKey);
-    
+
     try {
         // Шаг 1: Запрос к ЮKassa
         const yookassaResponse = await fetch('https://api.yookassa.ru/v3/payments', {
@@ -35,12 +35,12 @@ export async function POST(request) {
                 description,
                 receipt: {
                     customer: {
-                        phone: phone, // Укажите email покупателя
+                        phone: phone, // тут или, телефон или email
                     },
                     items: [
                         {
-                            description: `Оплата билета в "Домик на дереве"`, // Описание товара
-                            quantity: count, // Количество
+                            description: `Оплата билета в "Домик на дереве"`,
+                            quantity: count,
                             amount: {
                                 value: amount, // Стоимость товара
                                 currency: 'RUB',
@@ -53,7 +53,7 @@ export async function POST(request) {
         });
 
         const paymentData = await yookassaResponse.json();
-        console.log()
+
         if (!yookassaResponse.ok) {
             console.log('yookassa RESPONSE NOT OK')
             return NextResponse.json({ error: paymentData }, { status: yookassaResponse.status });
@@ -101,7 +101,10 @@ export async function POST(request) {
             return NextResponse.json({ error: dbError2.error }, { status: 500 });
         }
 
-        // Шаг 4: Возвращение ссылки на оплату
+        // Шаг 4: Запуск проверки транзации
+
+
+        // Шаг 5: Возвращение ссылки на оплату
         return NextResponse.json({ confirmationUrl });
     } catch (error) {
         console.error('Ошибка создания платежа:', error);

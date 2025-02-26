@@ -107,15 +107,22 @@
   font-size: 1rem;
   font-weight: 500;
 }
+
+.more_btn_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .more_btn {
   color: #fff;
   font-weight: 500;
   font-size: 1.5rem;
-  line-height: 33px;
-  padding: 17px 101px;
+  padding: 15px 35px;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: none;
+  box-shadow: 2px 3px 7px rgb(65, 62, 62);
   border-radius: 20px;
   border: none;
   transition: .3s;
@@ -125,10 +132,9 @@
   transition: .3s;
   transform: scale(1.05);
 }
-
 .more_btn:active {
   transition: .3s;
-  transform: scale(.9);
+  transform: scale(.95);
 }
 
 /* BUY */

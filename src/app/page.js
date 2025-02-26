@@ -4,6 +4,7 @@ import Header from "@/components/Header/Header";
 import Image from "next/image";
 import Reviews from "@/components/Reviews/Reviews";
 import News from "@/components/News/News";
+import AboutSection from "@/components/AboutSection/AboutSection";
 
 export default function Home() {
 
@@ -26,22 +27,16 @@ export default function Home() {
             Домик на дереве — <br /><span className={styles.content_header_span}>это место, где</span>
           </h2>
           <div className={styles.about_container}>
-
             <div className={styles.about_card}>
               <div className={styles.about_number} style={{ color: 'rgba(108, 181, 106, 1)' }}>01</div>
               <h2 className={styles.about_card_header}>
                 Рождается <span style={{ color: 'rgba(108, 181, 106, 1)' }}>творчество:</span>
-                {/* <span style={{ color: 'rgba(108, 181, 106, 1)' }}>Театр</span> «Домик на дереве» - */}
               </h2>
               <p className={styles.about_card_text}>
                 дети обучаются актерскому мастерству, участвуют в <br />
                 спектаклях и развивают свои таланты в увлекательной<br />
                 и поддерживающей атмосфере.
-                {/* это иммерсивный детский театр. */}
               </p>
-              {/* <button className={styles.more_btn} style={{ backgroundColor: 'rgba(108, 181, 106, 1)' }}>
-                Подробнее
-              </button> */}
             </div>
 
             <div className={styles.about_card}>
@@ -80,6 +75,7 @@ export default function Home() {
               </p>
             </div>
           </div>
+          {/* <AboutSection /> */}
 
           {/* Buy */}
           <div className={styles.buy_container}>
