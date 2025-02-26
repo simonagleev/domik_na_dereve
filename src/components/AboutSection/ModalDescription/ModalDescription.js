@@ -35,7 +35,7 @@ export default function ModalDescription({ }) {
                     &times;
                 </button>
 
-                {text.map(e => {return <p className={styles.text}>{e}</p>})}
+                {text ? text.map((e, index) => {return <p className={styles.text} key={e.id}>{e}</p>}) : null}
             </div>
         </div>
     );
