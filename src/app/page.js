@@ -12,7 +12,7 @@ export default function Home() {
     <div className={styles.component}>
       {/* <Header /> */}
       <div className={styles.container}>
-        <div className={styles.home} style={{ backgroundImage: "url('/img/main_bg_winter.webp')" }}>
+        <div className={styles.home} style={{ backgroundImage: "url('/img/main_bg_spring.webp')" }}>
           <h1 className={styles.header}>Домик <br /> на дереве</h1>
           <div className={styles.right}>
           </div>
