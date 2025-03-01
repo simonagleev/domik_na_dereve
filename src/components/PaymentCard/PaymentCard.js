@@ -54,7 +54,7 @@ export default function PaymentCard() {
                 Театральные постановки, увлекательные <br /> мастер-классы и яркие праздники ждут<br /> вашего ребенка.
             </p>
             <div className={styles.wrapper} >
-                <Link className={styles.button} href="/shows">Спектакли</Link>
+                <Link className={styles.button} style={{ background: gradientMap[season] || "transparent" }} href="/shows">Спектакли</Link>
             </div>
             <svg style={{ visibility: "hidden", position: "absolute" }} width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
                 <defs>
@@ -66,7 +66,7 @@ export default function PaymentCard() {
             </svg>
 
             <div className={styles.wrapper} >
-                <Link className={styles.button} href="/workshops">Мастер-классы</Link>
+                <Link className={styles.button} style={{ background: gradientMap[season] || "transparent" }} href="/workshops">Мастер-классы</Link>
             </div>
             <svg style={{ visibility: "hidden", position: "absolute" }} width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
                 <defs>
