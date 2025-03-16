@@ -320,6 +320,7 @@
 
 .atmosphere_right_img {
   border-radius: 30px;
+  object-fit: cover;
 }
 
 .atmosphere_small_div {

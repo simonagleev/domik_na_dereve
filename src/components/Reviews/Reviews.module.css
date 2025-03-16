@@ -49,6 +49,10 @@
     transform: scale(.9);
 }
 
+.more {
+    display: none;
+}
+
 .reviews_cards_container {
     display: flex;
     justify-content: center;
@@ -67,6 +71,7 @@
 .reviews_arrow_img {
     margin-bottom: 14px;
     max-width: 54px;
+    border-radius: 100%;
 }
 
 .reviews_arrow_name {
@@ -124,6 +129,48 @@
         cursor: pointer;
         transition: .3s;
     } */
+
+    .more {
+        display: flex;
+        background-color: rgba(211, 229, 238, 1);
+        border-radius: 10px;
+        min-width: 48px;
+        min-height: 30px;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        gap: 5px;
+        transition: .3s;
+        margin-top: 5px;
+        z-index: 1000;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+    }
+    
+    .dot {
+        background-color: rgb(70, 64, 64);
+        border-radius: 100%;
+        width: 6px;
+        height: 6px;
+    }
+    
+    /* Анимация добавляется при активном состоянии */
+    .animate .dot:nth-child(1) {
+        animation: bounce 0.7s ease-in-out 1;
+    }
+    .animate .dot:nth-child(2) {
+        animation: bounce 0.7s ease-in-out 1 0.2s;
+    }
+    .animate .dot:nth-child(3) {
+        animation: bounce 0.7s ease-in-out 1 0.4s;
+    }
 
     .reviews_cards_container {
         flex-direction: column;

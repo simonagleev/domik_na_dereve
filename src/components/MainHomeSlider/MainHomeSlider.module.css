@@ -1,0 +1,91 @@
+.container {
+    position: absolute;
+    bottom: 40px;
+    right: calc(4vw + 20px);
+    display: flex;
+    border-radius: 30px;
+    max-width: 486px;
+    color: rgba(84, 59, 61, 1);
+    text-align: center;
+    /* padding: 0 35px; */
+    z-index: 100;
+    width: 100%;
+}
+.cardWrapper {
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    .container {
+        position: static;
+        width: 100%;
+        margin-top: 10px;
+        flex: 1;
+    }
+
+    .card_social_container {
+        margin: 1rem 0 1rem;
+    }
+
+    .card_header {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin-bottom: 0.6875rem;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 33.01px;
+    }
+
+    .card_text {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .container {
+        margin-top: 10px;
+        flex: 1;
+        padding: 0 20px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .container {
+        margin-top: 10px;
+        flex: 1;
+        padding: 0 20px;
+    }
+
+    .card_social_container {
+        margin: 1rem 0 1rem;
+    }
+
+    .card_header {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin-bottom: 0.6875rem;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 33.01px;
+    }
+
+    .card_text {
+        margin-bottom: 10px;
+    }
+
+    .wrapper {
+        padding: 0;
+        filter: url('#goo');
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .button {
+        padding: 12px 0;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .container {
+        margin-top: 10px;
+        flex: 1;
+        padding: 0 20px;
+    }
+}

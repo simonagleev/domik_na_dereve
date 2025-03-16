@@ -1,0 +1,189 @@
+.card_container {
+    background-color: #fff;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 486px;
+    min-height: 412px;
+    color: rgba(84, 59, 61, 1);
+    text-align: center;
+    padding: 0 35px;
+    /* flex-grow: 1; */
+    /* flex-shrink: 0; */
+}
+
+.card_social_container {
+    display: flex;
+    gap: 8px;
+    margin: 1.375rem 0 3.125rem;
+}
+
+.image {
+    transition: .3s;
+}
+
+.image:hover {
+    transition: .3s;
+    transform: scale(1.1);
+}
+
+.image:active {
+    transition: .3s;
+    transform: scale(.9);
+}
+
+.card_header {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 0.6875rem;
+    font-family: 'Montserrat', sans-serif;
+    line-height: 39.01px;
+}
+
+.color_word {
+    color: rgba(124, 152, 120, 1);
+}
+
+.card_text {
+    margin-bottom: 26px;
+}
+
+/* .buy_btn {
+    width: 100%;
+    background-color: rgba(144, 125, 147, 1);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    border: none;
+    border-radius: 29px;
+    margin-bottom: 22px;
+    cursor: pointer;
+} */
+
+
+/* Кнопка прикольная */
+.wrapper {
+    padding: 1.5rem 0;
+    filter: url('#goo');
+    width: 100%;
+}
+
+.button {
+    display: inline-block;
+    text-align: center;
+    background: rgba(144, 125, 147, 1);
+    color: #fff;
+    border-radius: 29px;
+    position: relative;
+    width: 100%;
+    /* min-width: 8.23em; */
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    padding-top: 16px;
+    padding-bottom: 15px;
+
+}
+
+.button:last-of-type {}
+
+.button:before,
+.button:after {
+    width: 5.4em;
+    height: 2.95em;
+    position: absolute;
+    content: "";
+    display: inline-block;
+    background: rgba(144, 125, 147, 1);
+    border-radius: 50%;
+    transition: transform 1s ease;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.button:before {
+    top: -25%;
+    left: 20%;
+}
+
+.button:after {
+    bottom: -25%;
+    right: 20%;
+}
+
+.button:hover:before,
+.button:hover:after {
+    transform: none;
+}
+
+
+@media (max-width: 480px) {
+    .card_container {
+        position: static;
+        border: 1px solid rgba(144, 125, 147, 1);
+        width: 100%;
+        margin-top: 10px;
+        flex: 1;
+        min-height: 273px;
+
+    }
+
+    .card_social_container {
+        margin: 1rem 0 1rem;
+    }
+
+    .card_header {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin-bottom: 0.6875rem;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 33.01px;
+    }
+
+    .card_text {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .card_container {
+        margin-top: 10px;
+        flex: 1;
+        padding: 0 20px;
+    }
+
+    .card_social_container {
+        margin: 1rem 0 1rem;
+    }
+
+    .card_header {
+        font-size: 1.75rem;
+        font-weight: 500;
+        margin-bottom: 0.6875rem;
+        font-family: 'Montserrat', sans-serif;
+        line-height: 33.01px;
+    }
+
+    .card_text {
+        margin-bottom: 10px;
+    }
+
+    .wrapper {
+        padding: 0;
+        filter: url('#goo');
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    .button {
+        padding: 12px 0;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {}

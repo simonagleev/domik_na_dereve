@@ -5,6 +5,7 @@ import Image from "next/image";
 import Reviews from "@/components/Reviews/Reviews";
 import News from "@/components/News/News";
 import AboutSection from "@/components/AboutSection/AboutSection";
+import MainHomeSlider from "@/components/MainHomeSlider/MainHomeSlider";
 
 export default function Home() {
 
@@ -17,7 +18,8 @@ export default function Home() {
           <div className={styles.right}>
           </div>
         </div>
-        <PaymentCard />
+        {/* <PaymentCard /> */}
+        <MainHomeSlider />
       </div>
 
       <div className={styles.content}>
@@ -79,7 +81,7 @@ export default function Home() {
 
           {/* Buy */}
           <div className={styles.buy_container}>
-            <div className={styles.buy_content} style={{ backgroundImage: "linear-gradient(rgba(104, 77, 56, 0.80), rgba(104, 77, 56, 0.46)), url('/img/buy_bg.png')" }}>
+            <div className={styles.buy_content} style={{ backgroundImage: "linear-gradient(rgba(104, 77, 56, 0.80), rgba(104, 77, 56, 0.46)), url('/img/buy_bg.jpg')" }}>
               <Image
                 className={styles.buy_logo}
                 src="/img/logo.svg"
@@ -174,8 +176,8 @@ export default function Home() {
               <div className={styles.atmosphere_right_first}>
                 <Image
                   className={`${styles.atmosphere_right_top_img}, ${styles.atmosphere_right_img}`}
-                  src="/img/princess.jpg"
-                  alt="Принцесса с мальчиком"
+                  src="/img/vistuplenia.jpg"
+                  alt="Выступления"
                   width={322}
                   height={276}
                 />
@@ -187,8 +189,8 @@ export default function Home() {
                 </div>
                 <Image
                   className={`${styles.atmosphere_right_bot_img}, ${styles.atmosphere_right_img}`}
-                  src="/img/2kids.jpg"
-                  alt="Два ребенка"
+                  src="/img/communication.jpg"
+                  alt="Общение"
                   width={322}
                   height={450}
                 />
@@ -197,8 +199,8 @@ export default function Home() {
               <div className={styles.atmosphere_right_first}>
                 <Image
                   className={`${styles.atmosphere_right_top_img}, ${styles.atmosphere_right_img}`}
-                  src="/img/kids_chair.jpg"
-                  alt="Фото дети"
+                  src="/img/dr.jpg"
+                  alt="Дни рождения"
                   width={320}
                   height={450}
                 />
@@ -208,9 +210,9 @@ export default function Home() {
                 <Image
                   className={`${styles.atmosphere_right_top_img}, ${styles.atmosphere_right_img}`}
                   src="/img/room.jpg"
-                  alt="все фото"
+                  alt="room"
                   width={320}
-                  height={316}
+                  height={316} 
                 />
               </div>
 
@@ -219,7 +221,7 @@ export default function Home() {
           {/* REVIEWS */}
           <Reviews />
           {/* NEWS */}
-          <News />
+          {/* <News /> */} 
         </div>
       </div>
     </div>
