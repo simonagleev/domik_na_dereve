@@ -1,10 +1,14 @@
 'use client'
 import styles from "./PaymentCardCommon.module.css";
+import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
 
 export default function PaymentCardCommon({ type }) {
+    const { openFeedbackRequestForm } = useFeedbackRequestFormStore();
+
     let title = null
     let text = null
     let buttonText = null
+    var action = null
 
     switch (type) {
         case 'shows':
@@ -36,7 +40,15 @@ export default function PaymentCardCommon({ type }) {
                 <span style={{ color: 'rgba(124, 152, 120, 1)' }}>“Домике на дереве”</span>
             </h2>
             buttonText = 'Узнать стоимость'
-
+            action = () => { openFeedbackRequestForm('birthday') }
+            break
+        case 'creative_workshops':
+            title = <h2 className={styles.card_header}>
+                Начни творческий путь в<br />
+                <span style={{ color: 'rgba(124, 152, 120, 1)' }}>“Домике на дереве”</span>
+            </h2>
+            buttonText = 'Записаться на занятие'
+            action = () => { openFeedbackRequestForm('creative_workshops') }
             break
         default:
             title = <h2 className={styles.card_header}>
@@ -52,9 +64,14 @@ export default function PaymentCardCommon({ type }) {
             <button
                 className={styles.buy_btn}
                 onClick={() => {
-                    const target = document.getElementById(`${type === 'shows' ? "shows_schedule" : type === 'mk'? "workshop_schedule" : "birthdays" }`);
+                    const target = document.getElementById(`${type === 'shows' ? "shows_schedule" : type === 'mk' ? "workshop_schedule" : null}`);
                     if (target) {
                         target.scrollIntoView({ behavior: "smooth" });
+                    } else if (action) {
+                        console.log('TEST')
+                        action()
+                    } else {
+                        console.log('No action')
                     }
                 }}
             >

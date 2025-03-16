@@ -17,25 +17,27 @@ const gradientMap = {
 export default function Header() {
     return (
         <header className={styles.header} style={{ background: gradientMap[season] || "transparent" }}>
-            <Image
-                className={styles.logo}
-                src="/img/logo.svg"
-                alt="Домик на дереве лого"
-                width={0}
-                height={0}
-                priority
-            />
+            <Link href="/">
+                <Image
+                    className={styles.logo}
+                    src="/img/logo.svg"
+                    alt="Домик на дереве лого"
+                    width={0}
+                    height={0}
+                    priority
+                />
+            </Link>
             <nav className={styles.nav} >
-                <Link href="/">Главная</Link>
                 <Link href="/shows">Спектакли</Link>
                 <Link href="/workshops">Мастер-классы</Link>
-                {/* <Link href="/birthdays">Дни рождения</Link> */}
+                <Link href="/birthdays">Дни рождения</Link>
+                <Link href="/creativeWorkshops">Творческие мастерские</Link>
                 <a href="#contacts">Контакты</a>
             </nav>
             <div className={styles.phone}>
                 <a href="tel: +79149322882"> +7 (914) 932‑28‑82</a>
             </div>
-            <BurgerMenu/>
+            <BurgerMenu />
         </header>
     );
 }

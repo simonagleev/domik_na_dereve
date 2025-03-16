@@ -1,0 +1,161 @@
+.header {
+  color: #383838;
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0 0 0.2rem 0;
+  transform: translateY(1rem);
+  -webkit-transform: translateY(1rem);
+  opacity: 0;
+  animation-delay: 0.9s;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-name: loadUp;
+}
+.paragraph {
+  margin: 0;
+  padding: 0;
+  color: #696969;
+  font-weight: 300;
+  transform: translateY(1rem);
+  -webkit-transform: translateY(1rem);
+  opacity: 0;
+  animation-delay: 0.95s;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-name: loadUp;
+}
+.wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  margin: 4rem auto 0;
+  border: 1px solid #b4ec97;
+  width: 50vw;
+  background: #bcfa9b;
+  text-align: center;
+  border-radius: 0.6rem;
+  padding-bottom: 3rem;
+  animation-delay: 0.2s;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-name: getFullThankyouWidth;
+}
+.check_block {
+  position: relative;
+  transform: translateY(0);
+  opacity: 0;
+  margin: auto;
+  width: 8rem;
+  height: 8rem;
+  background-image: linear-gradient(to top, #99f449 0%, #05ebb5 100%);
+  border-radius: 0.6rem;
+  overflow: hidden;
+  animation-delay: 0.4s;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-name: loadUpThankyou;
+}
+.check_wrapper {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  text-align: center;
+  margin: auto;
+  padding: 5rem 10% 4rem 16%;
+}
+.check_wrapper span {
+  position: relative;
+  width: 3rem;
+  height: 0.7rem;
+  background: transparent;
+  display: block;
+  border-radius: 30px;
+  transform: rotate(0);
+  transition: all 0.3s;
+  transform: rotate(33deg);
+  position: relative;
+  filter: drop-shadow(20px 10px 10px rgba(0, 0, 0, 0.2));
+  /*     border: 1px solid #ddd; */
+}
+.check_wrapper span:last-child {
+  width: 5rem;
+  height: 0.7rem;
+  display: block;
+  border-radius: 30px;
+  transform-origin: top;
+  transition: all 0.3s;
+  transform: translateY(-1.7rem) translateX(1rem) rotate(-56deg);
+}
+.check_wrapper span::before {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background: #fff;
+  border-radius: 30px;
+  animation-delay: 0.65s;
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+  animation-name: getFullWidth;
+}
+.check_wrapper span:last-child::before {
+  animation-delay: 0.85s;
+}
+
+@keyframes getFullWidth {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+@keyframes getFullThankyouWidth {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 25%;
+    opacity: 1;
+  }
+}
+@keyframes loadUpThankyou {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-2.5rem);
+    opacity: 1;
+  }
+}
+@keyframes loadUp {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@media only screen and (max-device-width: 767px) {
+  .wrapper {
+    animation-name: getFullThankyouWidthSmall;
+  }
+  @keyframes getFullThankyouWidthSmall {
+    0% {
+      width: 0;
+      opacity: 0;
+    }
+    100% {
+      width: 40%;
+      opacity: 1;
+    }
+  }
+}
