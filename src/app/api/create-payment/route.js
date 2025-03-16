@@ -2,14 +2,13 @@ import { NextResponse } from 'next/server';
 import { supabase } from '../../../../lib/supabase';
 
 export async function POST(request) {
-    console.log('PAYMENT STARTED')
     const { amount, description, return_url, phone, itemID, type, info, count } = await request.json();
 
     // Данные магазина из .env
-    // const shopId = process.env.YOOKASSA_SHOP_ID;
-    // const secretKey = process.env.YOOKASSA_SECRET_KEY;
-    const shopId = process.env.YOOKASSA_SHOP_ID_TEST;
-    const secretKey = process.env.YOOKASSA_SECRET_KEY_TEST;
+    const shopId = process.env.YOOKASSA_SHOP_ID;
+    const secretKey = process.env.YOOKASSA_SECRET_KEY;
+    // const shopId = process.env.YOOKASSA_SHOP_ID_TEST;
+    // const secretKey = process.env.YOOKASSA_SECRET_KEY_TEST;
 
     const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
 
