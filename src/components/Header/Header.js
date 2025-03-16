@@ -31,7 +31,7 @@ export default function Header() {
                 <Link href="/shows">Спектакли</Link>
                 <Link href="/workshops">Мастер-классы</Link>
                 <Link href="/birthdays">Дни рождения</Link>
-                <Link href="/creativeWorkshops">Творческие мастерские</Link>
+                <Link href="/creativeWorkshops">Мастерские</Link>
                 <a href="#contacts">Контакты</a>
             </nav>
             <div className={styles.phone}>
