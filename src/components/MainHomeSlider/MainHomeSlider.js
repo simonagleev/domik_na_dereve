@@ -43,7 +43,7 @@ const items = [{
     header: 'Творческие мастерские',
     text: 'индивидуальный подход, уютное пространство ипрофессиональные педагоги, вдохновляющиедетей раскрывать свои способности',
     buttonText: 'Записаться на занятие',
-    link: 'creative_workshops'
+    link: 'creativeWorkshops'
 },]
 
 export default function MainHomeSlider() {
