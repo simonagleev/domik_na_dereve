@@ -84,7 +84,7 @@
     background-color: #907D93;
     opacity: .95;
     transition: right 0.3s ease-in-out;
-    z-index: 100;
+    z-index: 1000;
   }
 
   .menuCheckbox {
