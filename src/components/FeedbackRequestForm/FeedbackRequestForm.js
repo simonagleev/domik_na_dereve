@@ -34,6 +34,13 @@ export default function FeedbackRequestForm({ type }) {
         let value = e.target.value;
         // Убираем все символы, кроме цифр и знака +
         value = value.replace(/[^0-9+]/g, '');
+        
+        // Если '+' встречается не в первой позиции, удаляем его
+        if (value.indexOf('+', 1) !== -1) {
+            value = value.replace(/\+/g, '');
+            value = `+${value}`;
+        }
+
         // Если это первый символ и он не равен +, заменяем его на +7
         if (value && value[0] !== '+') {
             value = `+7${value.slice(1)}`; // Заменяем первый символ на +7
@@ -43,7 +50,10 @@ export default function FeedbackRequestForm({ type }) {
 
     const handlePhonKeyDown = (e) => {
         const inputValue = e.target.value;
-
+        if (e.key === ' ') {
+            e.preventDefault();
+            return;
+        }
         // Проверяем текущую длину номера и запрещаем ввод, если превышен лимит
         if (
             inputValue.startsWith('+7') &&
@@ -89,6 +99,12 @@ export default function FeedbackRequestForm({ type }) {
     const handleSubmit = async (e) => {
         console.log('submit')
         e.preventDefault();
+
+        if (!formData.phone.startsWith('+7') || formData.phone.length !== 12) {
+            alert('Введите корректный номер телефона в формате +7XXXXXXXXXX');
+            return;
+        }
+
         if (!formData.name || !formData.phone || !formData.type) { //проверка на заполнение данных
             e.preventDefault();
             alert('Пожалуйста, заполните все поля!');
@@ -117,9 +133,6 @@ export default function FeedbackRequestForm({ type }) {
             }
             handleClose()
         }
-
-
-
     }
 
     return (
