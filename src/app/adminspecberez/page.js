@@ -29,9 +29,9 @@ export default function AdminPage() {
 
     return (
         <div style={{width: '100%'}}>
-            {transactions.map(e => {
+            {transactions.map(e, index => {
                 return (
-                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }}>
+                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }} key={e.ID}>
                         <div>{e.ID}</div>
                         {/* <div >
                             <p >{formatDate(e.Date.split('T')[0])}</p>
