@@ -20,7 +20,7 @@ export default function ItemCard({ data }) {
         const [year, month, day] = dateString.split('-');
         return `${day}.${month}.${year}`;
     };
-
+    
     return (
         <div className={styles.item} key={data.ID}>
             <div className={styles.item_line}>
@@ -35,7 +35,7 @@ export default function ItemCard({ data }) {
                 </div> : null
             }
 
-            <button className={styles.buy_btn} onClick={handleClick}>
+            <button disabled={data.RemainingCount<=0} className={`${styles.buy_btn} ${data.RemainingCount<=0 ? styles.buy_btn_disabled : null}`} onClick={handleClick}>
                 Купить
             </button>
         </div>

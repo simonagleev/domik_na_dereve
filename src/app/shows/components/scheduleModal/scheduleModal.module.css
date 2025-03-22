@@ -131,18 +131,24 @@
     line-height: 29px;
     transition: .3s;
 }
+.buy_btn_disabled {
+    background-color: rgb(105, 102, 102);
+}
 
 .buy_btn:hover {
     transition: .3s;
-    transform: scale(1.05);
 }
 
 .buy_btn:active {
     transition: .3s;
     transform: scale(.95);
 }
-
-
+.buy_btn_disabled:hover {
+    cursor: auto;
+}
+.buy_btn:active {
+    cursor: auto;
+}
 @media (max-width: 480px) {
     .payment_form {
         padding: 0 11px;
