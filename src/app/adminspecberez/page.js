@@ -31,7 +31,7 @@ export default function AdminPage() {
         <div style={{width: '100%'}}>
             {transactions.map(e => {
                 return (
-                    <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }} key={e.ID}>
+                    <div style={{fontSize: '.8em', display: 'flex', width: '100%', justifyContent: 'space-around', alignItems: 'center', gap:"10px", border: '1px solid green' }} key={e.ID}>
                         <div>{e.ID}</div>
                         {/* <div >
                             <p >{formatDate(e.Date.split('T')[0])}</p>
@@ -39,8 +39,8 @@ export default function AdminPage() {
                         <div>
                             <p >{e.Date.split('T')[1].substring(0, 5)}</p>
                         </div> */}
-                        <div>{e.Phone}</div>
-                        <div>{e.OrderAcquiringID}</div>
+                        <div style={{borderLeft: '1px solid green', paddingLeft: '5px'}}>{e.Phone}</div>
+                        <div style={{borderLeft: '1px solid green', borderRight: '1px solid green', padding: '3px 5px'}}>{e.OrderAcquiringID}</div>
                         <div>{e.Type}</div>
                     </div>)
             })}
