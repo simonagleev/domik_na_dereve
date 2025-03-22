@@ -27,6 +27,13 @@
     gap: 20px;
     position: relative;
     overflow-y: scroll;
+    scrollbar-width: none; /*УБираем скролл бар Firefox */
+    -ms-overflow-style: none; /*УБираем скролл бар Internet Explorer и Edge */
+}
+.form_container::-webkit-scrollbar {/* УБираем скролл бар */
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 .close_button_container {
