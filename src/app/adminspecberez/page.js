@@ -29,7 +29,7 @@ export default function AdminPage() {
 
     return (
         <div style={{width: '100%'}}>
-            {transactions.map(e, index => {
+            {transactions.map(e => {
                 return (
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-around' }} key={e.ID}>
                         <div>{e.ID}</div>
