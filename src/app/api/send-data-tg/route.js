@@ -37,67 +37,64 @@ const getChatIds = async () => {
   }
 };
 
-// Функция для отправки сообщения всем пользователям
-const sendMessageToAllUsers = async (message) => {
-  // const chatIds = JSON.parse(fs.readFileSync('chatIds.json'));
 
-  const chatIds = [303004588, 426304059, 1945327470]
-  // Отправляем сообщение всем сохраненным chat_id
-  chatIds.forEach(async (chatId) => {
-    try {
-      await axios.post(
-        `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
-        {
-          chat_id: chatId,
-          text: message
-        }
-      );
-      console.log(`Message sent to ${chatId}`);
-    } catch (error) {
-      console.error(`Error sending message to ${chatId}:`, error);
+
+export async function POST(request) {
+  try {
+    const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+    const data = await request.json();
+    let message = null
+    console.log(data)
+    if (!data.name || !data.phone || !data.date || !data.count || !data.email || !data.orderID || !data.title) {
+      return new Response(JSON.stringify({ error: 'Не все данные переданы' }), { status: 400 });
     }
-  });
-};
+    const messageWorkshop = `
+        Новый запрос на запись MK:
+      Дата и время: ${data.date.split('T')[0]} в ${data.date.split('T')[1].substring(0, 5)},
+        Название: ${data.title}
+        Количество: ${data.count}
+          Имя: ${data.name}
+          Телефон: ${data.phone}
+          Email: ${data.email}
+            ----------
+          orderID: ${data.orderID}
+      `;
 
-// Основная функция обработки запроса
-export async function POST(req) {
-  console.log('TELEGRAM STARTED')
-  const { type, name, phone, email, date, title, count, orderID } = await req.json();
-  
-  const messageWorkshop = `
-    Новый запрос на запись MK:
-  Дата и время: ${date.split('T')[0]} в ${date.split('T')[1].substring(0, 5)},
-    Название: ${title}
-    Количество: ${count}
-      Имя: ${name}
-      Телефон: ${phone}
-      Email: ${email}
+    const messageShow = `
+      ПОКУПКА БИЛЕТА на СПЕКТАКЛЬ:
+      Дата и время: ${data.date.split('T')[0]} в ${data.date.split('T')[1].substring(0, 5)},
+      Название: ${data.title}
+      Количество: ${data.count}
+        Имя: ${data.name}
+        Телефон: ${data.phone}
+        Email: ${data.email}
         ----------
-      orderID: ${orderID}
-  `;
+        orderID: ${data.orderID}
+    `;
 
-  const messageShow = `
-  ПОКУПКА БИЛЕТА на СПЕКТАКЛЬ:
-  Дата и время: ${date.split('T')[0]} в ${date.split('T')[1].substring(0, 5)},
-  Название: ${title}
-  Количество: ${count}
-    Имя: ${name}
-    Телефон: ${phone}
-    Email: ${email}
-    ----------
-    orderID: ${orderID}
-`;
+    switch (data.type) {
+      case 'show':
+        message = messageShow
+        break;
+      case 'mk':
+        message = messageWorkshop
+        break;
+      default:
+        message = `Что-то не так, но кто-то пытался купить билет`
 
-  // Получение всех chat_id
-  // await getChatIds();
-  console.log('BEFOR sendMessageToAllUsers')
-  // Отправка сообщения всем пользователям
-  await sendMessageToAllUsers(type === 'show' ? messageShow : type === 'mk' ? messageWorkshop : 'Что-то непредвиденное произошло');
-  console.log('AFTER sendMessageToAllUsers')
+        break;
+    }
+    for (const chatId of chatIds) {
+      await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message, parse_mode: "Markdown" }),
+      });
+    }
 
-  // Возвращаем успешный ответ
-  return new Response(JSON.stringify({ message: 'Data sent to Telegram' }), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  });
+    return new Response(JSON.stringify({ success: true }), { status: 200 });
+  } catch (error) {
+    console.error("Ошибка отправки в Telegram:", error);
+    return new Response(JSON.stringify({ error: "Ошибка на сервере" }), { status: 500 });
+  }
 }

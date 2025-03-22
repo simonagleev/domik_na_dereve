@@ -67,16 +67,26 @@ export default function PaymentForm({ type, data }) {
         let value = e.target.value;
         // Убираем все символы, кроме цифр и знака +
         value = value.replace(/[^0-9+]/g, '');
+
+        // Если '+' встречается не в первой позиции, удаляем его
+        if (value.indexOf('+', 1) !== -1) {
+            value = value.replace(/\+/g, '');
+            value = `+${value}`;
+        }
+
         // Если это первый символ и он не равен +, заменяем его на +7
         if (value && value[0] !== '+') {
             value = `+7${value.slice(1)}`; // Заменяем первый символ на +7
         }
-        updateFormData('phone', value);
+        updateFormData('phone', value.trim());
     };
 
     const handlePhonKeyDown = (e) => {
         const inputValue = e.target.value;
-
+        if (e.key === ' ') {
+            e.preventDefault();
+            return;
+        }
         // Проверяем текущую длину номера и запрещаем ввод, если превышен лимит
         if (
             inputValue.startsWith('+7') &&
@@ -90,6 +100,11 @@ export default function PaymentForm({ type, data }) {
     const [loading, setLoading] = useState(false);
 
     const handlePayment = async (e) => {
+        if (!formData.phone.startsWith('+7') || formData.phone.length !== 12) {
+            alert('Введите корректный номер телефона в формате +7XXXXXXXXXX');
+            return;
+        }
+
         if (!formData.name || !formData.phone || !formData.email) { //проверка на заполнение данных
             e.preventDefault(); //чтоб не закрывалась форма после алерта
             alert('Пожалуйста, заполните все поля!');
@@ -115,62 +130,21 @@ export default function PaymentForm({ type, data }) {
             });
 
             const dataResponse = await response.json();
-            console.log('BEFORE TELEGRAM CHECK 1')
             if (response.ok && dataResponse.confirmationUrl) {
-                console.log('IF YES')
+                const orderId = new URL(dataResponse.confirmationUrl).searchParams.get('orderId')
+                const requestBody = {
+                    name: formData.name,
+                    phone: formData.phone,
+                    email: formData.email,
+                    type: type,
+                    count: count,
+                    orderID: orderId,
+                    title: type === 'mk' ? data.Name : data.ShowID,
+                    date: data.StartDateTime,
+                };
+                handleSendTelegram(requestBody) // Отправляем сообщение в телеграм
 
                 window.location.href = dataResponse.confirmationUrl; // Редирект на ЮKassa
-
-                // Отправляем сообщение в телеграм
-                // const responseTG = await fetch('/api/send-data-tg', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({
-                //         name: formData.name,
-                //         phone: formData.phone,
-                //         email: formData.email,
-                //         type: type,
-                //         count: count,
-                //         orderID: new URL(dataResponse.confirmationUrl).searchParams.get('orderId'),
-                //         title: type === 'mk' ? data.Name : data.ShowID,
-                //         date: data.StartDateTime
-                //     }),
-                // });
-
-                // const requestBody = {
-                //     name: formData.name,
-                //     phone: formData.phone,
-                //     email: formData.email,
-                //     type: type,
-                //     count: count,
-                //     orderID: new URL(dataResponse.confirmationUrl).searchParams.get('orderId'),
-                //     title: type === 'mk' ? data.Name : data.ShowID,
-                //     date: data.StartDateTime,
-                // };
-                
-                // console.log('requestBody')
-                // console.log(requestBody)
-
-                // // Проверка на наличие всех полей
-                // if (!requestBody.name || !requestBody.phone || !requestBody.email || !requestBody.type || !requestBody.count || !requestBody.orderID || !requestBody.title || !requestBody.date) {
-                //     console.error('Missing required fields in request body');
-                //     return;
-                // }
-
-                // const responseTG = await fetch('/api/send-data-tg', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify(requestBody),
-                // });
-
-                // const dataTG = await responseTG.json();
-
-                // if (responseTG.ok) {
-                //     console.log('ОТПРАВЛЕНО В ТЕЛЕГРАМ')
-                // } else {
-                //     console.error('Ошибка при отправке сообщения в Телеграм:', dataTG);
-                // }
-
             } else {
                 console.error('Ошибка при получении ссылки на оплату:', dataResponse);
             }
@@ -179,6 +153,39 @@ export default function PaymentForm({ type, data }) {
         } finally {
             setLoading(false);
         }
+    };
+
+
+    const handleSendTelegram = (data) => {
+        try {
+            fetch('/api/send-data-tg', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('ОТПРАВЛЕНО В ТЕЛЕГРАМ')
+                })
+                .catch(error => console.error('Ошибка:', error));
+        } catch (error) {
+            console.error('Ошибка при отправке данных (ТГ):', error);
+        }
+    }
+    const handleNameChange = (e) => {
+        let value = e.target.value;
+
+        // Разрешаем только буквы (русские, английские), дефис и пробел, убираем всё остальное
+        value = value.replace(/[^a-zA-Zа-яА-ЯёЁ-\s]/g, '');
+
+        if (value.startsWith('-')) {
+            value = value.slice(1); // Убираем дефис в начале
+        }
+        value = value.replace(/--/g, '-');
+        value = value.replace(/\s\s+/g, ' ');
+        updateFormData('name', value);
     };
 
     return (
@@ -197,11 +204,12 @@ export default function PaymentForm({ type, data }) {
                         <div className={styles.form_group}>
                             <input type="text" id="name" name="name" placeholder="Имя ребенка"
                                 value={formData.name}
-                                onChange={(e) => updateFormData('name', e.target.value)} />
+                                onChange={(e) => handleNameChange(e)} />
                         </div>
                         <div className={styles.form_group}>
                             <input id="phone" name="phone" placeholder="Номер телефона для связи"
                                 maxLength={12}
+                                minLength={12}
                                 value={formData.phone}
                                 onChange={(e) => handlePhoneChange(e)}
                                 onKeyDown={(e) => handlePhonKeyDown(e)}

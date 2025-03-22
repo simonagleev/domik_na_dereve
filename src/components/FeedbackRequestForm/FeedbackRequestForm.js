@@ -34,7 +34,7 @@ export default function FeedbackRequestForm({ type }) {
         let value = e.target.value;
         // Убираем все символы, кроме цифр и знака +
         value = value.replace(/[^0-9+]/g, '');
-        
+
         // Если '+' встречается не в первой позиции, удаляем его
         if (value.indexOf('+', 1) !== -1) {
             value = value.replace(/\+/g, '');
@@ -45,7 +45,7 @@ export default function FeedbackRequestForm({ type }) {
         if (value && value[0] !== '+') {
             value = `+7${value.slice(1)}`; // Заменяем первый символ на +7
         }
-        updateFormData('phone', value);
+        updateFormData('phone', value.trim());
     };
 
     const handlePhonKeyDown = (e) => {
@@ -95,9 +95,33 @@ export default function FeedbackRequestForm({ type }) {
             console.error('Ошибка при отправке данных (ТГ):', error);
         }
     }
+    const handleNameChange = (e) => {
+        let value = e.target.value;
 
+        // Разрешаем только буквы (русские, английские), дефис и пробел, убираем всё остальное
+        value = value.replace(/[^a-zA-Zа-яА-ЯёЁ-\s]/g, '');
+
+        if (value.startsWith('-')) {
+            value = value.slice(1); // Убираем дефис в начале
+        }
+        value = value.replace(/--/g, '-');
+        value = value.replace(/\s\s+/g, ' ');
+        updateFormData('name', value);
+    };
+    const handleChildNameChange = (e) => {
+        let value = e.target.value;
+
+        // Разрешаем только буквы (русские, английские), дефис и пробел, убираем всё остальное
+        value = value.replace(/[^a-zA-Zа-яА-ЯёЁ-\s]/g, '');
+
+        if (value.startsWith('-')) {
+            value = value.slice(1); // Убираем дефис в начале
+        }
+        value = value.replace(/--/g, '-');
+        value = value.replace(/\s\s+/g, ' ');
+        updateFormData('childName', value);
+    };
     const handleSubmit = async (e) => {
-        console.log('submit')
         e.preventDefault();
 
         if (!formData.phone.startsWith('+7') || formData.phone.length !== 12) {
@@ -150,7 +174,7 @@ export default function FeedbackRequestForm({ type }) {
                     <div className={styles.form_group}>
                         <input type="text" id="name" name="name" placeholder="Имя"
                             value={formData.name}
-                            onChange={(e) => updateFormData('name', e.target.value)} />
+                            onChange={(e) => handleNameChange(e)} />
                     </div>
                     <div className={styles.form_group}>
                         <input id="phone" name="phone" placeholder="Номер телефона для связи"
@@ -164,7 +188,7 @@ export default function FeedbackRequestForm({ type }) {
                     <div className={styles.form_group}>
                         <input type="text" id="childName" name="childName" placeholder="Имя ребенка"
                             value={formData.childName}
-                            onChange={(e) => updateFormData('childName', e.target.value)} />
+                            onChange={(e) => handleChildNameChange(e)} />
                     </div>
                     <div className={styles.form_group}>
                         <input type="text" id="childAge" name="childAge" placeholder="Возраст ребенка"
