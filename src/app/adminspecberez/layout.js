@@ -1,7 +1,7 @@
 export default function AdminLayout({ children }) {
     return (
-        <div>
-            <h1>Admin Panel</h1>
+        <div style={{width: '90%'}}>
+            <h1>What are you doing here?!</h1>
             {children}
         </div>
     );
