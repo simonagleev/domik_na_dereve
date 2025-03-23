@@ -118,7 +118,8 @@ export default function FeedbackRequestForm({ type }) {
             value = value.slice(1); // Убираем дефис в начале
         }
         value = value.replace(/--/g, '-');
-        value = value.replace(/\s\s+/g, ' ');
+        value = value.replace(/\s\s+/g, ' '); // Убираем двойной пробел
+        
         updateFormData('childName', value);
     };
     const handleSubmit = async (e) => {
