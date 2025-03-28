@@ -1,8 +1,26 @@
+/* Анимация блика */
+@keyframes shine { 
+  0% {
+    left: -100%;
+  }
+  40% {
+    left: 100%;
+  }
+  41% {
+    left: 100%;
+    opacity: 0;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
 .header {
+  position: relative;
   padding: 2rem;
   width: 100%;
   max-width: calc(100vw - 4vw - 4vw);
-  background: linear-gradient(to right, #7E94B3, #907D93);
   border-radius: 30px;
   max-height: 70px;
   height: auto;
@@ -14,6 +32,18 @@
   font-weight: 500;
   font-size: 1.25rem;
   margin: 20px 0;
+  overflow: hidden;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent, rgba(196, 228, 199, 0.968), transparent);
+  animation: shine 5s linear infinite;
 }
 
 .logo {
@@ -41,6 +71,55 @@
 }
 .nav_burgr {
   display: none;
+}
+
+ /* Анимация на пункте меню */
+.nav a {
+  position: relative;
+  text-decoration: none;
+  color: #fff;
+  display: inline-block;
+  z-index: 10;
+}
+
+.nav a:hover {
+  animation: jump 2.5s ease-in-out 5;
+}
+
+@keyframes jump {
+  0% {
+    transform: translateY(0);
+  }
+  10% {
+    transform: translateY(-10px);
+  }
+  20% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-8px);
+  }
+  40% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  60% {
+    transform: translateY(0);
+  }
+  70% {
+    transform: translateY(-2px);
+  }
+  80% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 /* Mobile */
