@@ -1,5 +1,6 @@
 .component {
   width: 100%;
+  overflow: hidden;
 }
 
 .container {
@@ -10,6 +11,7 @@
   align-items: center;
   flex-direction: column;
   padding: 0 4vw 20px;
+  overflow: hidden;
 }
 
 .home {
@@ -33,6 +35,20 @@
   text-transform: uppercase;
   color: #fff;
   padding-left: 1.875rem;
+  animation-duration: 3s;
+  animation-name: slide-in;
+}
+
+@keyframes slide-in {
+  from {
+    translate: -100vw 0;
+    scale: -200% 1;
+  }
+
+  to {
+    translate: 0 0;
+    scale: 100% 1;
+  }
 }
 
 .right {

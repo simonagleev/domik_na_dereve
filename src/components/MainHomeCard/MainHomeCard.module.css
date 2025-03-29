@@ -15,10 +15,20 @@
     /* flex-shrink: 0; */
 }
 
+@keyframes test {
+    from {
+        opacity: 0.1;
+    }
+      to {
+        opacity: 1;
+      }}
+
 .card_social_container {
     display: flex;
     gap: 8px;
     margin: 1.375rem 0 3.125rem;
+    animation: test 1.5s ease-in;
+
 }
 
 .image {
@@ -41,6 +51,8 @@
     margin-bottom: 0.6875rem;
     font-family: 'Montserrat', sans-serif;
     line-height: 39.01px;
+    animation: test 1.5s ease-in;
+
 }
 
 .color_word {
@@ -49,6 +61,8 @@
 
 .card_text {
     margin-bottom: 26px;
+    animation: test 1.5s ease-in;
+
 }
 
 /* .buy_btn {
@@ -87,11 +101,11 @@
     font-size: 1.5rem;
     padding-top: 16px;
     padding-bottom: 15px;
-
+    animation: test 1.5s ease-in;
 }
 
-.button:last-of-type {}
 
+/* 
 .button:before,
 .button:after {
     width: 5.4em;
@@ -119,7 +133,7 @@
 .button:hover:before,
 .button:hover:after {
     transform: none;
-}
+} */
 
 
 @media (max-width: 480px) {

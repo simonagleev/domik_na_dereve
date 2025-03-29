@@ -7,13 +7,43 @@
     max-width: 486px;
     color: rgba(84, 59, 61, 1);
     text-align: center;
-    /* padding: 0 35px; */
     z-index: 100;
     width: 100%;
 }
 .cardWrapper {
     width: 100%;
 }
+
+/* ТЕСТ */
+/* .container {
+    position: absolute;
+    bottom: 40px;
+    right: calc(4vw + 20px);
+    display: flex;
+    overflow: hidden;
+    border-radius: 30px;
+    max-width: 486px;
+    color: rgba(84, 59, 61, 1);
+    text-align: center;
+    z-index: 100;
+    width: 100%;
+    border: 3px solid red;
+    height: 400px;
+}
+
+.cardWrapper {
+    position: absolute;
+    min-width: 100%;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    opacity: 0;
+    transform: translateX(200%);
+}
+
+.cardWrapper.active {
+    opacity: 1;
+    transform: translateX(0);
+    position: relative;
+} */
 
 @media (max-width: 480px) {
     .container {

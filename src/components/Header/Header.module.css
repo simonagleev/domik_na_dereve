@@ -44,13 +44,16 @@
   height: 100%;
   background: linear-gradient(120deg, transparent, rgba(196, 228, 199, 0.968), transparent);
   animation: shine 5s linear infinite;
+  
 }
 
 .logo {
+  position: relative;
   max-width: 150px;
   max-height: 43px;
   width: 100%;
   height: auto;
+  z-index: 10;
 }
 
 .nav {
