@@ -11,7 +11,6 @@ export default function Home() {
 
   return (
     <div className={styles.component}>
-      {/* <Header /> */}
       <div className={styles.container}>
         <div className={styles.home} style={{ backgroundImage: "url('/img/main_bg_spring.webp')" }}>
           <h1 className={styles.header}>Домик <br /> на дереве</h1>
@@ -25,59 +24,7 @@ export default function Home() {
       <div className={styles.content}>
         <div className={styles.content_container}>
           {/* About */}
-          <h2 className={styles.content_header}>
-            Домик на дереве — <br /><span className={styles.content_header_span}>это место, где</span>
-          </h2>
-          <div className={styles.about_container}>
-            <div className={styles.about_card}>
-              <div className={styles.about_number} style={{ color: 'rgba(108, 181, 106, 1)' }}>01</div>
-              <h2 className={styles.about_card_header}>
-                Рождается <span style={{ color: 'rgba(108, 181, 106, 1)' }}>творчество:</span>
-              </h2>
-              <p className={styles.about_card_text}>
-                дети обучаются актерскому мастерству, участвуют в <br />
-                спектаклях и развивают свои таланты в увлекательной<br />
-                и поддерживающей атмосфере.
-              </p>
-            </div>
-
-            <div className={styles.about_card}>
-              <div className={styles.about_number} style={{ color: 'rgba(187, 215, 229, 1)' }}>02</div>
-              <h2 className={styles.about_card_header}>
-                Каждый чувствует себя <span style={{ color: 'rgba(187, 215, 229, 1)' }}>особенным:</span>
-              </h2>
-              <p className={styles.about_card_text}>
-                индивидуальный подход, уютное пространство и <br />
-                профессиональные педагоги, вдохновляющие<br />
-                детей раскрывать свои способности.
-              </p>
-            </div>
-
-            <div className={styles.about_card}>
-              <div className={styles.about_number} style={{ color: 'rgba(255, 213, 205, 1)' }}>03</div>
-              <h2 className={styles.about_card_header}>
-                <span style={{ color: 'rgba(255, 213, 205, 1)' }}>Создаются</span> незабываемые праздники:
-              </h2>
-              <p className={styles.about_card_text}>
-                уникальные программы для проведения дней<br />
-                рождения с театральными постановками и<br />
-                мастер-классами.
-              </p>
-            </div>
-
-            <div className={styles.about_card}>
-              <div className={styles.about_number} style={{ color: 'rgba(108, 181, 106, 1))' }}>04</div>
-              <h2 className={styles.about_card_header}>
-                Открываются новые <span style={{ color: 'rgba(108, 181, 106, 1)' }}>возможности:</span>
-              </h2>
-              <p className={styles.about_card_text}>
-                мастер-классы по актерскому искусству,<br />
-                сценической речи, рукоделию и другим<br />
-                направлениям для детей разного возраста.
-              </p>
-            </div>
-          </div>
-          {/* <AboutSection /> */}
+          <AboutSection />
 
           {/* Buy */}
           <div className={styles.buy_container}>

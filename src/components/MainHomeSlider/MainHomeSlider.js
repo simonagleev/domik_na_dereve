@@ -74,7 +74,7 @@ export default function MainHomeSlider() {
     useEffect(() => {
         const interval = setInterval(nextSlide, 5000);
         return () => clearInterval(interval); // Очистка интервала при размонтировании
-    }, []);
+    }, [nextSlide]);
 
 
     return (

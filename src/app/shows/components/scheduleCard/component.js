@@ -39,10 +39,10 @@ export default function ScheduleCard({ data }) {
                         : null} */}
                     {data.schedules[0].Comments ? 
                     <div style={{marginBottom: '10px'}}>
-                        <p card_description style={{fontWeight: 700}}>
+                        <p className={styles.card_description} style={{fontWeight: 700}}>
                             {commentsArray[0]}
                         </p>
-                        <p card_description>
+                        <p className={styles.card_description}>
                             {commentsArray[1]}
                         </p>
                     </div>

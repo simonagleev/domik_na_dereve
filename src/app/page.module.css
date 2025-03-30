@@ -35,21 +35,9 @@
   text-transform: uppercase;
   color: #fff;
   padding-left: 1.875rem;
-  animation-duration: 3s;
-  animation-name: slide-in;
 }
 
-@keyframes slide-in {
-  from {
-    translate: -100vw 0;
-    scale: -200% 1;
-  }
 
-  to {
-    translate: 0 0;
-    scale: 100% 1;
-  }
-}
 
 .right {
   padding-right: 1.875rem;
@@ -103,6 +91,53 @@
   background-color: #FFF;
   border-radius: 30px;
   padding: 25px 24px;
+  opacity: 0;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+  box-shadow: 3px 3px 8px rgba(103, 151, 175, 1);
+}
+.about_card:nth-of-type(1){
+  animation-name: slide-in;
+}
+.about_card:nth-of-type(2){
+  animation-name: slide-out;
+  animation-delay: 0.3s;
+}
+.about_card:nth-of-type(3){
+  animation-name: slide-in;
+  animation-delay: .6s;
+}
+.about_card:nth-of-type(4){
+  animation-name: slide-out;
+  animation-delay: .9s;
+}
+
+@keyframes slide-in {
+  from {
+    translate: -100vw 0;
+    scale: 2 1;
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    scale: 1 1;
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    translate: 100vw 0;
+    scale: 2 1;
+    opacity: 0;
+  }
+
+  to {
+    translate: 0 0;
+    scale: 1 1;
+    opacity: 1;
+  }
 }
 
 .about_number {
