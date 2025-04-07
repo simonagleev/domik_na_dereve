@@ -40,6 +40,7 @@ const getChatIds = async () => {
 
 
 export async function POST(request) {
+
   try {
     const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
     const data = await request.json();

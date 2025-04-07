@@ -142,6 +142,9 @@ export default function PaymentForm({ type, data }) {
                     title: type === 'mk' ? data.Name : data.ShowID,
                     date: data.StartDateTime,
                 };
+
+
+                
                 handleSendTelegram(requestBody) // Отправляем сообщение в телеграм
 
                 window.location.href = dataResponse.confirmationUrl; // Редирект на ЮKassa
@@ -157,6 +160,8 @@ export default function PaymentForm({ type, data }) {
 
 
     const handleSendTelegram = (data) => {
+        console.log('requestBody')
+        console.log(JSON.stringify(data))
         try {
             fetch('/api/send-data-tg', {
                 method: 'POST',
@@ -167,6 +172,7 @@ export default function PaymentForm({ type, data }) {
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Ответ от сервера:', data);
                     console.log('ОТПРАВЛЕНО В ТЕЛЕГРАМ')
                 })
                 .catch(error => console.error('Ошибка:', error));

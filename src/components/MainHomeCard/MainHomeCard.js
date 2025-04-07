@@ -37,7 +37,6 @@ export default function MainHomeCard({header, paragraph, buttonText, colorBg, li
             <div className={styles.wrapper} >
                 <Link className={styles.button} style={{ background: colorBg }} href={`/${link}`}>{buttonText}</Link>
             </div>
-
         </div>
     );
 }

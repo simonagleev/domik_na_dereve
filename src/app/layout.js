@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
         {/* <SpeedInsights /> */}
         <Analytics />
         {/* Яндекс.Метрика */}
-        <Script
+        {/* <Script
           id="yandex-metrika"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
@@ -55,7 +55,7 @@ export default function RootLayout({ children }) {
               alt=""
             />
           </div>
-        </noscript>
+        </noscript> */}
       </body>
     </html>
   );
