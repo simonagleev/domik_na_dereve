@@ -47,7 +47,7 @@ export default function ScheduleCard({ data }) {
                         Цена билета: {data.Price} рублей
                     </p>
                     <p className={styles.card_text}>
-                        Мест осталось: <b>{data.RemainingCount}</b>
+                        {/* Мест осталось: <b>{data.RemainingCount}</b> */}
                     </p>
                     <PaymentButton type={'mk'} handler={handleClick} />
                 </div>
