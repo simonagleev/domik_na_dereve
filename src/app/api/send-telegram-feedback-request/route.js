@@ -18,6 +18,9 @@ export async function POST(request) {
             case 'creative_workshops':
                 event = 'ТВОРЧЕСКУЮ МАСТЕРСКУЮ'
                 break;
+            case 'camp':
+                event = 'ЛЕТНИЙ ЛАГЕРЬ'
+                break;
             default:
                 event = 'Неизвестно (что-то пошло не так)'
                 break;

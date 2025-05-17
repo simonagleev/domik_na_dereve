@@ -119,7 +119,7 @@ export default function FeedbackRequestForm({ type }) {
         }
         value = value.replace(/--/g, '-');
         value = value.replace(/\s\s+/g, ' '); // Убираем двойной пробел
-        
+
         updateFormData('childName', value);
     };
     const handleSubmit = async (e) => {
@@ -203,7 +203,8 @@ export default function FeedbackRequestForm({ type }) {
                         {type === 'show' ? 'Купить билеты'
                             : type === 'mk' ? 'Записаться на мастер класс'
                                 : type === 'birthday' ? 'Узнать стоимость'
-                                    : 'Отправить'
+                                    : type === 'camp' ? 'Записаться'
+                                        : 'Отправить'
                         }
                     </button>
                 </form>

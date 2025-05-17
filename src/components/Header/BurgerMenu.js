@@ -33,7 +33,8 @@ export default function BurgerMenu() {
                 <div className={styles.menuContainer}>
                     <nav className={styles.menuMain}>
                         <Link href="/" onClick={closeMenu}>Главная </Link>
-                        <Link href="/shows" onClick={closeMenu}>Спектакли</Link>
+                        {/* <Link href="/shows" onClick={closeMenu}>Спектакли</Link> */}
+                        <Link href="/camp" onClick={closeMenu}>Летний лагерь</Link>
                         <Link href="/workshops" onClick={closeMenu}>Мастер-классы</Link>
                         <Link href="/birthdays" onClick={closeMenu}>Дни рождения</Link>
                         <Link href="/creativeWorkshops" onClick={closeMenu}>Творческие мастерские</Link>

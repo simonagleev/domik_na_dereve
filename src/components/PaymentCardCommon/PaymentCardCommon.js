@@ -50,6 +50,14 @@ export default function PaymentCardCommon({ type }) {
             buttonText = 'Записаться на занятие'
             action = () => { openFeedbackRequestForm('creative_workshops') }
             break
+        case 'camp':
+            title = <h2 className={styles.card_header}>
+                Летний Лагерь с<br />
+                <span style={{ color: 'rgba(124, 152, 120, 1)' }}> “Домиком на дереве”</span>
+            </h2>
+            buttonText = 'Отправить заявку'
+            action = () => { openFeedbackRequestForm('camp') }
+            break
         default:
             title = <h2 className={styles.card_header}>
                 Нет информации<br />
@@ -68,7 +76,7 @@ export default function PaymentCardCommon({ type }) {
                     if (target) {
                         target.scrollIntoView({ behavior: "smooth" });
                     } else if (action) {
-                        console.log('TEST')
+                        console.log('TEST action')
                         action()
                     } else {
                         console.log('No action')
