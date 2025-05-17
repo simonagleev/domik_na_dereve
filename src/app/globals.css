@@ -13,9 +13,13 @@
 }
 
 :root {
-  /* --background: #ffffff; */
+  --main-green: rgba(124, 152, 120, 1);
+  --main-blue: rgba(186, 214, 228, 1);
   --foreground: rgba(38, 38, 38, 1);
-  --green: rgba(124, 152, 120, 1)
+  --green: rgba(124, 152, 120, 1);
+  --pale-green-bg: rgba(209, 239, 205, 1);
+  --pale-red-bg: rgba(255, 215, 215, 1);
+  --pale-blue-bg: rgba(215, 242, 255, 1);
 }
 
 * {

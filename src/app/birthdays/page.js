@@ -5,9 +5,11 @@ import styles from "./Birthdays.module.css";
 import PaymentCardCommon from "@/components/PaymentCardCommon/PaymentCardCommon";
 import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
 import SuccessComponent from "@/components/SuccessComponent/SucceessComponent";
+import AboutBirthdays from "./components/aboutBirthdays/component";
 
 export default function Birthdays() {
     const { isFeedbackRequestFormOpen, isSuccess } = useFeedbackRequestFormStore();
+
     return (
         <div className={styles.component}>
             <div className={styles.container}>
@@ -19,8 +21,11 @@ export default function Birthdays() {
                 </div>
                 <PaymentCardCommon type={'birthdays'} />
             </div>
+            <div className={styles.content}>
+                <h2 className={styles.heading}>День рождения в «Домике на дереве»</h2>
+                <AboutBirthdays />
+            </div>
             {isFeedbackRequestFormOpen ? <FeedbackRequestForm type={'birthday'} /> : null}
-            {/* {isSuccess ? <SuccessComponent/> : null} */}
         </div>
     );
 }
