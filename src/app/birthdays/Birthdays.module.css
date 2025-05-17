@@ -63,7 +63,6 @@
   color: #fff;
   font-size: 3.75rem;
   font-size: clamp(1.2rem, 4vw + 1rem, 3.75rem);
-  line-height: 77px;
   line-height: clamp(1.2em, 1.5cqw + 0.5rem, .8em);
   margin-top: 58px;
   margin-top: clamp(25px, 3vw + 0.5rem, 58px);
