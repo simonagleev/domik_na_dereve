@@ -10,6 +10,9 @@
   padding: 30px;
   padding: clamp(15px, 2vw, 30px);
   margin: 25px 0;
+  position: relative;
+  z-index: 10;
+  overflow: visible;
 }
 
 .about_header {
@@ -120,6 +123,21 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
+.bg_figure {
+  position: absolute;
+  bottom: -7%;
+  left: -4%;
+  z-index: -1;
+  transform: rotate(40deg);
+}
+
+
+.bg_figure:nth-of-type(2) {
+  top: -11%;
+  left: auto;
+  right: -4%;
+  transform: rotate(40deg);
+}
 
 @media (max-width: 1200px) {
   .bottom_container {
@@ -143,6 +161,10 @@
     width: 100%;
     justify-content: center;
     align-items: stretch;
+  }
+
+  .bg_figure {
+    display: none;
   }
 }
 

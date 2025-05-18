@@ -125,6 +125,18 @@ export default function AboutBirthdays() {
                     />
                 </div>
             </div>
+
+            <img
+                src="img/birthdays/bg_figure_flower.png"
+                alt="figure 1"
+                className={styles.bg_figure}
+            />
+            <img
+                src="img/birthdays/bg_figure_flower.png"
+                alt="figure 2"
+                className={styles.bg_figure}
+            />
+
             <Modal isOpen={open} onClose={() => setOpen(false)}>
                 <div className={styles.video_container}>
                     <video className={styles.video} controls preload="auto" muted autoPlay loop playsInline>
@@ -132,8 +144,8 @@ export default function AboutBirthdays() {
                         Your browser does not support the video tag.
                     </video>
                 </div>
-
             </Modal>
+
         </div>
     );
 }
