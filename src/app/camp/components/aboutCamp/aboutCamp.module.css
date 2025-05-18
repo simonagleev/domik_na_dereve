@@ -8,6 +8,8 @@
   padding: clamp(15px, 2vw, 30px);
   margin: 25px 0;
   gap: 20px;
+  position: relative;
+  z-index: 10;
 }
 
 .about_text_block {
@@ -125,6 +127,21 @@
   border-radius: 30px;
 }
 
+.bg_figure {
+  position: absolute;
+  bottom: -6%;
+  left: -4%;
+  z-index: -1;
+  transform: rotate(40deg);
+}
+
+.bg_figure:nth-of-type(2) {
+  top: -6%;
+  left: auto;
+  right: -4%;
+  transform: rotate(40deg);
+}
+
 
 @media (max-width: 1200px) {
   .block_container {
@@ -145,6 +162,10 @@
 
   .block_container {
     max-width: 785px;
+  }
+
+  .bg_figure {
+    bottom: -2%;
   }
 }
 

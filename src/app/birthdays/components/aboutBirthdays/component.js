@@ -127,12 +127,12 @@ export default function AboutBirthdays() {
             </div>
 
             <img
-                src="img/birthdays/bg_figure_flower.png"
+                src="img/bg_figure_flower.png"
                 alt="figure 1"
                 className={styles.bg_figure}
             />
             <img
-                src="img/birthdays/bg_figure_flower.png"
+                src="img/bg_figure_flower.png"
                 alt="figure 2"
                 className={styles.bg_figure}
             />

@@ -45,7 +45,7 @@ export default function AboutCamp() {
                     <p className={styles.text}>г. Иркутск, ул. Лермонтова, 275/9</p>
                 </div>
                 <p className={styles.text_small}>Количество мест ограничено!</p>
-                <p className={styles.text_small} style={{marginBottom: '10px'}}>Подарите ребёнку лето, наполненное творчеством, сценой и магией театра.</p>
+                <p className={styles.text_small} style={{ marginBottom: '10px' }}>Подарите ребёнку лето, наполненное творчеством, сценой и магией театра.</p>
                 <BasicButton
                     text='Записаться'
                     background='var(--main-green)'
@@ -63,6 +63,17 @@ export default function AboutCamp() {
                     height={750}
                 />
             </div>
+
+            <img
+                src="img/bg_figure_flower.png"
+                alt="figure 1"
+                className={styles.bg_figure}
+            />
+            <img
+                src="img/bg_figure_flower.png"
+                alt="figure 2"
+                className={styles.bg_figure}
+            />
         </div>
     );
 }
