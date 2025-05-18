@@ -122,6 +122,12 @@ export default function FeedbackRequestForm({ type }) {
 
         updateFormData('childName', value);
     };
+
+    const handleEventDateChange = (e) => {
+        let value = e.target.value;
+        updateFormData('eventDate', value);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -152,8 +158,6 @@ export default function FeedbackRequestForm({ type }) {
                     })
                     .catch(error => console.error('Ошибка:', error));
             } catch (error) {
-                console.log('ERRR CATCH component')
-                console.log(error)
                 console.error('Ошибка при отправке данных:', error);
             }
             handleClose()
@@ -198,6 +202,22 @@ export default function FeedbackRequestForm({ type }) {
                             maxLength={3}
                         />
                     </div>
+                    {type === 'birthday' ?
+                        <div
+                            className={`${styles.form_group} ${styles.date_wrapper}`}
+                            onClick={() => document.getElementById('eventDate').showPicker()}
+                        >
+                            <input
+                                className={styles.date_input}
+                                type="date"
+                                id="eventDate"
+                                name="eventDate"
+                                value={formData.eventDate ? formData.eventDate : ''}
+                                min={new Date().toISOString().split('T')[0]}
+                                onChange={e => handleEventDateChange(e)}
+                            />
+                        </div> : null
+                    }
 
                     <button className={styles.submit_btn} type="submit">
                         {type === 'show' ? 'Купить билеты'

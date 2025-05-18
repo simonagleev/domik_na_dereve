@@ -14,13 +14,13 @@ export async function POST(request) {
                 Phone: data.phone,
                 Type: data.type,
                 ChildName: data.childName,
-                ChildAge: data.childAge ? Number(data.childAge) : null
+                ChildAge: data.childAge ? Number(data.childAge) : null,
+                EventDate: data.eventDate ? data.eventDate : null,
             },
         ]);
 
         // Проверка на ошибки при вставке в базу данных
         if (dbError) {
-            console.log('DB ERROR')
             console.error('Ошибка записи в Supabase:', dbError);
             return Response.json({ error: 'Ошибка записи в базу данных' }, { status: 500 });
         }

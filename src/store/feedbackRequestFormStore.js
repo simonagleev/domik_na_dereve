@@ -8,6 +8,7 @@ export const useFeedbackRequestFormStore = create((set) => ({
         type: '',
         childName: '',
         childAge: '',
+        eventDate: '',
     },
     isSuccess: false,
     //modal
@@ -27,6 +28,7 @@ export const useFeedbackRequestFormStore = create((set) => ({
             type: '',
             childName: '',
             childAge: '',
+            eventDate: '',
         }
     }),
     setIsSuccess: (value) => set({ isSuccess: value }),

@@ -30,7 +30,8 @@ export async function POST(request) {
             от ${data.name} 
             тел: ${data.phone}.
             Имя ребенка: ${data.childName ? data.childName : ''}
-            Возраст: ${data.childAge ? data.childAge : ''}`
+            Возраст: ${data.childAge ? data.childAge : ''}
+            ${data.eventDate ? 'Планируемая дата: ' + data.eventDate : null}`
 
         for (const chatId of chatIds) {
             await fetch(url, {
