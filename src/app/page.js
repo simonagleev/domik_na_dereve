@@ -6,6 +6,7 @@ import Reviews from "@/components/Reviews/Reviews";
 import News from "@/components/News/News";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import MainHomeSlider from "@/components/MainHomeSlider/MainHomeSlider";
+import FiguretSection from "@/components/FigureSection/FigureSection";
 
 export default function Home() {
 
@@ -101,6 +102,8 @@ export default function Home() {
             </div>
           </div>
 
+          {/* <FiguretSection /> */}
+
           {/* Атмосфера фото */}
           <div className={styles.atmosphere_container}>
 
@@ -159,7 +162,7 @@ export default function Home() {
                   src="/img/room.jpg"
                   alt="room"
                   width={320}
-                  height={316} 
+                  height={316}
                 />
               </div>
 
@@ -168,7 +171,7 @@ export default function Home() {
           {/* REVIEWS */}
           <Reviews />
           {/* NEWS */}
-          {/* <News /> */} 
+          {/* <News /> */}
         </div>
       </div>
     </div>

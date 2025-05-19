@@ -262,7 +262,7 @@
   border-radius: 30px;
   padding: 55px 45px;
   margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
 }
 
 .why_left {
@@ -490,7 +490,7 @@
     align-items: center;
     padding: 14px 16px;
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
   }
 
   .why_left {
