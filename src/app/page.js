@@ -7,13 +7,24 @@ import News from "@/components/News/News";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import MainHomeSlider from "@/components/MainHomeSlider/MainHomeSlider";
 import FiguretSection from "@/components/FigureSection/FigureSection";
+import { getSeason } from "@/utils/season";
+
+//Получаем сезон
+const month = new Date().getMonth()
+const season = getSeason(month)
+const gradientMap = {
+    spring: "spring",
+    summer: "summer",
+    autumn: "autumn",
+    winter: "winter",
+};
 
 export default function Home() {
 
   return (
     <div className={styles.component}>
       <div className={styles.container}>
-        <div className={styles.home} style={{ backgroundImage: "url('/img/main_bg_summer.webp')" }}>
+        <div className={styles.home} style={{ backgroundImage: `url('/img/main_bg_${gradientMap[season]}.webp')` }}>
           <h1 className={styles.header}>Домик <br /> на дереве</h1>
           <div className={styles.right}>
           </div>
