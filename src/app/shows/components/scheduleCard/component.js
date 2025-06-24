@@ -57,8 +57,11 @@ export default function ScheduleCard({ data }) {
             <div className={styles.card_image_container}>
                 <Image
                     className={styles.card_image}
-                    src={`/img/shows/${data.id === 1 ? 'dari_vremeni.svg' : data.id === 3 ? 'malchik.png' : 'snegurochka.jpg'}`}
-                    alt="dari"
+                    src={`/img/shows/${data.id === 1 ? 'dari_vremeni.svg' : 
+                        data.id === 3 ? 'malchik.png' : 
+                        data.id === 4 ? 'karton_desire.jpg' : 
+                        'snegurochka.jpg'}`}
+                    alt="show picture"
                     width={700}
                     height={600}
                 />
