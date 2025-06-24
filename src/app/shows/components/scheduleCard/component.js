@@ -30,7 +30,7 @@ export default function ScheduleCard({ data }) {
                         {data.schedules[0] ? data.schedules[0].Description : 'Описание'}
                     </p>
                     <p className={styles.card_description}>
-                        Приходите, пожалуйста, за 15 минут до начала спектакля, чтобы своим опозданием не нарушить волшебную атмосферу.
+                        Приходите, пожалуйста, за 10 минут до начала спектакля
                     </p>
                     {/* {data.schedules[0].Comments ? commentsArray.map(e => 
                         <p className={styles.card_comment}>
