@@ -24,7 +24,7 @@ export default function Home() {
   return (
     <div className={styles.component}>
       <div className={styles.container}>
-        <div className={styles.home} style={{ backgroundImage: `url('/img/main_bg_${gradientMap[season]}.jpg')` }}>
+        <div className={styles.home} style={{ backgroundImage: `url('/img/main_bg_${gradientMap[season]}.webp')` }}>
           <h1 className={styles.header}>Домик <br /> на дереве</h1>
           <div className={styles.right}>
           </div>
