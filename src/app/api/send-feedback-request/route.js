@@ -15,7 +15,7 @@ export async function POST(request) {
                 Type: data.type,
                 ChildName: data.childName,
                 ChildAge: data.childAge ? Number(data.childAge) : null,
-                EventDate: data.eventDate ? data.eventDate : null,
+                EventDate: data.eventDate ? data.eventDate : 'Дата не указана',
             },
         ]);
 

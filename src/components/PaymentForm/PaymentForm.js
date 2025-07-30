@@ -160,8 +160,8 @@ export default function PaymentForm({ type, data }) {
 
 
     const handleSendTelegram = (data) => {
-        console.log('requestBody')
-        console.log(JSON.stringify(data))
+        // console.log('requestBody')
+        // console.log(JSON.stringify(data))
         try {
             fetch('/api/send-data-tg', {
                 method: 'POST',

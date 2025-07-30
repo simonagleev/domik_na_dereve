@@ -41,7 +41,7 @@ export async function POST(request) {
                             description: `Оплата билета в "Домик на дереве"`,
                             quantity: count,
                             amount: {
-                                value: amount, // Стоимость товара
+                                value: (amount / count).toFixed(2), // Стоимость товара
                                 currency: 'RUB',
                             },
                             vat_code: 4, // Код НДС (1 = 20%, 2 = 10%, 3 = 0%, 4 = без НДС)
@@ -54,7 +54,9 @@ export async function POST(request) {
         const paymentData = await yookassaResponse.json();
 
         if (!yookassaResponse.ok) {
-            console.log('yookassa RESPONSE NOT OK')
+            console.log('yookassa RESPONSE NOT OK');
+            console.log('Status:', yookassaResponse.status);
+            console.log('Response body:', paymentData);
             return NextResponse.json({ error: paymentData }, { status: yookassaResponse.status });
         }
 
