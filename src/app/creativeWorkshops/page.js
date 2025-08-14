@@ -5,6 +5,7 @@ import styles from "./CreativeWorkshops.module.css";
 import PaymentCardCommon from "@/components/PaymentCardCommon/PaymentCardCommon";
 import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
 import SuccessComponent from "@/components/SuccessComponent/SucceessComponent";
+import CwCards from "./components/cards/component";
 
 export default function CreativeWorkshops() {
     const {isFeedbackRequestFormOpen, isSuccess} = useFeedbackRequestFormStore();
@@ -20,8 +21,11 @@ export default function CreativeWorkshops() {
                 <PaymentCardCommon type={'creative_workshops'} />
             </div>
 
+            <div className={styles.content}>
+                <CwCards />
+            </div>
+
             {isFeedbackRequestFormOpen ? <FeedbackRequestForm type={'creative_workshops'}/> : null}
-            {/* {isSuccess ? <SuccessComponent/> : null} */}
         </div>
     );
 }

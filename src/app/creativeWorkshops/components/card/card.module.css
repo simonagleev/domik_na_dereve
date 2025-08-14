@@ -1,0 +1,150 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex: 1;
+    border-radius: 30px;
+    padding: 25px;
+    background-color: #fff;
+    flex-grow: 1;
+
+    width: 100%;
+    max-width: 33%;
+    min-width: 25%;
+
+    /* NEW */
+    height: 550px;
+    overflow: hidden;
+}
+.card.expanded {
+    overflow-y: auto; /* скролл внутри карточки */
+}
+.card_image_container {
+    width: 100%;
+    position: relative;
+    /* NEW */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    overflow: hidden;
+
+}
+
+.card_image {
+    flex: 1;
+}
+
+.age {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    color: var(--green);
+    font-weight: 600;
+    font-size: 1.625rem;
+    line-height: 34px;
+}
+
+.card_date {
+    color: rgba(103, 151, 175, 1);
+    font-size: 2.1875rem;
+    line-height: 45px;
+    margin: 25px 0 6px;
+}
+
+.workshop_items_container {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.workshop_item {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card_title {
+    font-size: 1.5rem;
+    line-height: 31px;
+    margin: 5px 0;
+}
+
+.card_text {
+    font-weight: 500;
+}
+
+.price {
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 21px;
+    color: rgba(38, 38, 38, 1);
+    margin: 10px 0
+}
+
+
+.truncated {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* сколько строк оставить до обрезки */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card_text {
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.card_text:hover {
+    opacity: 0.85;
+}
+
+@media (max-width: 480px) {
+    .card {
+        display: flex;
+        flex: 1;
+        border-radius: 30px;
+        padding: 15px;
+        background-color: #fff;
+        flex-grow: 1;
+        max-width: 100%;
+        min-width: 100%;
+    }
+
+    .card_image_container {
+        width: 100%;
+        position: relative;
+    }
+
+    .card_image {
+        width: 100%;
+        height: auto;
+    }
+
+    .age {
+        font-size: 1.25rem;
+        line-height: 19px;
+    }
+
+    .card_date {
+        font-size: 1.667rem;
+        line-height: 26px;
+        margin: 11px 0 6px;
+    }
+
+    .card_title {
+        font-size: 1.5rem;
+        line-height: 19px;
+        margin: 10px 0 5px 0;
+    }
+
+    .card_text {
+        font-weight: 500;
+    }
+}
