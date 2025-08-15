@@ -14,7 +14,7 @@
     min-width: 25%;
 
     /* NEW */
-    height: 550px;
+    height: 650px;
     overflow: hidden;
 }
 .card.expanded {
@@ -76,15 +76,15 @@
 }
 
 .card_text {
-    font-weight: 500;
+    font-weight: 400;
 }
 
 .price {
-    font-weight: 500;
-    font-size: 1.5rem;
+    font-weight: 600;
+    font-size: 1.05rem;
     line-height: 21px;
     color: rgba(38, 38, 38, 1);
-    margin: 10px 0
+    margin: 5px 0
 }
 
 
