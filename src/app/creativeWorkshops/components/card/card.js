@@ -8,7 +8,7 @@ export default function Cw_card({ data, index }) {
     const [expanded, setExpanded] = useState(false);
 
     return (
-        <div  className={`${styles.card} ${expanded ? styles.expanded : ""}`} key={index}>
+        <div className={`${styles.card} ${expanded ? styles.expanded : ""}`} key={index}>
             <div className={styles.workshop_items_container}>
                 <div className={styles.workshop_item}>
                     <div className={styles.card_image_container}>
@@ -21,11 +21,9 @@ export default function Cw_card({ data, index }) {
                         />
                     </div>
                     <h2 className={styles.card_title}>
-                        {data.Name}
+                        {data.name}
                     </h2>
-                    <p className={styles.price}>
-                        Цена : {data.price} рублей
-                    </p>
+
                     {data.description && (
                         <p
                             className={`${styles.card_text} ${!expanded ? styles.truncated : ""}`}
@@ -37,6 +35,9 @@ export default function Cw_card({ data, index }) {
                     {data.age ? <p className={styles.card_text}>
                         Возраст: <b>{data.age}</b>
                     </p> : null}
+                    <p className={styles.price}>
+                        Цена : {data.price} рублей
+                    </p>
                 </div>
             </div>
         </div>
