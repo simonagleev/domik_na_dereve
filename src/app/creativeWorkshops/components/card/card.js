@@ -38,6 +38,11 @@ export default function Cw_card({ data, index }) {
                     <p className={styles.price}>
                         Цена : {data.price} рублей
                     </p>
+                    <p className={styles.description}>
+                        Расписание : {data.schedule.map((e, index) => {
+                            return <p key={index+'s'}>{e}</p>
+                        })} 
+                    </p>
                 </div>
             </div>
         </div>
