@@ -25,13 +25,14 @@ export async function POST(request) {
                 event = 'Неизвестно (что-то пошло не так)'
                 break;
         }
-
+        
         const message = `Новая заявка на ${event} 
             от ${data.name} 
             тел: ${data.phone}.
             Имя ребенка: ${data.childName ? data.childName : ''}
             Возраст: ${data.childAge ? data.childAge : ''}
-            ${data.eventDate ? 'Планируемая дата: ' + data.eventDate : null}`
+            ${data.eventDate ? 'Планируемая дата: ' + data.eventDate : ''}
+            ${(data.type === 'creative_workshops' && data.cw_name) ? 'Название: ' + data.cw_name : ''}`
 
         for (const chatId of chatIds) {
             await fetch(url, {

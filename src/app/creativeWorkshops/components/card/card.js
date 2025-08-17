@@ -3,9 +3,12 @@
 import styles from "./card.module.css";
 import Image from "next/image";
 import { useState } from "react";
+import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
+import { type } from "os";
 
 export default function Cw_card({ data, index }) {
     const [expanded, setExpanded] = useState(false);
+    const { openFeedbackRequestForm, updateFormData } = useFeedbackRequestFormStore();
 
     return (
         <div className={`${styles.card} ${expanded ? styles.expanded : ""}`} key={index}>
@@ -38,11 +41,21 @@ export default function Cw_card({ data, index }) {
                     <p className={styles.price}>
                         Цена : {data.price} рублей
                     </p>
-                    <p className={styles.description}>
+                    <div className={styles.description}>
                         Расписание : {data.schedule.map((e, index) => {
-                            return <p key={index+'s'}>{e}</p>
-                        })} 
-                    </p>
+                            return <p key={index + 's'}>{e}</p>
+                        })}
+                    </div>
+                    <button
+                        className={styles.buy_btn}
+                        onClick={() => {
+                                console.log('TEST action')
+                                openFeedbackRequestForm({type: 'creative_workshops'})
+                                updateFormData('cw_name', data.name)
+                        }}
+                    >
+                        Записаться
+                    </button>
                 </div>
             </div>
         </div>

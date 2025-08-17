@@ -14,12 +14,15 @@
     min-width: 25%;
 
     /* NEW */
-    height: 650px;
+    height: 675x;
     overflow: hidden;
 }
+
 .card.expanded {
-    overflow-y: auto; /* скролл внутри карточки */
+    overflow-y: auto;
+    /* скролл внутри карточки */
 }
+
 .card_image_container {
     width: 100%;
     position: relative;
@@ -90,7 +93,8 @@
 
 .truncated {
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* сколько строк оставить до обрезки */
+    -webkit-line-clamp: 3;
+    /* сколько строк оставить до обрезки */
     -webkit-box-orient: vertical;
     overflow: hidden;
     cursor: pointer;
@@ -103,6 +107,23 @@
 
 .card_text:hover {
     opacity: 0.85;
+}
+
+.description {
+    margin-bottom: 5px;
+}
+
+.buy_btn {
+    width: 100%;
+    background-color: rgba(124, 152, 120, 1);
+    font-weight: 400;
+    padding: 10px 68px 10px;
+    font-size: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
 }
 
 @media (max-width: 480px) {
@@ -146,5 +167,12 @@
 
     .card_text {
         font-weight: 500;
+    }
+
+    .buy_btn {
+        padding: 12px 40px;
+        line-height: 22px;
+        font-size: 1.25rem;
+        width: 100%;
     }
 }
