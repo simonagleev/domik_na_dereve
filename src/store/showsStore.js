@@ -16,6 +16,7 @@ export const useShowsStore = create((set, get) => ({
       { id: 2, name: 'Снегурочка' }, 
       { id: 3, name: 'Малыш, потерявший фантазию' },
       { id: 4, name: 'Картонные желания' },
+      { id: 5, name: 'В гостях у Донди' },
     ];
     const updatedShowSchedules = shows.map((show) => {
       const showSchedules = newSchedules.filter((schedule) => schedule.ShowID === show.id);
