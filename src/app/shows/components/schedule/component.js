@@ -4,13 +4,14 @@ import styles from "./showssSchedule.module.css";
 import ScheduleCard from "../scheduleCard/component";
 import { useShowsStore } from "@/store/showsStore";
 import Loader from "@/components/Loader/Loader";
+import Link from "next/link";
 
 export default function ShowssSchedule({ type }) {
     const [loading, setLoading] = useState(false);
 
     const [error, setError] = useState(null);
     const { updateSchedules, showSchedules } = useShowsStore();
-    
+
     // Получаем данные из SUPABASE DB
     useEffect(() => {
         const fetchData = async () => {
@@ -45,7 +46,7 @@ export default function ShowssSchedule({ type }) {
             <div className={styles.cards_container} id="shows_schedule">
                 {!loading ? showSchedules.map((e) => {
                     return e.schedules.length > 0 ? <ScheduleCard data={e} key={e.id} /> : null;  // Передаем данные шоу, включая расписания
-                }) : <Loader/>}
+                }) : <Loader />}
             </div>
         </div>
     );

@@ -93,11 +93,12 @@
     cursor: pointer;
 }
 
-.count_btn:hover{
+.count_btn:hover {
     transition: .3s;
     transform: scale(1.1);
 }
-.count_btn:active{
+
+.count_btn:active {
     transition: .3s;
     transform: scale(0.9);
 }
@@ -128,6 +129,25 @@
     transform: scale(.95);
 }
 
+.submit_btn_disabled {
+    margin: 25px 0 18px;
+    background-color: rgb(116, 116, 116);
+    color: #fff;
+    border: none;
+    padding: 15px 0;
+    border-radius: 30px;
+    width: 100%;
+    cursor: not-allowed;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    line-height: 29px;
+    transition: .3s;
+}
+
+.check_box {
+    text-align: left;
+}
 
 @media (max-width: 480px) {
     .payment_form {
@@ -187,11 +207,12 @@
         transition: .3s;
     }
 
-    .count_btn:hover{
+    .count_btn:hover {
         transition: .3s;
         transform: scale(1.1);
     }
-    .count_btn:active{
+
+    .count_btn:active {
         transition: .3s;
         transform: scale(0.9);
     }
@@ -213,5 +234,10 @@
         font-size: 1.1rem;
         line-height: 16px;
     }
-
+    .submit_btn_disabled {
+        margin: 12px 0 16px;
+        padding: 7px 0;
+        font-size: 1.1rem;
+        line-height: 16px;
+    }
 }

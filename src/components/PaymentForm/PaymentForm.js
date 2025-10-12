@@ -1,6 +1,7 @@
 'use client'
 import styles from "./PaymentForm.module.css";
 import { usePaymentModalStore } from "@/store/PaymentModalStore";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function PaymentForm({ type, data }) {
@@ -144,7 +145,7 @@ export default function PaymentForm({ type, data }) {
                 };
 
 
-                
+
                 handleSendTelegram(requestBody) // Отправляем сообщение в телеграм
 
                 window.location.href = dataResponse.confirmationUrl; // Редирект на ЮKassa
@@ -194,6 +195,9 @@ export default function PaymentForm({ type, data }) {
         updateFormData('name', value);
     };
 
+    const [agreePersonalData, setAgreePersonalData] = useState(false);
+    const [agreeOffer, setAgreeOffer] = useState(false);
+
     return (
         <div className={styles.modal_overlay} onClick={handleClickOutside}>
             {!loading ?
@@ -238,18 +242,56 @@ export default function PaymentForm({ type, data }) {
                             </div>
                         </div>
 
-                        <button className={styles.submit_btn} type="submit">
+                        <button className={`${(!agreePersonalData || !agreeOffer) ? styles.submit_btn_disabled : styles.submit_btn}`}
+                            type="submit"
+                            disabled={!agreePersonalData || !agreeOffer}
+                        >
                             {type === 'show' ?
                                 'Купить билеты' : type === 'mk' ?
                                     'Записаться на мастер класс' :
                                     'Отправить'}
                         </button>
                     </form>
+                    <div className={styles.check_box}>
+                        <label className="flex items-start gap-2">
+                            <input
+                                type="checkbox"
+                                className="mt-1"
+                                checked={agreePersonalData}
+                                onChange={(e) => setAgreePersonalData(e.target.checked)}
+                            />
+                            <span>
+                                Даю{" "}
+                                <Link href="/docs/personal_data.html" target="_blank" style={{ color: 'rgba(124, 152, 120, 1)', fontWeight: 600 }}>
+                                    согласие
+                                </Link>{" "}
+                                на получение рекламных и информационных рассылок
+                            </span>
+                        </label>
+                    </div>
 
-                    <h2 className={styles.payment_form_heading}>
+                    <div className={styles.check_box}>
+                        <label className="flex items-start gap-2">
+                            <input
+                                type="checkbox"
+                                className="mt-1"
+                                checked={agreeOffer}
+                                onChange={(e) => setAgreeOffer(e.target.checked)}
+                            />
+                            <span>
+                                Оплачивая, я соглашаюсь с{" "}
+                                <Link href="/docs/oferta.html" target="_blank" style={{ color: 'rgba(124, 152, 120, 1)', fontWeight: 600 }}>
+                                    офертой
+                                </Link>{" "}
+                                и обработкой своих персональных данных
+                            </span>
+                        </label>
+                    </div>
+
+                    <h2 className={styles.payment_form_heading} style={{ marginBottom: "10px" }}>
                         Или свяжитесь с нами<br /> самостоятельно по номеру:
                     </h2>
-                    <h2 className={styles.payment_form_heading}>
+                    <h2 className={styles.payment_form_heading} style={{ marginBottom: "10px" }}>
                         +7 (914) 932-28-82
                     </h2>
                 </div> : <div>LOADING</div>}
