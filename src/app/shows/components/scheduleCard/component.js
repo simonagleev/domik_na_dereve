@@ -61,6 +61,8 @@ export default function ScheduleCard({ data }) {
                         data.id === 3 ? 'malchik.png' : 
                         data.id === 4 ? 'karton_desire.jpg' :
                         data.id === 5 ? 'dondi.jpg' :
+                        data.id === 6 ? 'harvest.jpg' :
+                        data.id === 7 ? 'skazka.jpg' :
                         'snegurochka.jpg'}`}
                     alt="show picture"
                     width={700}

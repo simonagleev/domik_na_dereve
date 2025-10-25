@@ -21,8 +21,6 @@ export default function ShowssSchedule({ type }) {
                 const data = await response.json();
 
                 if (response.ok) {
-                    console.log('OK 888')
-                    console.log(data)
                     updateSchedules(data); // Обновляем состояние расписания
                 } else {
                     console.log('RESPONSE ERROR');
