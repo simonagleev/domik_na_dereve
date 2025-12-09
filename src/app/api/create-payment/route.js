@@ -44,7 +44,7 @@ export async function POST(request) {
                                 value: (amount / count).toFixed(2), // Стоимость товара
                                 currency: 'RUB',
                             },
-                            vat_code: 4, // Код НДС (1 = 20%, 2 = 10%, 3 = 0%, 4 = без НДС)
+                            vat_code: 1, // Код НДС (1 = без НДС, 2 = 10%, 3 = 0%, 4 = 20%)
                         },
                     ],
                 },

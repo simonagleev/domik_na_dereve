@@ -34,14 +34,14 @@
 .card_name {
     font-weight: 700;
     line-height: 111px;
-    font-size: 6rem;
+    font-size: 5.5rem;
     line-height: 90px;
     color: rgba(169, 197, 156, 1);
     margin-bottom: 10px;
 }
 
 .card_name_long {
-    font-size: 6rem;
+    font-size: 5.5rem;
     line-height: 90px;
 }
 

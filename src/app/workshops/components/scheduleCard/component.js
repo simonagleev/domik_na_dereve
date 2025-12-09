@@ -41,7 +41,7 @@ export default function ScheduleCard({ data }) {
                         {data.Description ? data.Description : null}
                     </p>
                     <p className={styles.card_text}>
-                        Длительность: {data.Duration} {data.Duration > 1 ? 'часа' : 'час'}
+                        Длительность: {data.Duration}
                     </p>
                     <p className={styles.price}>
                         Цена билета: {data.Price} рублей

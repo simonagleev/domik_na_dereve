@@ -32,20 +32,29 @@ export default function ScheduleCard({ data }) {
                     <p className={styles.card_description}>
                         Приходите, пожалуйста, за 10 минут до начала спектакля
                     </p>
+
                     {/* {data.schedules[0].Comments ? commentsArray.map(e => 
                         <p className={styles.card_comment}>
                             {e}
                         </p> )
                         : null} */}
-                    {data.schedules[0].Comments ? 
-                    <div style={{marginBottom: '10px'}}>
-                        <p className={styles.card_description} style={{fontWeight: 700}}>
-                            {commentsArray[0]}
-                        </p>
-                        <p className={styles.card_description}>
-                            {commentsArray[1]}
-                        </p>
-                    </div>
+                    <p className={styles.card_description}>
+                        Возрастное ограничение: <b>
+                            {data.id === 7 ? '4' :
+                                data.id === 8 ? '0' :
+                                    '3'}
+                            </b>+
+                    </p>
+
+                    {data.schedules[0].Comments ?
+                        <div style={{ marginBottom: '10px' }}>
+                            <p className={styles.card_description} style={{ fontWeight: 700 }}>
+                                {commentsArray[0]}
+                            </p>
+                            <p className={styles.card_description}>
+                                {commentsArray[1]}
+                            </p>
+                        </div>
                         : null}
                     <p className={styles.price}>
                         Цена билета: {data.schedules[0] ? data.schedules[0].Price : 'Цена'} рублей
@@ -57,13 +66,15 @@ export default function ScheduleCard({ data }) {
             <div className={styles.card_image_container}>
                 <Image
                     className={styles.card_image}
-                    src={`/img/shows/${data.id === 1 ? 'dari_vremeni.svg' : 
-                        data.id === 3 ? 'malchik.png' : 
-                        data.id === 4 ? 'karton_desire.jpg' :
-                        data.id === 5 ? 'dondi.jpg' :
-                        data.id === 6 ? 'harvest.jpg' :
-                        data.id === 7 ? 'skazka.jpg' :
-                        'snegurochka.jpg'}`}
+                    src={`/img/shows/${data.id === 1 ? 'dari_vremeni.svg' :
+                        data.id === 3 ? 'malchik.png' :
+                            data.id === 4 ? 'karton_desire.jpg' :
+                                data.id === 5 ? 'dondi.jpg' :
+                                    data.id === 6 ? 'harvest.jpg' :
+                                        data.id === 7 ? 'skazka.jpg' :
+                                            data.id === 8 ? 'ldinka.jpg' :
+                                                data.id === 9 ? 'ny_zvezda.jpg' :
+                                                    'snegurochka.jpg'}`}
                     alt="show picture"
                     width={700}
                     height={600}
