@@ -74,7 +74,9 @@ export default function ScheduleCard({ data }) {
                                         data.id === 7 ? 'skazka.jpg' :
                                             data.id === 8 ? 'ldinka.jpg' :
                                                 data.id === 9 ? 'ny_zvezda.jpg' :
-                                                    'snegurochka.jpg'}`}
+                                                    data.id === 10 ? 'nebilici.jpg' :
+                                                        data.id === 11 ? 'gusenica.jpg' :
+                                                            'snegurochka.jpg'}`}
                     alt="show picture"
                     width={700}
                     height={600}
