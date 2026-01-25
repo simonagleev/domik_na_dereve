@@ -41,7 +41,7 @@ export default function ScheduleCard({ data }) {
                     <p className={styles.card_description}>
                         Возрастное ограничение: <b>
                             {data.id === 7 ? '4' :
-                                data.id === 8 ? '0' :
+                                (data.id === 8 || data.id === 11) ? '0' :
                                     '3'}
                             </b>+
                     </p>
