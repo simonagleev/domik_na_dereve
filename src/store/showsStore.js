@@ -21,7 +21,7 @@ export const useShowsStore = create((set, get) => ({
       { id: 7, name: 'Принцесса птиц' },
       { id: 8, name: 'Приключения льдинки и снежинки' },
       { id: 9, name: 'Путешествие за новогодней звездой' },
-      { id: 10, name: 'Зимние небылицы' },
+      { id: 10, name: 'Зимние были-небылицы' },
       { id: 11, name: 'История про голодную гусеницу' },
     ];
     const updatedShowSchedules = shows.map((show) => {
