@@ -22,5 +22,12 @@
   "devDependencies": {
     "eslint": "^8",
     "eslint-config-next": "15.0.4"
+  },
+  "overrides": {
+    "sharp": "0.33.5",
+    "loader-utils": "^2.0.4",
+    "@rspack/core": null,
+    "vite": null,
+    "webpack": "^5.94.0"
   }
 }
