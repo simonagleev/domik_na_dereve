@@ -23,6 +23,7 @@ export const useShowsStore = create((set, get) => ({
       { id: 9, name: 'Путешествие за новогодней звездой' },
       { id: 10, name: 'Зимние были-небылицы' },
       { id: 11, name: 'История про голодную гусеницу' },
+      { id: 12, name: 'Как заяц весну встречал' },
     ];
     const updatedShowSchedules = shows.map((show) => {
       const showSchedules = newSchedules.filter((schedule) => schedule.ShowID === show.id);

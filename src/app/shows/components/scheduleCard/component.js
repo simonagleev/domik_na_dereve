@@ -43,7 +43,7 @@ export default function ScheduleCard({ data }) {
                             {data.id === 7 ? '4' :
                                 (data.id === 8 || data.id === 11) ? '0' :
                                     '3'}
-                            </b>+
+                        </b>+
                     </p>
 
                     {data.schedules[0].Comments ?
@@ -76,7 +76,8 @@ export default function ScheduleCard({ data }) {
                                                 data.id === 9 ? 'ny_zvezda.jpg' :
                                                     data.id === 10 ? 'nebilici.jpg' :
                                                         data.id === 11 ? 'gusenica.jpg' :
-                                                            'snegurochka.jpg'}`}
+                                                            data.id === 12 ? 'zayac.jpg' :
+                                                                'snegurochka.jpg'}`}
                     alt="show picture"
                     width={700}
                     height={600}
