@@ -9,8 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/core": "^8.3.18",
+    "@mantine/hooks": "^8.3.18",
+    "@mantine/notifications": "^8.3.18",
     "@supabase/supabase-js": "^2.47.7",
+    "@tabler/icons-react": "^3.40.0",
     "axios": "^1.7.9",
+    "bcryptjs": "^3.0.3",
+    "jsonwebtoken": "^9.0.3",
     "next": "^15.0.7",
     "nodemailer": "^6.9.16",
     "react": "^19.0.2",

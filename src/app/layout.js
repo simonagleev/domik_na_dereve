@@ -1,8 +1,6 @@
-import Footer from "@/components/Footer/Footer";
 import "./globals.css";
-import FooterTree from "@/components/FooterTree/FooterTree";
-import Header from "@/components/Header/Header";
 import Script from "next/script";
+import LayoutShell from "@/components/LayoutShell/LayoutShell";
 
 export const metadata = {
   title: "Домик на дереве",
@@ -15,10 +13,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="ru">
       <body>
-        <Header />
-        <main>{children}</main>
-        <FooterTree />
-        <Footer />
+        <LayoutShell>{children}</LayoutShell>
         {/* Яндекс.Метрика */}
         <Script
           id="yandex-metrika"

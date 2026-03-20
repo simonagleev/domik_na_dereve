@@ -1,0 +1,2 @@
+команда в консоле 
+node -e "const bcrypt=require('bcryptjs'); bcrypt.hash('ТУТ_пароль', 10).then(h=>console.log(h))"
