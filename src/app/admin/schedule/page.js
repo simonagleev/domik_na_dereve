@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react';
 import {
   ActionIcon,
+  Box,
   Button,
   Card,
   Group,
@@ -15,6 +16,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import AdminTableScroll from '@/components/AdminShell/AdminTableScroll';
 import { IconPlus, IconTrash } from '@tabler/icons-react';
 
 const TYPE_LABELS = {
@@ -90,31 +92,34 @@ export default function AdminSchedulePage() {
   };
 
   return (
-    <Stack gap="md">
-      <Group justify="space-between">
-        <div>
+    <Stack gap="md" w="100%" maw="100%">
+      <Group justify="space-between" align="flex-start" wrap="wrap" gap="md">
+        <div style={{ minWidth: 0, flex: '1 1 220px' }}>
           <Title order={2}>Расписание</Title>
           <Text c="dimmed" size="sm">
             Таблица зависит от типа мероприятия. Клик по строке открывает редактирование.
           </Text>
         </div>
-        <Button leftSection={<IconPlus size={16} />} onClick={openCreate}>
+        <Button leftSection={<IconPlus size={16} />} onClick={openCreate} style={{ flexShrink: 0 }}>
           Добавить слот
         </Button>
       </Group>
 
-      <Card withBorder radius="lg" p="md">
+      <Card withBorder radius="lg" p="md" maw="100%" style={{ overflow: 'hidden' }}>
         <Tabs value={activeType} onChange={(value) => setActiveType(value || 'shows')}>
-          <Tabs.List>
+          <Box style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }} mb="xs">
+            <Tabs.List style={{ flexWrap: 'nowrap', width: 'max-content', minWidth: '100%' }}>
             {Object.entries(TYPE_LABELS).map(([value, label]) => (
               <Tabs.Tab key={value} value={value}>
                 {label}
               </Tabs.Tab>
             ))}
-          </Tabs.List>
+            </Tabs.List>
+          </Box>
 
           {Object.keys(TYPE_LABELS).map((type) => (
             <Tabs.Panel key={type} value={type} pt="md">
+              <AdminTableScroll>
               <Table striped highlightOnHover withTableBorder withColumnBorders>
                 <Table.Thead>
                   <Table.Tr>
@@ -150,6 +155,7 @@ export default function AdminSchedulePage() {
                   ))}
                 </Table.Tbody>
               </Table>
+              </AdminTableScroll>
             </Tabs.Panel>
           ))}
         </Tabs>

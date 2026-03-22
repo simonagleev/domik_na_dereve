@@ -10,6 +10,7 @@ import {
   Pagination,
   Paper,
   Select,
+  SimpleGrid,
   Stack,
   Table,
   Text,
@@ -17,6 +18,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IconRefresh } from '@tabler/icons-react';
+import AdminTableScroll from '@/components/AdminShell/AdminTableScroll';
 
 const PAGE_SIZES = ['10', '25', '50', '100'];
 
@@ -197,15 +199,15 @@ export default function AdminTransactionsPage() {
 
   return (
     <>
-    <Stack gap="md">
+    <Stack gap="md" w="100%" maw="100%">
       <Title order={2}>Транзакции</Title>
 
-      <Card withBorder radius="lg" p="md">
+      <Card withBorder radius="lg" p="md" maw="100%" style={{ overflow: 'hidden' }}>
         <Stack gap="sm">
           <Text fw={600} size="sm">
             Фильтры
           </Text>
-          <Group grow align="flex-end">
+          <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="sm">
             <TextInput
               label="Дата с"
               type="date"
@@ -230,8 +232,8 @@ export default function AdminTransactionsPage() {
               value={draft.type}
               onChange={(e) => setDraft((d) => ({ ...d, type: e.target.value }))}
             />
-          </Group>
-          <Group grow align="flex-end">
+          </SimpleGrid>
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
             <TextInput
               label="Телефон"
               placeholder="часть номера"
@@ -244,17 +246,22 @@ export default function AdminTransactionsPage() {
               value={draft.orderSearch}
               onChange={(e) => setDraft((d) => ({ ...d, orderSearch: e.target.value }))}
             />
-            <Button leftSection={<IconRefresh size={18} />} onClick={handleRefresh}>
-              Обновить список
-            </Button>
-          </Group>
+          </SimpleGrid>
+          <Button
+            leftSection={<IconRefresh size={18} />}
+            onClick={handleRefresh}
+            w={{ base: '100%', xs: 'auto' }}
+            style={{ alignSelf: 'flex-start' }}
+          >
+            Обновить список
+          </Button>
           <Text size="xs" c="dimmed">
             Нажмите «Обновить список», чтобы применить фильтры. Смена страницы и размера страницы подгружает данные с текущими применёнными фильтрами.
           </Text>
         </Stack>
       </Card>
 
-      <Card withBorder radius="lg" p="md">
+      <Card withBorder radius="lg" p="md" maw="100%" style={{ overflow: 'hidden' }}>
         <Group justify="space-between" mb="md" wrap="wrap">
           <Text size="sm" c="dimmed">
             Всего записей: {loading ? '…' : total}
@@ -282,6 +289,7 @@ export default function AdminTransactionsPage() {
           </Group>
         ) : (
           <>
+            <AdminTableScroll>
             <Table striped highlightOnHover withTableBorder withColumnBorders>
               <Table.Thead>
                 <Table.Tr>
@@ -343,6 +351,7 @@ export default function AdminTransactionsPage() {
                 ))}
               </Table.Tbody>
             </Table>
+            </AdminTableScroll>
 
             {rows.length === 0 && !loading ? (
               <Text c="dimmed" ta="center" py="md">

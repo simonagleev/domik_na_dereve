@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
+  Box,
   Button,
   Card,
   Group,
@@ -19,6 +20,7 @@ import {
   Title,
 } from '@mantine/core';
 import { resolveEventImageSrc } from '@/lib/eventImage';
+import AdminTableScroll from '@/components/AdminShell/AdminTableScroll';
 
 /** Mantine 8 + React 19: иногда в onChange нестабилен currentTarget — берём value надёжно */
 function inputChangeValue(e) {
@@ -353,29 +355,32 @@ export default function AdminEventConstructorPage() {
   }
 
   return (
-    <Stack gap="md">
+    <Stack gap="md" w="100%" maw="100%">
       <Title order={2}>Конструктор мероприятий</Title>
 
       <Tabs value={activeTech} onChange={handleTabChange}>
-        <Tabs.List>
-          {eventTypes.map((t) => (
-            <Tabs.Tab key={t.ID} value={t.TechName}>
-              {t.Name}
-            </Tabs.Tab>
-          ))}
-        </Tabs.List>
+        <Box style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }} mb="xs">
+          <Tabs.List style={{ flexWrap: 'nowrap', width: 'max-content', minWidth: '100%' }}>
+            {eventTypes.map((t) => (
+              <Tabs.Tab key={t.ID} value={t.TechName}>
+                {t.Name}
+              </Tabs.Tab>
+            ))}
+          </Tabs.List>
+        </Box>
 
         {eventTypes.map((t) => (
           <Tabs.Panel key={t.ID} value={t.TechName} pt="md">
             {t.TechName === 'shows' ? (
-              <Card withBorder radius="md" p="md">
-                <Group justify="space-between" mb="md">
-                  <Text fw={600}>{t.Name}</Text>
-                  <Button onClick={openCreate}>Создать</Button>
+              <Card withBorder radius="md" p="md" maw="100%" style={{ overflow: 'hidden' }}>
+                <Group justify="space-between" mb="md" wrap="wrap" gap="sm" align="flex-start">
+                  <Text fw={600} style={{ minWidth: 0 }}>{t.Name}</Text>
+                  <Button onClick={openCreate} style={{ flexShrink: 0 }}>Создать</Button>
                 </Group>
                 {showsLoading ? (
                   <Loader />
                 ) : (
+                  <AdminTableScroll>
                   <Table striped highlightOnHover withTableBorder>
                     <Table.Thead>
                       <Table.Tr>
@@ -413,6 +418,7 @@ export default function AdminEventConstructorPage() {
                       })}
                     </Table.Tbody>
                   </Table>
+                  </AdminTableScroll>
                 )}
               </Card>
             ) : (
