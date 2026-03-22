@@ -5,6 +5,25 @@ import Image from "next/image";
 import PaymentButton from "@/components/PaymentButton/PaymentButton";
 import { useShowsStore } from "@/store/showsStore";
 import ScheduleModal from "../scheduleModal/component";
+import { resolveEventImageSrc } from "@/lib/eventImage";
+
+/** Пока в сторе нет ImagePath/ImageName с БД — запасной маппинг по id */
+// function legacyShowImageSrc(id) {
+//     const file =
+//         id === 1 ? 'dari_vremeni.svg' :
+//         id === 3 ? 'malchik.png' :
+//         id === 4 ? 'karton_desire.jpg' :
+//         id === 5 ? 'dondi.jpg' :
+//         id === 6 ? 'harvest.jpg' :
+//         id === 7 ? 'skazka.jpg' :
+//         id === 8 ? 'ldinka.jpg' :
+//         id === 9 ? 'ny_zvezda.jpg' :
+//         id === 10 ? 'nebilici.jpg' :
+//         id === 11 ? 'gusenica.jpg' :
+//         id === 12 ? 'zayac.jpg' :
+//         'snegurochka.jpg';
+//     return `/img/shows/${file}`;
+// }
 
 export default function ScheduleCard({ data }) {
     const { isModalOpen, openModal, updatePickedShow } = useShowsStore();
@@ -78,6 +97,7 @@ export default function ScheduleCard({ data }) {
                                                         data.id === 11 ? 'gusenica.jpg' :
                                                             data.id === 12 ? 'zayac.jpg' :
                                                                 'snegurochka.jpg'}`}
+                    // src={imageSrc}
                     alt="show picture"
                     width={700}
                     height={600}

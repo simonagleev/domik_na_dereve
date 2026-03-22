@@ -12,7 +12,7 @@ export default function AdminPage() {
           <Text size="sm" c="dimmed">Управление слотами, количеством оставшихся билетов и датами мероприятий</Text>
         </Card>
         <Card withBorder radius="lg" p="md">
-          <Text fw={600}>Мероприятия</Text>
+          <Text fw={600}>Конструктор мероприятий</Text>
           <Text size="sm" c="dimmed">Редактирование и создание карточек шоу и мастерских</Text>
         </Card>
         <Card withBorder radius="lg" p="md">

@@ -17,7 +17,7 @@ import {
 const navItems = [
   { href: '/admin', label: 'Главная' },
   { href: '/admin/schedule', label: 'Расписание' },
-  { href: '/admin/events', label: 'Мероприятия' },
+  { href: '/admin/eventConstructor', label: 'Конструктор мероприятий' },
   { href: '/admin/transactions', label: 'Транзакции' },
   { href: '/admin/logs', label: 'Логи' },
   { href: '/admin/users', label: 'Пользователи' },
