@@ -4,25 +4,25 @@ import { useEffect } from 'react';
 import { Box, Card, Group, Loader, Stack, Tabs, Text, Title } from '@mantine/core';
 import ShowFormModal from './components/shows/ShowFormModal';
 import ShowsTable from './components/shows/ShowsTable';
-import { useAdminEventConstructorStore } from '@/store/adminEventConstructorStore';
+import { useEventConstructorStore } from './store/eventConstructorStore';
 
 export default function AdminEventConstructorPage() {
-  const eventTypes = useAdminEventConstructorStore((s) => s.eventTypes);
-  const typesLoading = useAdminEventConstructorStore((s) => s.typesLoading);
-  const activeTech = useAdminEventConstructorStore((s) => s.activeTech);
-  const showsRows = useAdminEventConstructorStore((s) => s.showsRows);
-  const showsLoading = useAdminEventConstructorStore((s) => s.showsLoading);
-  const modalOpen = useAdminEventConstructorStore((s) => s.modalOpen);
-  const modalMode = useAdminEventConstructorStore((s) => s.modalMode);
-  const editingRow = useAdminEventConstructorStore((s) => s.editingRow);
+  const eventTypes = useEventConstructorStore((s) => s.eventTypes);
+  const typesLoading = useEventConstructorStore((s) => s.typesLoading);
+  const activeTech = useEventConstructorStore((s) => s.activeTech);
+  const showsRows = useEventConstructorStore((s) => s.showsRows);
+  const showsLoading = useEventConstructorStore((s) => s.showsLoading);
+  const modalOpen = useEventConstructorStore((s) => s.modalOpen);
+  const modalMode = useEventConstructorStore((s) => s.modalMode);
+  const editingRow = useEventConstructorStore((s) => s.editingRow);
 
-  const loadEventTypes = useAdminEventConstructorStore((s) => s.loadEventTypes);
-  const loadShows = useAdminEventConstructorStore((s) => s.loadShows);
-  const refreshCurrentTab = useAdminEventConstructorStore((s) => s.refreshCurrentTab);
-  const setActiveTech = useAdminEventConstructorStore((s) => s.setActiveTech);
-  const openCreateModal = useAdminEventConstructorStore((s) => s.openCreateModal);
-  const openEditModal = useAdminEventConstructorStore((s) => s.openEditModal);
-  const closeModal = useAdminEventConstructorStore((s) => s.closeModal);
+  const loadEventTypes = useEventConstructorStore((s) => s.loadEventTypes);
+  const loadShows = useEventConstructorStore((s) => s.loadShows);
+  const refreshCurrentTab = useEventConstructorStore((s) => s.refreshCurrentTab);
+  const setActiveTech = useEventConstructorStore((s) => s.setActiveTech);
+  const openCreateModal = useEventConstructorStore((s) => s.openCreateModal);
+  const openEditModal = useEventConstructorStore((s) => s.openEditModal);
+  const closeModal = useEventConstructorStore((s) => s.closeModal);
 
   useEffect(() => {
     void loadEventTypes();

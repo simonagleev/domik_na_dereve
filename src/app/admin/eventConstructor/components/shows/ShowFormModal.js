@@ -13,6 +13,8 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { resolveEventImageSrc } from '@/lib/eventImage';
 
 function inputChangeValue(e) {
@@ -21,19 +23,20 @@ function inputChangeValue(e) {
 }
 
 export default function ShowFormModal({ opened, onClose, mode, initialRow, onSaved }) {
+  const isMobile = useMediaQuery('(max-width: 48em)');
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({
-    Name: '',
-    Price: 0,
-    MaxTikets: 0,
-    Description: '',
-    Comments: '',
-    ImageName: '',
-    ImagePath: '',
-    Age: null,
-    Duration: null,
+    name: '',
+    price: 0,
+    max_tickets: 14,
+    description: '',
+    comments: '',
+    image_path: '',
+    age: null,
+    duration: null,
+    people_per_ticket: 1,
   });
 
   useEffect(() => {
@@ -41,27 +44,27 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
     setError('');
     if (mode === 'edit' && initialRow) {
       setForm({
-        Name: initialRow.Name ?? '',
-        Price: initialRow.Price ?? 0,
-        MaxTikets: initialRow.MaxTikets ?? 0,
-        Description: initialRow.Description ?? '',
-        Comments: initialRow.Comments ?? '',
-        ImageName: initialRow.ImageName ?? '',
-        ImagePath: initialRow.ImagePath ?? '',
-        Age: initialRow.Age ?? null,
-        Duration: initialRow.Duration ?? null,
+        name: initialRow.Name ?? '',
+        price: initialRow.Price ?? 0,
+        max_tickets: initialRow.MaxTikets ?? 14,
+        description: initialRow.Description ?? '',
+        comments: initialRow.Comments ?? '',
+        image_path: initialRow.ImagePath ?? '',
+        age: initialRow.Age ?? null,
+        duration: initialRow.Duration ?? null,
+        people_per_ticket: initialRow.PeoplePerTicket ?? 1,
       });
     } else {
       setForm({
-        Name: '',
-        Price: 0,
-        MaxTikets: 0,
-        Description: '',
-        Comments: '',
-        ImageName: '',
-        ImagePath: '',
-        Age: null,
-        Duration: null,
+        name: '',
+        price: 0,
+        max_tickets: 14,
+        description: '',
+        comments: '',
+        image_path: '',
+        age: null,
+        duration: null,
+        people_per_ticket: 1,
       });
     }
   }, [opened, mode, initialRow]);
@@ -82,7 +85,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
         setError(data.error || 'Ошибка загрузки');
         return;
       }
-      setForm((f) => ({ ...f, ImagePath: data.imagePath || '' }));
+      setForm((f) => ({ ...f, image_path: data.imagePath || '' }));
     } catch {
       setError('Ошибка сети при загрузке файла');
     } finally {
@@ -91,9 +94,24 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
   };
 
   const handleSubmit = async () => {
-    const nameTrim = String(form.Name || '').trim();
-    if (!nameTrim) {
-      setError('Укажите название мероприятия');
+    const nameTrim = String(form.name || '').trim();
+    const descriptionTrim = String(form.description || '').trim();
+    const imagePathTrim = String(form.image_path || '').trim();
+    const priceValue = Number(form.price) || 0;
+
+    if (!nameTrim || !descriptionTrim || !imagePathTrim || priceValue <= 0) {
+      const missing = [];
+      if (!nameTrim) missing.push('name');
+      if (priceValue <= 0) missing.push('price');
+      if (!descriptionTrim) missing.push('description');
+      if (!imagePathTrim) missing.push('image_path');
+      const message = `Заполните обязательные поля: ${missing.join(', ')}`;
+      setError(message);
+      notifications.show({
+        color: 'red',
+        title: 'Не хватает данных',
+        message,
+      });
       return;
     }
 
@@ -101,39 +119,99 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
     setError('');
     try {
       const payload = {
-        Name: nameTrim,
-        Price: Number(form.Price) || 0,
-        MaxTikets: Number(form.MaxTikets) || 0,
-        Description: form.Description?.trim() ? form.Description.trim() : null,
-        Comments: form.Comments?.trim() ? form.Comments.trim() : null,
-        ImageName: form.ImageName?.trim() ? form.ImageName.trim() : null,
-        ImagePath: form.ImagePath?.trim() ? form.ImagePath.trim() : null,
-        Age: form.Age == null || form.Age === '' ? null : Number(form.Age),
-        Duration: form.Duration == null || form.Duration === '' ? null : Number(form.Duration),
+        name: nameTrim,
+        price: priceValue,
+        max_tickets: Number(form.max_tickets) || 0,
+        description: descriptionTrim,
+        comments: form.comments?.trim() ? form.comments.trim() : null,
+        image_path: imagePathTrim,
+        age: form.age == null || form.age === '' ? null : Number(form.age),
+        duration: form.duration == null || form.duration === '' ? null : Number(form.duration),
+        people_per_ticket:
+          form.people_per_ticket == null || form.people_per_ticket === ''
+            ? 1
+            : Math.max(1, Number(form.people_per_ticket) || 1),
       };
 
       if (mode === 'create') {
-        const res = await fetch('/api/admin/events/shows', {
+        const res = await fetch('/api/admin/postgres/raw-sql-exec', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({
+            sql: `
+              INSERT INTO shows
+                (name, price, max_tickets, description, comments, age, duration, image_path, people_per_ticket)
+              VALUES
+                ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+              RETURNING id
+            `,
+            params: [
+              payload.name,
+              payload.price,
+              payload.max_tickets,
+              payload.description,
+              payload.comments,
+              payload.age,
+              payload.duration,
+              payload.image_path,
+              payload.people_per_ticket,
+            ],
+          }),
         });
         const data = await res.json();
         if (!res.ok) {
           setError(data.error || 'Ошибка сохранения');
           return;
         }
+        notifications.show({
+          color: 'green',
+          title: 'Успешно',
+          message: 'Спектакль создан',
+        });
       } else if (initialRow?.ID != null) {
-        const res = await fetch(`/api/admin/events/shows/${initialRow.ID}`, {
-          method: 'PATCH',
+        const res = await fetch('/api/admin/postgres/raw-sql-exec', {
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({
+            sql: `
+              UPDATE shows
+              SET
+                name = $1,
+                price = $2,
+                max_tickets = $3,
+                description = $4,
+                comments = $5,
+                age = $6,
+                duration = $7,
+                image_path = $8,
+                people_per_ticket = $9
+              WHERE id = $10
+              RETURNING id
+            `,
+            params: [
+              payload.name,
+              payload.price,
+              payload.max_tickets,
+              payload.description,
+              payload.comments,
+              payload.age,
+              payload.duration,
+              payload.image_path,
+              payload.people_per_ticket,
+              initialRow.ID,
+            ],
+          }),
         });
         const data = await res.json();
         if (!res.ok) {
           setError(data.error || 'Ошибка сохранения');
           return;
         }
+        notifications.show({
+          color: 'green',
+          title: 'Успешно',
+          message: 'Изменения сохранены',
+        });
       }
       onSaved?.();
       onClose();
@@ -148,9 +226,15 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
     <Modal
       opened={opened}
       onClose={onClose}
-      title={mode === 'create' ? 'Новый спектакль' : `Редактирование: ${form.Name || '...'}`}
-      size="lg"
+      title={mode === 'create' ? 'Новый спектакль' : `Редактирование: ${form.name || '...'}`}
+      size={isMobile ? '90%' : 'min(1200px, calc(100vw - 48px))'}
+      xOffset={isMobile ? 0 : 24}
+      yOffset={isMobile ? 0 : 24}
+      fullScreen={isMobile}
       centered
+      withCloseButton
+      closeOnClickOutside={!saving}
+      closeOnEscape={!saving}
     >
       <form
         onSubmit={(e) => {
@@ -163,65 +247,75 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
             <Stack gap="sm" pr="xs">
               <TextInput
                 label="Название"
-                value={form.Name}
-                onChange={(e) => setForm((f) => ({ ...f, Name: inputChangeValue(e) }))}
+                withAsterisk
+                value={form.name}
+                onChange={(e) => setForm((f) => ({ ...f, name: inputChangeValue(e) }))}
                 required
               />
               <Group grow>
                 <NumberInput
                   label="Цена"
-                  value={form.Price}
-                  onChange={(v) => setForm((f) => ({ ...f, Price: Number(v) || 0 }))}
+                  withAsterisk
+                  value={form.price}
+                  onChange={(v) => setForm((f) => ({ ...f, price: Number(v) || 0 }))}
                   min={0}
                 />
                 <NumberInput
-                  label="Макс. билетов (MaxTikets)"
-                  value={form.MaxTikets}
-                  onChange={(v) => setForm((f) => ({ ...f, MaxTikets: Number(v) || 0 }))}
+                  label="Макс. билетов (max_tickets)"
+                  value={form.max_tickets}
+                  onChange={(v) => setForm((f) => ({ ...f, max_tickets: Number(v) || 0 }))}
                   min={0}
                 />
               </Group>
               <Group grow>
                 <NumberInput
-                  label="Возраст (Age)"
-                  value={form.Age ?? ''}
+                  label="Возраст (age)"
+                  value={form.age ?? ''}
                   onChange={(v) =>
-                    setForm((f) => ({ ...f, Age: v === '' || v == null ? null : Number(v) }))
+                    setForm((f) => ({ ...f, age: v === '' || v == null ? null : Number(v) }))
                   }
                   min={0}
                   allowDecimal={false}
                 />
                 <NumberInput
-                  label="Длительность (Duration)"
-                  value={form.Duration ?? ''}
+                  label="Длительность (duration)"
+                  value={form.duration ?? ''}
                   onChange={(v) =>
-                    setForm((f) => ({ ...f, Duration: v === '' || v == null ? null : Number(v) }))
+                    setForm((f) => ({ ...f, duration: v === '' || v == null ? null : Number(v) }))
                   }
                   min={0}
                   allowDecimal={false}
                 />
               </Group>
+              <NumberInput
+                label="Человек за билет (people_per_ticket)"
+                value={form.people_per_ticket ?? 1}
+                onChange={(v) =>
+                  setForm((f) => ({
+                    ...f,
+                    people_per_ticket: v === '' || v == null ? 1 : Math.max(1, Number(v) || 1),
+                  }))
+                }
+                min={1}
+                allowDecimal={false}
+              />
               <Textarea
                 label="Описание"
-                value={form.Description}
-                onChange={(e) => setForm((f) => ({ ...f, Description: inputChangeValue(e) }))}
+                withAsterisk
+                value={form.description}
+                onChange={(e) => setForm((f) => ({ ...f, description: inputChangeValue(e) }))}
                 minRows={3}
               />
               <Textarea
                 label="Комментарии"
-                value={form.Comments}
-                onChange={(e) => setForm((f) => ({ ...f, Comments: inputChangeValue(e) }))}
+                value={form.comments}
+                onChange={(e) => setForm((f) => ({ ...f, comments: inputChangeValue(e) }))}
                 minRows={2}
               />
               <TextInput
-                label="ImageName (старый вариант, файл в /img/shows/)"
-                value={form.ImageName}
-                onChange={(e) => setForm((f) => ({ ...f, ImageName: inputChangeValue(e) }))}
-                description="Например dari_vremeni.svg - пока миграция не завершена"
-              />
-              <TextInput
-                label="ImagePath (после загрузки с прода)"
-                value={form.ImagePath}
+                label="image_path"
+                withAsterisk
+                value={form.image_path}
                 readOnly
                 description="Заполняется после выбора файла"
               />

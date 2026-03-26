@@ -48,6 +48,11 @@ body {
   width: 100%;
 }
 
+/* Для админки body не должен центрировать весь layout как flex-контейнер, иначе модалка слетает вправо */
+body.admin-body {
+  display: block;
+}
+
 main {
   width: 100%;
   display: flex;

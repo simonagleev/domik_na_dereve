@@ -58,6 +58,13 @@ export default function AdminShell({ children }) {
   }, [pathname, closeMobileMenu]);
 
   useEffect(() => {
+    document.body.classList.add('admin-body');
+    return () => {
+      document.body.classList.remove('admin-body');
+    };
+  }, []);
+
+  useEffect(() => {
     if (isLoginPage) {
       setChecking(false);
       return;

@@ -14,7 +14,7 @@ const theme = createTheme({
 export default function AdminMantineProvider({ children }) {
   return (
     <MantineProvider theme={theme}>
-      <Notifications />
+      <Notifications position="top-right" />
       {children}
     </MantineProvider>
   );

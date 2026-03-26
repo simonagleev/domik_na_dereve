@@ -18,17 +18,32 @@ function normalizeShowRow(r) {
   };
 }
 
-export const useAdminEventConstructorStore = create((set, get) => ({
+export const useEventConstructorStore = create((set, get) => ({
+  // Общий контекст страницы
   eventTypes: [],
   typesLoading: true,
   activeTech: null,
 
-  showsRows: [],
-  showsLoading: false,
-
+  // Универсальное состояние модалки редактирования/создания для активной вкладки
   modalOpen: false,
   modalMode: 'create',
   editingRow: null,
+
+  // Срез для вкладки shows
+  showsRows: [],
+  showsLoading: false,
+
+  // Срезы для workshops
+  workshopsRows: [],
+  workshopsLoading: false,
+
+  // Срезы для birthdays
+  birthdaysRows: [],
+  birthdaysLoading: false,
+
+  // Срезы для creativeWorkshops
+  creativeWorkshopsRows: [],
+  creativeWorkshopsLoading: false,
 
   setActiveTech: (value) => {
     if (!value) return;
