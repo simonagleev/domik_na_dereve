@@ -22,7 +22,7 @@ function inputChangeValue(e) {
   return e?.target?.value ?? e?.currentTarget?.value ?? '';
 }
 
-export default function ShowFormModal({ opened, onClose, mode, initialRow, onSaved }) {
+export default function WorkshopFormModal({ opened, onClose, mode, initialRow, onSaved }) {
   const isMobile = useMediaQuery('(max-width: 48em)');
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -78,7 +78,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
     try {
       const fd = new FormData();
       fd.append('file', file);
-      fd.append('folder', 'shows');
+      fd.append('folder', 'workshops');
       const res = await fetch('/api/admin/upload-image', { method: 'POST', body: fd });
       const data = await res.json();
       if (!res.ok) {
@@ -139,7 +139,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             sql: `
-              INSERT INTO shows
+              INSERT INTO workshops
                 (name, price, max_tickets, description, comments, age, duration, image_path, people_per_ticket)
               VALUES
                 ($1, $2, $3, $4, $5, $6, $7, $8, $9)
@@ -166,7 +166,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
         notifications.show({
           color: 'green',
           title: 'Успешно',
-          message: 'Спектакль создан',
+          message: 'Мастер-класс создан',
         });
       } else if (initialRow?.ID != null) {
         const res = await fetch('/api/admin/postgres/raw-sql-exec', {
@@ -174,7 +174,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             sql: `
-              UPDATE shows
+              UPDATE workshops
               SET
                 name = $1,
                 price = $2,
@@ -226,7 +226,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
     <Modal
       opened={opened}
       onClose={onClose}
-      title={mode === 'create' ? 'Новый спектакль' : `Редактирование: ${form.name || '...'}`}
+      title={mode === 'create' ? 'Новый мастер-класс' : `Редактирование: ${form.name || '...'}`}
       size={isMobile ? '90%' : 'min(1200px, calc(100vw - 48px))'}
       xOffset={isMobile ? 0 : 24}
       yOffset={isMobile ? 0 : 24}

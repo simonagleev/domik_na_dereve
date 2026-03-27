@@ -4,7 +4,10 @@ import { useEffect } from 'react';
 import { Box, Card, Group, Loader, Stack, Tabs, Text, Title } from '@mantine/core';
 import ShowFormModal from './components/shows/ShowFormModal';
 import ShowsTable from './components/shows/ShowsTable';
+import WorkshopFormModal from './components/workshops/WorkshopFormModal';
+import WorkshopsTable from './components/workshops/WorkshopsTable';
 import { useEventConstructorStore } from './store/eventConstructorStore';
+import { useWorkshopsEventConstructorStore } from './components/workshops/store/workshopsEventConstructorStore';
 
 export default function AdminEventConstructorPage() {
   const eventTypes = useEventConstructorStore((s) => s.eventTypes);
@@ -24,6 +27,17 @@ export default function AdminEventConstructorPage() {
   const openEditModal = useEventConstructorStore((s) => s.openEditModal);
   const closeModal = useEventConstructorStore((s) => s.closeModal);
 
+  const workshopsRows = useWorkshopsEventConstructorStore((s) => s.workshopsRows);
+  const workshopsLoading = useWorkshopsEventConstructorStore((s) => s.workshopsLoading);
+  const workshopsModalOpen = useWorkshopsEventConstructorStore((s) => s.modalOpen);
+  const workshopsModalMode = useWorkshopsEventConstructorStore((s) => s.modalMode);
+  const workshopsEditingRow = useWorkshopsEventConstructorStore((s) => s.editingRow);
+  const loadWorkshops = useWorkshopsEventConstructorStore((s) => s.loadWorkshops);
+  const refreshWorkshops = useWorkshopsEventConstructorStore((s) => s.refresh);
+  const openCreateWorkshopsModal = useWorkshopsEventConstructorStore((s) => s.openCreateModal);
+  const openEditWorkshopsModal = useWorkshopsEventConstructorStore((s) => s.openEditModal);
+  const closeWorkshopsModal = useWorkshopsEventConstructorStore((s) => s.closeModal);
+
   useEffect(() => {
     void loadEventTypes();
   }, [loadEventTypes]);
@@ -31,8 +45,10 @@ export default function AdminEventConstructorPage() {
   useEffect(() => {
     if (activeTech === 'shows') {
       void loadShows();
+    } else if (activeTech === 'workshops') {
+      void loadWorkshops();
     }
-  }, [activeTech, loadShows]);
+  }, [activeTech, loadShows, loadWorkshops]);
 
   if (typesLoading) {
     return (
@@ -79,6 +95,14 @@ export default function AdminEventConstructorPage() {
                 onCreate={openCreateModal}
                 onEdit={openEditModal}
               />
+            ) : t.TechName === 'workshops' ? (
+              <WorkshopsTable
+                title={t.Name}
+                loading={workshopsLoading}
+                rows={workshopsRows}
+                onCreate={openCreateWorkshopsModal}
+                onEdit={openEditWorkshopsModal}
+              />
             ) : (
               <Card withBorder radius="md" p="lg">
                 <Text c="dimmed">
@@ -98,6 +122,15 @@ export default function AdminEventConstructorPage() {
         initialRow={editingRow}
         onSaved={() => {
           void refreshCurrentTab();
+        }}
+      />
+      <WorkshopFormModal
+        opened={workshopsModalOpen}
+        onClose={closeWorkshopsModal}
+        mode={workshopsModalMode}
+        initialRow={workshopsEditingRow}
+        onSaved={() => {
+          void refreshWorkshops();
         }}
       />
     </Stack>
