@@ -12,7 +12,6 @@ export async function GET(request) {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET);
-    console.log('payload', payload);
     if (payload.role !== 'admin') {
       return NextResponse.json({ user: null }, { status: 403 });
     }

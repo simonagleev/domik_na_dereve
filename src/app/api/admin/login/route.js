@@ -1,13 +1,59 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { createClient } from '@supabase/supabase-js';
+import { findAdminUserInPostgres } from '@/lib/adminLoginProviders';
 
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY; // только на сервере!
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+const JWT_SECRET = process.env.JWT_SECRET;
 
-const JWT_SECRET = process.env.JWT_SECRET; // задай в .env.local
+function normalizeAdminRole(role) {
+  return String(role ?? '').trim().toLowerCase();
+}
+
+function buildTokenCookieResponse(userId, email) {
+  const token = jwt.sign(
+    { userId, email, role: 'admin' },
+    JWT_SECRET,
+    { expiresIn: '7d' }
+  );
+
+  const res = NextResponse.json({ ok: true });
+  res.cookies.set('admin_token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    path: '/',
+    maxAge: 60 * 60 * 24 * 7,
+  });
+  return res;
+}
+
+async function verifyBcryptAdminUser({ passwordHashField, roleField, password, isProd, devWrongPasswordHint }) {
+  if (!passwordHashField || !String(passwordHashField).startsWith('$2')) {
+    return {
+      error: 'Пароль в БД не в bcrypt-формате. Обновите password_hash.',
+      status: 500,
+    };
+  }
+
+  const isValid = await bcrypt.compare(password, passwordHashField);
+  const roleNorm = normalizeAdminRole(roleField);
+
+  if (roleNorm !== 'admin') {
+    return {
+      error: isProd ? 'Неверный логин или пароль' : `Недостаточно прав. Role="${roleField}"`,
+      status: 401,
+    };
+  }
+
+  if (!isValid) {
+    return {
+      error: isProd ? 'Неверный логин или пароль' : devWrongPasswordHint,
+      status: 401,
+    };
+  }
+
+  return { ok: true };
+}
 
 export async function POST(request) {
   const { email, password } = await request.json();
@@ -22,69 +68,43 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Email и пароль обязательны' }, { status: 400 });
   }
 
-  // 1. Ищем пользователя в БД
-  const { data: user, error } = await supabase
-    .from('users')
-    .select('ID, Email, PasswordHash, Role')
-    .eq('Email', normalizedEmail)
-    .maybeSingle();
+  const pg = await findAdminUserInPostgres(normalizedEmail);
 
-  if (error ) {
-    console.log(' error123');
-    console.log(error);
+  if (pg.mode === 'no_config') {
     return NextResponse.json(
-      { error: 'Неверный логин или пароль' },
-      { status: 401 }
-    );
-  }
-
-  if (!user) {
-    return NextResponse.json(
-      { error:'Пользователь с таким Email не найден' },
-      { status: 401 }
-    );
-  }
-
-  // 2. Проверяем пароль
-  if (!user.PasswordHash || !user.PasswordHash.startsWith('$2')) {
-    return NextResponse.json(
-      { error: 'Пароль в БД не в bcrypt-формате. Обновите PasswordHash.' },
+      { error: 'Не настроено подключение к PostgreSQL (POSTGRES_URL или POSTGRES_CONNECTION_STRING)' },
       { status: 500 }
     );
   }
 
-  const isValid = await bcrypt.compare(password, user.PasswordHash);
-  const normalizedRole = String(user.Role || '').trim().toLowerCase();
-  if (normalizedRole !== 'admin') {
+  if (pg.mode === 'error') {
     return NextResponse.json(
-      { error: isProd ? 'Неверный логин или пароль' : `Недостаточно прав. Role="${user.Role}"` },
+      { error: 'База данных временно недоступна. Попробуйте позже.' },
+      { status: 503 }
+    );
+  }
+
+  if (pg.mode === 'not_found' || !pg.user) {
+    return NextResponse.json(
+      { error: isProd ? 'Неверный логин или пароль' : 'Пользователь с таким email не найден в PostgreSQL' },
       { status: 401 }
     );
   }
 
-  if (!isValid) {
-    return NextResponse.json(
-      { error: isProd ? 'Неверный логин или пароль' : 'Пароль не совпадает с PasswordHash' },
-      { status: 401 }
-    );
-  }
-
-  // 3. Генерим JWT
-  const token = jwt.sign(
-    { userId: user.Id, email: user.Email, role: normalizedRole },
-    JWT_SECRET,
-    { expiresIn: '7d' }
-  );
-
-  // 4. Кладём в httpOnly cookie
-  const res = NextResponse.json({ ok: true });
-  res.cookies.set('admin_token', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7,
+  const v = await verifyBcryptAdminUser({
+    passwordHashField: pg.user.password_hash,
+    roleField: pg.user.role,
+    password,
+    isProd,
+    devWrongPasswordHint: 'Пароль не совпадает с password_hash',
   });
+  if (v.error) {
+    return NextResponse.json({ error: v.error }, { status: v.status });
+  }
 
-  return res;
+  console.log('[admin login] Авторизация: PostgreSQL', {
+    email: normalizedEmail,
+    userId: pg.user.id,
+  });
+  return buildTokenCookieResponse(pg.user.id, pg.user.email);
 }

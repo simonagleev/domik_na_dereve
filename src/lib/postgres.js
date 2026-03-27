@@ -3,8 +3,8 @@ import { Pool } from 'pg';
 let pool;
 
 function getConnectionConfig() {
-  // Предпочтительный вариант: единый URL подключения
-  const connectionString = process.env.POSTGRES_URL
+  const connectionString =
+    process.env.POSTGRES_URL || process.env.POSTGRES_CONNECTION_STRING;
   if (connectionString) {
     return { connectionString };
   }
