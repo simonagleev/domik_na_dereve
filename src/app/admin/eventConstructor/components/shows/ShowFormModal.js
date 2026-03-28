@@ -261,7 +261,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                   min={0}
                 />
                 <NumberInput
-                  label="Макс. билетов (max_tickets)"
+                  label="Макс. кол-во билетов"
                   value={form.max_tickets}
                   onChange={(v) => setForm((f) => ({ ...f, max_tickets: Number(v) || 0 }))}
                   min={0}
@@ -269,7 +269,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
               </Group>
               <Group grow>
                 <NumberInput
-                  label="Возраст (age)"
+                  label="Возраст"
                   value={form.age ?? ''}
                   onChange={(v) =>
                     setForm((f) => ({ ...f, age: v === '' || v == null ? null : Number(v) }))
@@ -278,7 +278,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                   allowDecimal={false}
                 />
                 <NumberInput
-                  label="Длительность (duration, в минутах)"
+                  label="Длительность (в минутах)"
                   value={form.duration ?? ''}
                   onChange={(v) =>
                     setForm((f) => ({ ...f, duration: v === '' || v == null ? null : Number(v) }))
@@ -288,7 +288,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                 />
               </Group>
               <NumberInput
-                label="Человек за билет (people_per_ticket)"
+                label="Кол-во человек в билете"
                 value={form.people_per_ticket ?? 1}
                 onChange={(v) =>
                   setForm((f) => ({
@@ -304,7 +304,13 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                 withAsterisk
                 value={form.description}
                 onChange={(e) => setForm((f) => ({ ...f, description: inputChangeValue(e) }))}
-                minRows={3}
+                minRows={5}
+                styles={{
+                  input: {
+                    resize: 'vertical',
+                    minHeight: '8rem',
+                  },
+                }}
               />
               <Textarea
                 label="Комментарии"
@@ -312,16 +318,10 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                 onChange={(e) => setForm((f) => ({ ...f, comments: inputChangeValue(e) }))}
                 minRows={2}
               />
-              <TextInput
-                label="image_path"
-                withAsterisk
-                value={form.image_path}
-                readOnly
-                description="Заполняется после выбора файла"
-              />
+
               <div>
                 <Text size="sm" fw={500} mb={4}>
-                  Новое изображение
+                  Изображение
                 </Text>
                 <input
                   type="file"
@@ -335,6 +335,13 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                   </Text>
                 ) : null}
               </div>
+              <TextInput
+                label="image_path"
+                withAsterisk
+                value={form.image_path}
+                readOnly
+                description="Заполняется после выбора файла"
+              />
               {previewSrc ? <Image src={previewSrc} alt="preview" w={200} radius="md" fit="contain" /> : null}
               {error ? (
                 <Text c="red" size="sm">

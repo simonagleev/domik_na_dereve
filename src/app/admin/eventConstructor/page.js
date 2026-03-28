@@ -6,6 +6,7 @@ import ShowFormModal from './components/shows/ShowFormModal';
 import ShowsTable from './components/shows/ShowsTable';
 import WorkshopFormModal from './components/workshops/WorkshopFormModal';
 import WorkshopsTable from './components/workshops/WorkshopsTable';
+import { useShowsEventConstructorStore } from './components/shows/store/showsEventConstructorStore';
 import { useEventConstructorStore } from './store/eventConstructorStore';
 import { useWorkshopsEventConstructorStore } from './components/workshops/store/workshopsEventConstructorStore';
 
@@ -13,19 +14,20 @@ export default function AdminEventConstructorPage() {
   const eventTypes = useEventConstructorStore((s) => s.eventTypes);
   const typesLoading = useEventConstructorStore((s) => s.typesLoading);
   const activeTech = useEventConstructorStore((s) => s.activeTech);
-  const showsRows = useEventConstructorStore((s) => s.showsRows);
-  const showsLoading = useEventConstructorStore((s) => s.showsLoading);
-  const modalOpen = useEventConstructorStore((s) => s.modalOpen);
-  const modalMode = useEventConstructorStore((s) => s.modalMode);
-  const editingRow = useEventConstructorStore((s) => s.editingRow);
+
+  const showsRows = useShowsEventConstructorStore((s) => s.showsRows);
+  const showsLoading = useShowsEventConstructorStore((s) => s.showsLoading);
+  const modalOpen = useShowsEventConstructorStore((s) => s.modalOpen);
+  const modalMode = useShowsEventConstructorStore((s) => s.modalMode);
+  const editingRow = useShowsEventConstructorStore((s) => s.editingRow);
 
   const loadEventTypes = useEventConstructorStore((s) => s.loadEventTypes);
-  const loadShows = useEventConstructorStore((s) => s.loadShows);
-  const refreshCurrentTab = useEventConstructorStore((s) => s.refreshCurrentTab);
+  const loadShows = useShowsEventConstructorStore((s) => s.loadShows);
+  const refreshShows = useShowsEventConstructorStore((s) => s.refresh);
   const setActiveTech = useEventConstructorStore((s) => s.setActiveTech);
-  const openCreateModal = useEventConstructorStore((s) => s.openCreateModal);
-  const openEditModal = useEventConstructorStore((s) => s.openEditModal);
-  const closeModal = useEventConstructorStore((s) => s.closeModal);
+  const openCreateModal = useShowsEventConstructorStore((s) => s.openCreateModal);
+  const openEditModal = useShowsEventConstructorStore((s) => s.openEditModal);
+  const closeModal = useShowsEventConstructorStore((s) => s.closeModal);
 
   const workshopsRows = useWorkshopsEventConstructorStore((s) => s.workshopsRows);
   const workshopsLoading = useWorkshopsEventConstructorStore((s) => s.workshopsLoading);
@@ -121,7 +123,7 @@ export default function AdminEventConstructorPage() {
         mode={modalMode}
         initialRow={editingRow}
         onSaved={() => {
-          void refreshCurrentTab();
+          void refreshShows();
         }}
       />
       <WorkshopFormModal

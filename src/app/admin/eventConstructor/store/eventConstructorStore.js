@@ -1,58 +1,18 @@
 import { create } from 'zustand';
 
-function normalizeShowRow(r) {
-  return {
-    ID: r.id,
-    CreatedAt: r.created_at,
-    Name: r.name,
-    Price: r.price,
-    MaxTikets: r.max_tickets,
-    Description: r.description,
-    Comments: r.comments,
-    Age: r.age,
-    Duration: r.duration,
-    ImageName: r.image_name,
-    ImagePath: r.image_path,
-    PreviewImagePath: r.preview_image_path,
-    PeoplePerTicket: r.people_per_ticket,
-  };
-}
-
-export const useEventConstructorStore = create((set, get) => ({
-  // Общий контекст страницы
+/**
+ * Общий контекст страницы «Конструктор мероприятий»: вкладки (типы из API), активная вкладка.
+ * Данные и модалки по вкладкам — в отдельных сторах (shows / workshops / …).
+ */
+export const useEventConstructorStore = create((set) => ({
   eventTypes: [],
   typesLoading: true,
   activeTech: null,
-
-  // Универсальное состояние модалки редактирования/создания для активной вкладки
-  modalOpen: false,
-  modalMode: 'create',
-  editingRow: null,
-
-  // Срез для вкладки shows
-  showsRows: [],
-  showsLoading: false,
-
-  // Срезы для workshops
-  workshopsRows: [],
-  workshopsLoading: false,
-
-  // Срезы для birthdays
-  birthdaysRows: [],
-  birthdaysLoading: false,
-
-  // Срезы для creativeWorkshops
-  creativeWorkshopsRows: [],
-  creativeWorkshopsLoading: false,
 
   setActiveTech: (value) => {
     if (!value) return;
     set({ activeTech: value });
   },
-
-  openCreateModal: () => set({ modalMode: 'create', editingRow: null, modalOpen: true }),
-  openEditModal: (row) => set({ modalMode: 'edit', editingRow: row ?? null, modalOpen: true }),
-  closeModal: () => set({ modalOpen: false }),
 
   loadEventTypes: async () => {
     set({ typesLoading: true });
@@ -78,38 +38,4 @@ export const useEventConstructorStore = create((set, get) => ({
       set({ typesLoading: false });
     }
   },
-
-  loadShows: async () => {
-    set({ showsLoading: true });
-    try {
-      const res = await fetch('/api/admin/postgres/raw-sql-select', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sql: 'SELECT * FROM shows ORDER BY id DESC',
-          params: [],
-        }),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        console.error('shows list', json);
-        set({ showsRows: [] });
-        return;
-      }
-      const rows = Array.isArray(json?.data) ? json.data : [];
-      set({ showsRows: rows.map(normalizeShowRow) });
-    } catch (e) {
-      console.error('shows fetch', e);
-      set({ showsRows: [] });
-    } finally {
-      set({ showsLoading: false });
-    }
-  },
-
-  refreshCurrentTab: async () => {
-    if (get().activeTech === 'shows') {
-      await get().loadShows();
-    }
-  },
 }));
-
