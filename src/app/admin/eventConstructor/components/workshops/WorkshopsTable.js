@@ -28,7 +28,9 @@ export default function WorkshopsTable({ title, loading, rows, onCreate, onEdit 
                 <Table.Th>Название</Table.Th>
                 <Table.Th w={100}>Цена</Table.Th>
                 <Table.Th w={100}>Билетов</Table.Th>
-                <Table.Th w={170}>Duration</Table.Th>
+                <Table.Th w={90}>Возраст</Table.Th>
+                <Table.Th w={170}>Длительность</Table.Th>
+                <Table.Th w={120}>Кол-во в билете</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -49,11 +51,15 @@ export default function WorkshopsTable({ title, loading, rows, onCreate, onEdit 
                     <Table.Td>{row.Name}</Table.Td>
                     <Table.Td>{row.Price}</Table.Td>
                     <Table.Td>{row.MaxTikets}</Table.Td>
+                    <Table.Td>{row.Age != null && row.Age !== '' ? row.Age : '—'}</Table.Td>
                     <Table.Td>
-                      <Text size="sm">{row.Duration ?? '-'}</Text>
+                      <Text size="sm">{row.Duration != null && row.Duration !== '' ? row.Duration : '—'}</Text>
                       <Text size="xs" c="dimmed">
                         ({formatDurationRu(row.Duration)})
                       </Text>
+                    </Table.Td>
+                    <Table.Td>
+                      {row.PeoplePerTicket != null && row.PeoplePerTicket !== '' ? row.PeoplePerTicket : '—'}
                     </Table.Td>
                   </Table.Tr>
                 );

@@ -2,6 +2,7 @@
 
 import { Button, Card, Group, Image, Loader, Table, Text } from '@mantine/core';
 import { resolveEventImageSrc } from '@/lib/eventImage';
+import { formatDurationRu } from '@/lib/durationFormat';
 import AdminTableScroll from '@/components/AdminShell/AdminTableScroll';
 
 export default function ShowsTable({ title, loading, rows, onCreate, onEdit }) {
@@ -27,7 +28,9 @@ export default function ShowsTable({ title, loading, rows, onCreate, onEdit }) {
                 <Table.Th>Название</Table.Th>
                 <Table.Th w={100}>Цена</Table.Th>
                 <Table.Th w={100}>Билетов</Table.Th>
-                <Table.Th>Создан</Table.Th>
+                <Table.Th w={90}>Возраст</Table.Th>
+                <Table.Th w={170}>Длительность</Table.Th>
+                <Table.Th w={120}>Кол-во в билете</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -48,10 +51,15 @@ export default function ShowsTable({ title, loading, rows, onCreate, onEdit }) {
                     <Table.Td>{row.Name}</Table.Td>
                     <Table.Td>{row.Price}</Table.Td>
                     <Table.Td>{row.MaxTikets}</Table.Td>
+                    <Table.Td>{row.Age != null && row.Age !== '' ? row.Age : '—'}</Table.Td>
                     <Table.Td>
-                      <Text size="sm" c="dimmed">
-                        {row.CreatedAt ? String(row.CreatedAt).slice(0, 19).replace('T', ' ') : '-'}
+                      <Text size="sm">{row.Duration != null && row.Duration !== '' ? row.Duration : '—'}</Text>
+                      <Text size="xs" c="dimmed">
+                        ({formatDurationRu(row.Duration)})
                       </Text>
+                    </Table.Td>
+                    <Table.Td>
+                      {row.PeoplePerTicket != null && row.PeoplePerTicket !== '' ? row.PeoplePerTicket : '—'}
                     </Table.Td>
                   </Table.Tr>
                 );
