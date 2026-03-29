@@ -1,42 +1,30 @@
 import { create } from 'zustand';
 
+/**
+ * showSchedules — массив с сервера /api/showsSchedule: { id, name, age, image_*, schedules[] }.
+ */
 export const useShowsStore = create((set, get) => ({
   isModalOpen: false,
   openModal: () => set({ isModalOpen: true }),
   closeModal: () => set({ isModalOpen: false }),
 
-  schedules: [], // Список всех расписаний
-  showSchedules: [], // Список расписаний, сгруппированных по шоу
+  schedules: [],
+  showSchedules: [],
 
-  // Обновление общего массива расписаний
-  updateSchedules: (newSchedules) => {
-    set({ schedules: newSchedules });
-    const shows = [
-      { id: 1, name: 'Дары времени' }, 
-      { id: 2, name: 'Снегурочка' }, 
-      { id: 3, name: 'Малыш, потерявший фантазию' },
-      { id: 4, name: 'Картонные желания' },
-      { id: 5, name: 'В гостях у Донди' },
-      { id: 6, name: 'Урожайная сказка' },
-      { id: 7, name: 'Принцесса птиц' },
-      { id: 8, name: 'Приключения льдинки и снежинки' },
-      { id: 9, name: 'Путешествие за новогодней звездой' },
-      { id: 10, name: 'Зимние были-небылицы' },
-      { id: 11, name: 'История про голодную гусеницу' },
-      { id: 12, name: 'Как заяц весну встречал' },
-    ];
-    const updatedShowSchedules = shows.map((show) => {
-      const showSchedules = newSchedules.filter((schedule) => schedule.ShowID === show.id);
-      return { ...show, schedules: showSchedules };
+  updateSchedules: (groupedShows) => {
+    const list = Array.isArray(groupedShows) ? groupedShows : [];
+    set({
+      showSchedules: list,
+      schedules: list.flatMap((g) =>
+        (g.schedules || []).map((s) => ({ ...s, showName: g.name }))
+      ),
     });
-    set({ showSchedules: updatedShowSchedules });
   },
-  // Явное обновление showSchedules, если нужно вручную
+
   updateShowSchedules: (newShowSchedules) => set({ showSchedules: newShowSchedules }),
 
-
   pickedShow: null,
-  updatePickedShow: (item) => { set({ pickedShow: item }) }, // Тут шоу из моего массива, не из бд, у него будет массив расписания, где будут уже из бБД записи
+  updatePickedShow: (item) => set({ pickedShow: item }),
 
   idToSend: null,
   updateIdToSend: (id) => set({ idToSend: id }),
@@ -50,7 +38,7 @@ export const useShowsStore = create((set, get) => ({
     price: 0,
     remainingCount: 0,
     date: '',
-    comments: ''
-  },  // А это уже запись из БД отдельная
-  updateCurrentShowItem: (data) => set({ currentShowItem: data })
+    comments: '',
+  },
+  updateCurrentShowItem: (data) => set({ currentShowItem: data }),
 }));

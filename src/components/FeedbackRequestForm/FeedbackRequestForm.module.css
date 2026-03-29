@@ -1,26 +1,21 @@
-.modal_overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(186, 214, 228, 0.6);
-    /* Затемнение */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    /* Поверх всех остальных элементов */
-}
+/* Оверлей и карточка — clientModal.module.css */
 
-.payment_form {
-    background-color: #fff;
-    padding: 0 20px;
-    border-radius: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-    width: 40%;
-    max-width: 637px;
-    text-align: center;
+@media (min-width: 481px) {
+    .form_fields_grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 20px;
+        margin-bottom: 12px;
+        width: 100%;
+    }
+
+    .form_fields_grid .form_group {
+        margin-bottom: 0;
+    }
+
+    .form_field_full_span {
+        grid-column: 1 / -1;
+    }
 }
 
 .close_button_container {
@@ -48,8 +43,9 @@
 
 .payment_form_heading {
     margin-bottom: 30px;
-    font-family: 2rem;
-    line-height: 41px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    line-height: 29px;
 }
 
 .form_group {
@@ -164,6 +160,14 @@
         width: 90%;
     }
 
+    .form_fields_grid {
+        display: block;
+    }
+
+    .form_fields_grid .form_group {
+        margin-bottom: 10px;
+    }
+
     .close_button_container {
         width: 100%;
         display: flex;
@@ -180,7 +184,8 @@
 
     .payment_form_heading {
         margin-bottom: 15px;
-        font-family: 1.333rem;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.333rem;
         line-height: 21px;
     }
 

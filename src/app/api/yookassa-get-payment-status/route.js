@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '../../../../lib/supabase';
+import { getYooKassaCredentials } from '@/lib/yookassaCredentials';
 
-// Это тестовое тест
 export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const orderId = searchParams.get('orderId');
 
-    const shopId = process.env.YOOKASSA_SHOP_ID;
-    const secretKey = process.env.YOOKASSA_SECRET_KEY;
+    const { shopId, secretKey } = getYooKassaCredentials();
+    if (!shopId || !secretKey || !orderId) {
+        return NextResponse.json({ error: 'Нет параметров или ключей YooKassa' }, { status: 400 });
+    }
 
     const response = await fetch(`https://api.yookassa.ru/v3/payments/${orderId}`, {
         method: 'GET',

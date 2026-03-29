@@ -1,13 +1,11 @@
-import { NextResponse } from 'next/server';
-import { supabase } from '../../../../lib/supabase';
+import { getYooKassaCredentials } from '@/lib/yookassaCredentials';
 
 export default function checkStatusYookassa(object, attempt = 0) {
 
     return new Promise(function (resolve, reject) {
         console.log('getOrderStatus YOOKASSA HAPPENED');
 
-        const shopId = process.env.YOOKASSA_SHOP_ID_TEST;
-        const secretKey = process.env.YOOKASSA_SECRET_KEY_TEST;
+        const { shopId, secretKey } = getYooKassaCredentials();
     
         const idempotenceKey = `${Date.now()}-${Math.random()}`; // Генерация ключа идемпотентности
         const auth = Buffer.from(`${shopId}:${secretKey}`).toString('base64');

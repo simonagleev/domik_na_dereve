@@ -39,6 +39,15 @@ const getChatIds = async () => {
 
 
 
+function tgDateParts(raw) {
+  const s = String(raw || '');
+  if (s.includes('T')) {
+    return { d: s.split('T')[0], t: s.split('T')[1].substring(0, 5) };
+  }
+  const parts = s.trim().split(/\s+/);
+  return { d: parts[0] || '—', t: (parts[1] || '').slice(0, 5) };
+}
+
 export async function POST(request) {
 
   try {
@@ -46,15 +55,23 @@ export async function POST(request) {
     const data = await request.json();
     let message = null
     console.log(data)
-    if (!data.name || !data.phone || !data.date || !data.count || !data.email || !data.orderID || !data.title) {
+    const childName = data.childName || data.name;
+    const clientName = data.clientName || '';
+    if (!childName || !data.phone || !data.date || !data.count || !data.email || !data.orderID || !data.title) {
       return new Response(JSON.stringify({ error: 'Не все данные переданы' }), { status: 400 });
     }
+    const { d: dateD, t: dateT } = tgDateParts(data.date);
+    const namesBlock =
+      clientName.trim() !== ''
+        ? `Имя ребёнка: ${childName}\n        Имя родителя: ${clientName}`
+        : `Имя: ${childName}`;
+
     const messageWorkshop = `
         Новый запрос на запись MK:
-      Дата и время: ${data.date.split('T')[0]} в ${data.date.split('T')[1].substring(0, 5)},
+      Дата и время: ${dateD} в ${dateT},
         Название: ${data.title}
         Количество: ${data.count}
-          Имя: ${data.name}
+          ${namesBlock}
           Телефон: ${data.phone}
           Email: ${data.email}
             ----------
@@ -63,10 +80,10 @@ export async function POST(request) {
 
     const messageShow = `
       ПОКУПКА БИЛЕТА на СПЕКТАКЛЬ:
-      Дата и время: ${data.date.split('T')[0]} в ${data.date.split('T')[1].substring(0, 5)},
+      Дата и время: ${dateD} в ${dateT},
       Название: ${data.title}
       Количество: ${data.count}
-        Имя: ${data.name}
+        ${namesBlock}
         Телефон: ${data.phone}
         Email: ${data.email}
         ----------

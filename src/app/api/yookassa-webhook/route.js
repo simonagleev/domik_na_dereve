@@ -1,76 +1,67 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '../../../../lib/supabase';
+import { pgQuery } from '@/lib/postgres';
+
+/** Отмена/возврат: вернуть билеты на слот и обновить статус в online_transactions. */
+const REVERT_STATUSES = ['canceled', 'refunded'];
 
 export async function POST(request) {
-    try {
-        const body = await request.json();
+  try {
+    const body = await request.json();
+    const { object } = body;
+    const { id: orderAcquiringID, status: newStatus } = object;
 
-        // Проверка, что запрос пришел от ЮKassa
-        const shopId = process.env.YOOKASSA_SHOP_ID;
-        const secretKey = process.env.YOOKASSA_SECRET_KEY;
-        const signature = request.headers.get('Authorization');
-
-        const expectedSignature = `Basic ${Buffer.from(`${shopId}:${secretKey}`).toString('base64')}`;
-
-        const { object, event } = body; // Данные из вебхука
-        const { id: orderAcquiringID, status: newStatus } = object;
-
-        if (newStatus === ('canceled' || 'rejected' || 'refunded')) {
-            console.log('PAYMENT FAILED')
-
-            const { orderTypeData, error: dbErrorType } = await supabase
-                .from('schedule')
-                .select('Type')
-                .eq('OrderAcquiringID', orderAcquiringID)
-
-            if (dbErrorType) {
-                console.log('ОШИБКА получения типа из транзакции')
-                console.log(dbErrorType)
-                return NextResponse.json({ error: dbErrorType.error }, { status: 500 });
-            } else {
-                const orderType = orderTypeData.length > 0 ? orderTypeData[0].Type : null;
-                if (orderType && orderType === 'show') {
-                    const { data, error: dbError2 } = await supabase
-                        .rpc('increase_remaining_count', {
-                            order_id: orderAcquiringID,
-                        });
-
-                    if (dbError2) {
-                        console.log('ОШИБКА обновления RemainingCount в спетаклях')
-                        console.log(dbError2)
-                        return NextResponse.json({ error: dbError2.error }, { status: 500 });
-                    }
-                } else if (orderType && orderType === 'mk') {
-                    const { data, error: dbError2 } = await supabase
-                        .rpc('increase_workshops_remaining_count', {
-                            order_id: orderAcquiringID,
-                        });
-
-                    if (dbError2) {
-                        console.log('ОШИБКА обновления RemainingCount в мастер-классах')
-                        console.log(dbError2)
-                        return NextResponse.json({ error: dbError2.error }, { status: 500 });
-                    }
-                }
-            }
-        } else if (newStatus === 'succeeded') {
-            // Обновление статуса платежа в Supabase
-            const { error } = await supabase
-                .from('onlineTransactions')
-                .update({ Status: newStatus })
-                .eq('OrderAcquiringID', orderAcquiringID);
-
-            if (error) {
-                console.error('Ошибка обновления статуса в Supabase:', error);
-                return NextResponse.json({ error: 'Ошибка обновления статуса' }, { status: 500 });
-            }
-        } else {
-            console.log(`SOMETHING STRANGE HAPPENED TO THE PATMENT ${orderAcquiringID}`)
-        }
-
-        return NextResponse.json({ success: true });
-    } catch (error) {
-        console.error('Ошибка обработки вебхука:', error);
-        return NextResponse.json({ error: 'Ошибка обработки вебхука' }, { status: 500 });
+    if (newStatus === 'succeeded') {
+      const r = await pgQuery(
+        `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
+        [newStatus, orderAcquiringID]
+      );
+      if (r.rowCount === 0) {
+        console.warn('yookassa-webhook: нет строки online_transactions для succeeded', orderAcquiringID);
+      }
+      return NextResponse.json({ success: true });
     }
+
+    if (REVERT_STATUSES.includes(newStatus)) {
+      const { rows } = await pgQuery(
+        `SELECT "type", item_id, ticket_count FROM online_transactions WHERE order_acquiring_id = $1`,
+        [orderAcquiringID]
+      );
+
+      if (rows.length === 0) {
+        console.warn('yookassa-webhook: нет транзакции для отмены/возврата', orderAcquiringID);
+        return NextResponse.json({ success: true });
+      }
+
+      const tx = rows[0];
+      const ticketCount = Number(tx.ticket_count) || 0;
+      const itemId = tx.item_id;
+
+      if (ticketCount > 0 && itemId != null) {
+        if (tx.type === 'show') {
+          await pgQuery(
+            `UPDATE shows_schedule SET remaining_count = remaining_count + $1 WHERE id = $2`,
+            [ticketCount, itemId]
+          );
+        } else if (tx.type === 'mk') {
+          await pgQuery(
+            `UPDATE workshop_schedule SET remaining_count = remaining_count + $1 WHERE id = $2`,
+            [ticketCount, itemId]
+          );
+        }
+      }
+
+      await pgQuery(
+        `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
+        [newStatus, orderAcquiringID]
+      );
+
+      return NextResponse.json({ success: true });
+    }
+
+    console.log(`yookassa-webhook: статус ${newStatus} для ${orderAcquiringID}`);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Ошибка обработки вебхука:', error);
+    return NextResponse.json({ error: 'Ошибка обработки вебхука' }, { status: 500 });
+  }
 }

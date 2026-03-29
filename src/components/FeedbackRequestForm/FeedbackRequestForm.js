@@ -1,7 +1,9 @@
 'use client'
 import styles from "./FeedbackRequestForm.module.css";
+import cm from "@/components/clientModal/clientModal.module.css";
 import { useEffect, useState } from "react";
 import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
+import { normalizeRuPhoneInput } from "@/lib/phoneInput";
 
 export default function FeedbackRequestForm({ type }) {
     const {
@@ -15,7 +17,7 @@ export default function FeedbackRequestForm({ type }) {
     const [loading, setLoading] = useState(false);
 
     const handleClickOutside = (e) => {
-        if (e.target.classList.contains(styles.modal_overlay)) {
+        if (e.target === e.currentTarget) {
             resetFormData()
             closeFeedbackRequestForm();
         }
@@ -31,21 +33,7 @@ export default function FeedbackRequestForm({ type }) {
     }
 
     const handlePhoneChange = (e) => {
-        let value = e.target.value;
-        // Убираем все символы, кроме цифр и знака +
-        value = value.replace(/[^0-9+]/g, '');
-
-        // Если '+' встречается не в первой позиции, удаляем его
-        if (value.indexOf('+', 1) !== -1) {
-            value = value.replace(/\+/g, '');
-            value = `+${value}`;
-        }
-
-        // Если это первый символ и он не равен +, заменяем его на +7
-        if (value && value[0] !== '+') {
-            value = `+7${value.slice(1)}`; // Заменяем первый символ на +7
-        }
-        updateFormData('phone', value.trim());
+        updateFormData('phone', normalizeRuPhoneInput(e.target.value));
     };
 
     const handlePhonKeyDown = (e) => {
@@ -165,8 +153,8 @@ export default function FeedbackRequestForm({ type }) {
     }
 
     return (
-        <div className={styles.modal_overlay} onClick={handleClickOutside}>
-            <div className={styles.payment_form}>
+        <div className={cm.overlay} onClick={handleClickOutside}>
+            <div className={`${cm.panel} ${styles.payment_form}`}>
                 {/* Кнопка крестик */}
                 <div className={styles.close_button_container}>
                     <button className={styles.close_button} onClick={handleClose} aria-label="Закрыть форму">
@@ -176,6 +164,7 @@ export default function FeedbackRequestForm({ type }) {
 
                 <h2 className={styles.payment_form_heading}>Заполните форму для записи</h2>
                 <form onSubmit={(e) => handleSubmit(e)}>
+                    <div className={styles.form_fields_grid}>
                     <div className={styles.form_group}>
                         <input type="text" id="name" name="name" placeholder="Имя"
                             value={formData.name}
@@ -204,7 +193,7 @@ export default function FeedbackRequestForm({ type }) {
                     </div>
                     {type === 'birthday' ?
                         <div
-                            className={`${styles.form_group} ${styles.date_wrapper}`}
+                            className={`${styles.form_group} ${styles.date_wrapper} ${styles.form_field_full_span}`}
                             onClick={() => document.getElementById('eventDate').showPicker()}
                         >
                             <input
@@ -218,6 +207,7 @@ export default function FeedbackRequestForm({ type }) {
                             />
                         </div> : null
                     }
+                    </div>
 
                     <button className={styles.submit_btn} type="submit">
                         {type === 'show' ? 'Купить билеты'
@@ -229,12 +219,12 @@ export default function FeedbackRequestForm({ type }) {
                     </button>
                 </form>
 
-                <h2 className={styles.payment_form_heading}>
+                <h3 className={styles.payment_form_heading}>
                     Или свяжитесь с нами<br /> самостоятельно по номеру:
-                </h2>
-                <h2 className={styles.payment_form_heading}>
+                </h3>
+                <h3 className={styles.payment_form_heading}>
                     +7 (914) 932-28-82
-                </h2>
+                </h3>
             </div>
         </div>
     );

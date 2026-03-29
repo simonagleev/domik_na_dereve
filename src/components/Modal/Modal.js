@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import styles from './Modal.module.css'
+import cm from '@/components/clientModal/clientModal.module.css'
 
 export default function Modal({ isOpen, onClose, children }) {
   const [mounted, setMounted] = useState(false)
@@ -32,9 +33,9 @@ export default function Modal({ isOpen, onClose, children }) {
   if (!mounted || !isOpen) return null
 
   return createPortal(
-    <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>
+    <div className={cm.overlay} onClick={onClose}>
+      <div className={cm.panel} onClick={(e) => e.stopPropagation()}>
+        <button className={styles.closeButton} onClick={onClose} type="button" aria-label="Закрыть">
           &times;
         </button>
         {children}

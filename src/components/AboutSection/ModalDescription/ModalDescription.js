@@ -1,12 +1,13 @@
 'use client'
 import styles from "./ModalDescription.module.css";
+import cm from "@/components/clientModal/clientModal.module.css";
 import { useDescriptionModatStore } from "@/store/descriptionModatStore";
 
 export default function ModalDescription({ }) {
     const { isOpen, closeDescriptionModal, textNumber, text_1, text_2 } = useDescriptionModatStore();
 
     const handleClickOutside = (e) => {
-        if (e.target.classList.contains(styles.modal_overlay)) {
+        if (e.target === e.currentTarget) {
             closeDescriptionModal();
         }
     };
@@ -28,8 +29,8 @@ export default function ModalDescription({ }) {
         //     break;
     }
     return (
-        <div className={styles.modal_overlay} onClick={handleClickOutside} >
-            <div className={styles.form_container}>
+        <div className={cm.overlay} onClick={handleClickOutside} >
+            <div className={`${cm.panel} ${styles.form_container}`}>
                 {/* Кнопка крестик */}
                 <button className={styles.close_button} onClick={closeDescriptionModal} aria-label="Закрыть форму">
                     &times;
