@@ -7,6 +7,8 @@
     padding: 25px;
     background-color: #fff;
     flex-grow: 1;
+    min-width: 0;
+    box-sizing: border-box;
 }
 
 .card_info {
@@ -69,9 +71,15 @@
 
 .card_date {
     color: rgba(103, 151, 175, 1);
-    font-size: 2.1875rem;
-    line-height: 45px;
+    font-size: clamp(1.25rem, 2.5vw, 2.1875rem);
+    line-height: 1.25;
     margin: 25px 0 6px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    text-align: center;
 }
 
 .workshop_items_container {

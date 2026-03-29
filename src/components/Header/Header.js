@@ -1,12 +1,9 @@
 import Image from "next/image";
 import styles from "./Header.module.css";
-import { getSeason } from "@/utils/season";
+import { getSeasonIrkutskNow } from "@/utils/season";
 import Link from "next/link";
 import BurgerMenu from "./BurgerMenu";
 
-//Получаем сезон
-const month = new Date().getMonth()
-const season = getSeason(month)
 const gradientMap = {
     spring: "linear-gradient(to right, rgba(103, 159, 191, 1), rgba(163, 184, 55, 1))",
     summer: "linear-gradient(to right, rgba(103, 159, 191, 1), rgba(185, 218, 52, 1))",
@@ -15,6 +12,7 @@ const gradientMap = {
 };
 
 export default function Header() {
+    const season = getSeasonIrkutskNow();
     return (
         <header className={styles.header} style={{ background: gradientMap[season] || "transparent" }}>
             <Link href="/">

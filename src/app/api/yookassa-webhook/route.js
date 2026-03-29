@@ -15,44 +15,22 @@ export async function POST(request) {
     }
     const { id: orderAcquiringID, status: newStatus } = object;
 
-    if (newStatus === 'succeeded') {
-      const r = await pgQuery(
-        `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
-        [newStatus, orderAcquiringID]
-      );
-      if (r.rowCount === 0) {
-        console.warn('yookassa-webhook: нет строки online_transactions для succeeded', orderAcquiringID);
-      }
-      return NextResponse.json({ success: true });
-    }
-
     if (newStatus === 'canceled') {
-      const { restored } = await applyCanceledPaymentAndRestoreSeats(orderAcquiringID);
-      if (!restored) {
-        const { rows } = await pgQuery(
-          `SELECT status FROM online_transactions WHERE order_acquiring_id = $1`,
-          [orderAcquiringID]
-        );
-        if (rows.length === 0) {
-          console.warn('yookassa-webhook: нет транзакции для canceled', orderAcquiringID);
-        }
-      }
-      return NextResponse.json({ success: true });
+      await applyCanceledPaymentAndRestoreSeats(orderAcquiringID);
     }
 
-    /** Редкий случай; денежных возвратов нет — только синхронизация статуса в БД, слот не меняем. */
-    if (newStatus === 'refunded') {
-      const r = await pgQuery(
-        `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
-        [newStatus, orderAcquiringID]
+    const r = await pgQuery(
+      `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
+      [newStatus, orderAcquiringID]
+    );
+    if (r.rowCount === 0) {
+      console.warn(
+        'yookassa-webhook: нет строки online_transactions для статуса',
+        newStatus,
+        orderAcquiringID
       );
-      if (r.rowCount === 0) {
-        console.warn('yookassa-webhook: нет транзакции для refunded', orderAcquiringID);
-      }
-      return NextResponse.json({ success: true });
     }
 
-    console.log(`yookassa-webhook: статус ${newStatus} для ${orderAcquiringID}`);
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Ошибка обработки вебхука:', error);

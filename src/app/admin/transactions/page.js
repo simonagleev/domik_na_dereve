@@ -163,6 +163,7 @@ export default function AdminTransactionsPage() {
       itemId,
       loading: true,
       startDateTime: null,
+      eventName: null,
       error: null,
     });
     try {
@@ -177,7 +178,14 @@ export default function AdminTransactionsPage() {
         return;
       }
       setSchedulePopup((p) =>
-        p ? { ...p, loading: false, startDateTime: json.start_datetime ?? null } : p
+        p
+          ? {
+              ...p,
+              loading: false,
+              startDateTime: json.start_datetime ?? null,
+              eventName: json.event_name ?? null,
+            }
+          : p
       );
     } catch {
       setSchedulePopup((p) => (p ? { ...p, loading: false, error: 'Ошибка сети' } : p));
@@ -428,19 +436,20 @@ export default function AdminTransactionsPage() {
             position: 'fixed',
             left: Math.min(
               schedulePopup.x + 10,
-              typeof window !== 'undefined' ? window.innerWidth - 260 : schedulePopup.x
+              typeof window !== 'undefined' ? window.innerWidth - 340 : schedulePopup.x
             ),
             top: Math.min(
               schedulePopup.y + 10,
-              typeof window !== 'undefined' ? window.innerHeight - 160 : schedulePopup.y
+              typeof window !== 'undefined' ? window.innerHeight - 220 : schedulePopup.y
             ),
             zIndex: 400,
-            width: 280,
+            width: 320,
+            maxWidth: 'min(320px, calc(100vw - 24px))',
             pointerEvents: 'auto',
           }}
         >
           <Text size="xs" fw={600} mb={6}>
-            Время начала мероприятия
+            Мероприятие
           </Text>
           {schedulePopup.loading ? (
             <Group justify="center" py="xs">
@@ -452,6 +461,14 @@ export default function AdminTransactionsPage() {
             </Text>
           ) : (
             <Stack gap={6}>
+              {schedulePopup.eventName ? (
+                <Text size="sm" style={{ lineHeight: 1.35 }}>
+                  <Text component="span" fw={600}>
+                    Название:
+                  </Text>{' '}
+                  {schedulePopup.eventName}
+                </Text>
+              ) : null}
               <Text size="sm">
                 <Text component="span" fw={600}>
                   Дата:

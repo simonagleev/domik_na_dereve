@@ -87,29 +87,16 @@ export async function syncOnlineTransactionWithYooKassa(paymentId) {
     return { ok: true, ykStatus, previousDbStatus, updated: false };
   }
 
-  if (ykStatus === 'succeeded') {
-    const r = await pgQuery(
-      `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
-      [ykStatus, paymentId]
-    );
-    if (r.rowCount === 0) {
-      console.warn('[yookassaSync] succeeded, строка не найдена', paymentId);
-    }
-    return { ok: true, ykStatus, previousDbStatus, updated: r.rowCount > 0 };
-  }
-
   if (ykStatus === 'canceled') {
-    const { restored } = await applyCanceledPaymentAndRestoreSeats(paymentId);
-    return { ok: true, ykStatus, previousDbStatus, updated: restored };
+    await applyCanceledPaymentAndRestoreSeats(paymentId);
   }
 
-  if (ykStatus === 'refunded') {
-    const r = await pgQuery(
-      `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
-      [ykStatus, paymentId]
-    );
-    return { ok: true, ykStatus, previousDbStatus, updated: r.rowCount > 0 };
+  const r = await pgQuery(
+    `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
+    [ykStatus, paymentId]
+  );
+  if (r.rowCount === 0) {
+    console.warn('[yookassaSync] нет строки online_transactions', ykStatus, paymentId);
   }
-
-  return { ok: true, ykStatus, previousDbStatus, updated: false };
+  return { ok: true, ykStatus, previousDbStatus, updated: r.rowCount > 0 };
 }

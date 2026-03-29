@@ -2,12 +2,9 @@
 'use client'
 import MainHomeCard from "../MainHomeCard/MainHomeCard";
 import styles from "./MainHomeSlider.module.css";
-import { getSeason } from "@/utils/season";
+import { getSeasonIrkutskNow } from "@/utils/season";
 import { useState, useEffect } from "react";
 
-//Получаем сезон
-const month = new Date().getMonth()
-const season = getSeason(month)
 const gradientMap = {
     spring: "linear-gradient(to right, rgba(103, 159, 191, 1), rgba(163, 184, 55, 1))",
     summer: "linear-gradient(to right, rgba(103, 159, 191, 1), rgba(185, 218, 52, 1))",
@@ -56,6 +53,7 @@ const items = [
 },]
 
 export default function MainHomeSlider() {
+    const season = getSeasonIrkutskNow();
     // const [activeIndex, setActiveIndex] = useState(0);
 
     // // Функция переключения карточки

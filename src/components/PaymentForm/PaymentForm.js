@@ -287,9 +287,9 @@ export default function PaymentForm({ type, data, variant = 'standalone' }) {
             </div>
 
             <button
-              className={`${!agreePersonalData || !agreeOffer ? styles.submit_btn_disabled : styles.submit_btn}`}
+              className={`${!agreeOffer ? styles.submit_btn_disabled : styles.submit_btn}`}
               type="submit"
-              disabled={!agreePersonalData || !agreeOffer}
+              disabled={!agreeOffer}
             >
               {type === 'show'
                 ? 'Купить билеты'

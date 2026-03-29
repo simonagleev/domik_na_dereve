@@ -1,11 +1,8 @@
 'use client'
 import styles from "./Header.module.css";
 import Link from "next/link";
-import { getSeason } from "@/utils/season";
+import { getSeasonIrkutskNow } from "@/utils/season";
 
-//Получаем сезон
-const month = new Date().getMonth()
-const season = getSeason(month)
 const gradientMap = {
     spring: "linear-gradient(to bottom, rgba(103, 159, 191, 1), rgba(163, 184, 55, 1))",
     summer: "linear-gradient(to bottom, rgba(103, 159, 191, 1), rgba(185, 218, 52, 1))",
@@ -14,6 +11,7 @@ const gradientMap = {
 };
 
 export default function BurgerMenu() {
+    const season = getSeasonIrkutskNow();
     function closeMenu(event) {
         const menuToggle = document.getElementById("menu-toggle");
         if (menuToggle && event.target.tagName === "A") {

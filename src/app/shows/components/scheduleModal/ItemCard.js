@@ -42,10 +42,10 @@ export default function ItemCard({ data }) {
 
   return (
     <div className={styles.item} key={data.ID}>
-      <div className={styles.item_line}>
+      <div className={`${styles.item_line} ${styles.item_line_date}`}>
         <h2 className={styles.date}>{datePart ? formatDateRu(datePart) : '—'}</h2>
       </div>
-      <div className={styles.item_line}>
+      <div className={`${styles.item_line} ${styles.item_line_time}`}>
         <p className={styles.time}>{timeHm || '—'}</p>
       </div>
       {lowStock ? (

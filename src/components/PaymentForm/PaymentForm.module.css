@@ -7,17 +7,25 @@
 
 /* Оверлей и базовая карточка — globals.css (.client-modal-*); здесь только дополнения к .payment_form */
 
+.payment_form {
+    min-width: 0;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
 /* Внутри модалки расписания: без второй «карточки» */
 .payment_form_embedded {
     width: 100%;
     max-width: none;
     min-width: 0;
     margin: 0;
-    padding: 0 4px 12px;
+    padding: 0 8px 12px;
     background: transparent;
     box-shadow: none;
     border-radius: 0;
     text-align: center;
+    overflow-x: hidden;
+    box-sizing: border-box;
 }
 
 /* Десктоп: четыре поля в две колонки, без внутреннего скролла */
@@ -32,6 +40,17 @@
 
     .form_fields_grid .form_group {
         margin-bottom: 0;
+        min-width: 0;
+    }
+
+    .form_group input {
+        font-size: 1.1rem;
+        line-height: 1.35;
+        padding: 10px 12px;
+    }
+
+    .form_group input::placeholder {
+        font-size: 1em;
     }
 
     .form_group_counter {
@@ -151,22 +170,25 @@
     padding: 15px 0;
     border-radius: 30px;
     width: 100%;
+    max-width: 100%;
     cursor: pointer;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
     font-size: 1.5rem;
     line-height: 29px;
-    transition: .3s;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    transform-origin: center;
+    box-sizing: border-box;
 }
 
 .submit_btn:hover {
-    transition: .3s;
-    transform: scale(1.05);
+    transform: scale(1.02);
+    filter: brightness(1.04);
 }
 
 .submit_btn:active {
-    transition: .3s;
-    transform: scale(.95);
+    transform: scale(0.99);
+    filter: brightness(0.97);
 }
 
 .submit_btn_disabled {
@@ -201,7 +223,6 @@
 }
 
 .check_box_label input[type='checkbox'] {
-    margin-top: 4px;
     flex-shrink: 0;
     width: 18px;
     height: 18px;

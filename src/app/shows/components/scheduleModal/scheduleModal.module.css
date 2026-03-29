@@ -86,7 +86,10 @@
 .schedule_items_wrap {
     flex: 1;
     min-height: 0;
+    min-width: 0;
+    width: 100%;
     overflow-y: auto;
+    overflow-x: hidden;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -94,15 +97,19 @@
     align-items: flex-start;
     gap: 20px;
     padding: 8px 4px 4px;
+    box-sizing: border-box;
 }
 
 .payment_embed_wrap {
     flex: 1;
     min-height: 0;
+    min-width: 0;
     overflow-y: auto;
+    overflow-x: hidden;
     width: 100%;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 .close_button_container {
@@ -137,25 +144,51 @@
     padding: 20px;
     border-radius: 20px;
     width: 100%;
-    max-width: 20%;
+    flex: 1 1 160px;
+    min-width: 0;
+    max-width: min(100%, 220px);
+    box-sizing: border-box;
 }
 
 .item_line {
     border-radius: 30px;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
     background-color: #fff;
     text-align: center;
     margin-bottom: 1rem;
+    padding-inline: 6px;
+    box-sizing: border-box;
+}
+
+/* Дата DD.MM.YYYY — всегда одна строка, шрифт чуть меньше, чем у времени */
+.item_line_date {
+    overflow-wrap: normal;
+    word-break: normal;
+    white-space: nowrap;
+}
+
+.item_line_time {
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
 .date {
-    font-size: 2rem;
+    margin: 0;
+    font-size: clamp(0.95rem, 0.7rem + 0.75vw, 1.35rem);
     font-weight: 600;
+    line-height: 1.2;
+    max-width: 100%;
+    white-space: nowrap;
 }
 
 .time {
-    font-size: 2rem;
+    margin: 0;
+    font-size: clamp(1.125rem, 0.85rem + 1.2vw, 2rem);
     font-weight: 700;
+    line-height: 1.2;
+    max-width: 100%;
 }
 
 /* COUNTER */
@@ -250,7 +283,8 @@
         padding: 10px;
         border-radius: 20px;
         flex: 1;
-        min-width: 150px;
+        min-width: 0;
+        max-width: 100%;
     }
 
     .item_line {
@@ -262,13 +296,18 @@
         padding: 5px;
     }
 
+    .item_line_date {
+        white-space: nowrap;
+    }
+
     .date {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         font-weight: 600;
+        white-space: nowrap;
     }
 
     .time {
-        font-size: 1.75rem;
+        font-size: 1.5rem;
         font-weight: 700;
     }
 

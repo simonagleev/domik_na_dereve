@@ -7,11 +7,11 @@ import News from "@/components/News/News";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import MainHomeSlider from "@/components/MainHomeSlider/MainHomeSlider";
 import FiguretSection from "@/components/FigureSection/FigureSection";
-import { getSeason } from "@/utils/season";
+import { getSeasonIrkutskNow } from "@/utils/season";
 
-//Получаем сезон
-const month = new Date().getMonth()
-const season = getSeason(month)
+/** Чтобы фон «по сезону» не залипал на дате сборки при статическом кэше. */
+export const dynamic = 'force-dynamic';
+
 const gradientMap = {
     spring: "spring",
     summer: "summer",
@@ -20,6 +20,7 @@ const gradientMap = {
 };
 
 export default function Home() {
+  const season = getSeasonIrkutskNow();
 
   return (
     <div className={styles.component}>

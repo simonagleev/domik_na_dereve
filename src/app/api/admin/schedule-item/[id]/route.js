@@ -4,9 +4,9 @@ import { getAdminPayload } from '@/lib/adminAuth';
 import { naiveIrkutskRowToStartDateTimeString } from '@/lib/irkutskTime';
 
 /**
- * Время начала слота по item_id из транзакции.
- * Обязательный query: type=show | type=mk — спектаклей и мастер-классов нельзя смешивать;
- * id слота уникален только в своей таблице.
+ * Время начала слота и название мероприятия по item_id из транзакции.
+ * Query: type=show | workshop — id слота уникален только в своей таблице.
+ * Ответ: { start_datetime, event_name }
  */
 export async function GET(request, { params }) {
   if (!getAdminPayload(request)) {
@@ -31,8 +31,22 @@ export async function GET(request, { params }) {
   try {
     const sql =
       txType === 'show'
-        ? `SELECT to_char(start_datetime, 'YYYY-MM-DD"T"HH24:MI:SS') AS start_datetime FROM shows_schedule WHERE id = $1`
-        : `SELECT to_char(start_datetime, 'YYYY-MM-DD"T"HH24:MI:SS') AS start_datetime FROM workshop_schedule WHERE id = $1`;
+        ? `
+        SELECT
+          to_char(ss.start_datetime, 'YYYY-MM-DD"T"HH24:MI:SS') AS start_datetime,
+          s.name AS event_name
+        FROM shows_schedule ss
+        LEFT JOIN shows s ON s.id = ss.show_id
+        WHERE ss.id = $1
+        `
+        : `
+        SELECT
+          to_char(ws.start_datetime, 'YYYY-MM-DD"T"HH24:MI:SS') AS start_datetime,
+          w.name AS event_name
+        FROM workshop_schedule ws
+        LEFT JOIN workshops w ON w.id = ws.workshop_id
+        WHERE ws.id = $1
+        `;
 
     const { rows } = await pgQuery(sql, [numericId]);
     const row = rows[0];
@@ -46,7 +60,12 @@ export async function GET(request, { params }) {
         ? naiveIrkutskRowToStartDateTimeString(row.start_datetime)
         : null;
 
-    return NextResponse.json({ start_datetime });
+    const event_name =
+      row.event_name != null && String(row.event_name).trim() !== ''
+        ? String(row.event_name).trim()
+        : null;
+
+    return NextResponse.json({ start_datetime, event_name });
   } catch (error) {
     console.error('schedule-item', error);
     return NextResponse.json(

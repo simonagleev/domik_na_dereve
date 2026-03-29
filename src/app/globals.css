@@ -30,7 +30,8 @@
 
 html,
 body {
-  max-width: 100vw;
+  /* 100% вместо 100vw — иначе на части браузеров появляется горизонтальный скролл из‑за полосы прокрутки */
+  max-width: 100%;
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
