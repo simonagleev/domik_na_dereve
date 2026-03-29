@@ -18,7 +18,9 @@ import {
   Title,
 } from '@mantine/core';
 import { IconRefresh } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 import AdminTableScroll from '@/components/AdminShell/AdminTableScroll';
+import { formatNaiveIrkutskForTransactionPopup } from '@/lib/irkutskTime';
 
 const PAGE_SIZES = ['10', '25', '50', '100'];
 
@@ -31,26 +33,6 @@ const emptyFilters = {
   orderSearch: '',
 };
 
-/** Для всплывашки расписания: дата = ГГГГ.ММ.ДД; время = ЧЧ:ММ */
-function formatScheduleStartForPopup(isoString) {
-  if (isoString == null || isoString === '') {
-    return { datePart: '—', timePart: '—' };
-  }
-  const d = new Date(isoString);
-  if (Number.isNaN(d.getTime())) {
-    return { datePart: '—', timePart: '—' };
-  }
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  const hh = String(d.getHours()).padStart(2, '0');
-  const min = String(d.getMinutes()).padStart(2, '0');
-  return {
-    datePart: `${y}.${m}.${day}`,
-    timePart: `${hh}:${min}`,
-  };
-}
-
 export default function AdminTransactionsPage() {
   const [draft, setDraft] = useState(emptyFilters);
   const [appliedFilters, setAppliedFilters] = useState(emptyFilters);
@@ -62,6 +44,8 @@ export default function AdminTransactionsPage() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  /** id строки, для которой идёт запрос «Проверить оплату» */
+  const [checkingRowId, setCheckingRowId] = useState(null);
 
   /** Всплывашка у курсора: время начала из schedule по ItemID */
   const [schedulePopup, setSchedulePopup] = useState(null);
@@ -168,8 +152,9 @@ export default function AdminTransactionsPage() {
     return () => window.removeEventListener('keydown', onKey);
   }, [schedulePopup]);
 
-  const handleItemIdClick = async (e, itemId) => {
+  const handleItemIdClick = async (e, itemId, txType) => {
     if (itemId == null || itemId === '') return;
+    if (txType !== 'show' && txType !== 'workshop') return;
     e.preventDefault();
     e.stopPropagation();
     setSchedulePopup({
@@ -181,7 +166,9 @@ export default function AdminTransactionsPage() {
       error: null,
     });
     try {
-      const res = await fetch(`/api/admin/schedule-item/${encodeURIComponent(String(itemId))}`);
+      const res = await fetch(
+        `/api/admin/schedule-item/${encodeURIComponent(String(itemId))}?type=${encodeURIComponent(txType)}`
+      );
       const json = await res.json();
       if (!res.ok) {
         setSchedulePopup((p) =>
@@ -190,10 +177,53 @@ export default function AdminTransactionsPage() {
         return;
       }
       setSchedulePopup((p) =>
-        p ? { ...p, loading: false, startDateTime: json.StartDateTime ?? null } : p
+        p ? { ...p, loading: false, startDateTime: json.start_datetime ?? null } : p
       );
     } catch {
       setSchedulePopup((p) => (p ? { ...p, loading: false, error: 'Ошибка сети' } : p));
+    }
+  };
+
+  const handleCheckYooKassaPayment = async (row) => {
+    const paymentId = row?.order_acquiring_id;
+    if (!paymentId || String(paymentId).trim() === '') {
+      notifications.show({ color: 'yellow', message: 'Нет order_acquiring_id для проверки' });
+      return;
+    }
+    setCheckingRowId(row.id);
+    try {
+      const res = await fetch('/api/admin/refresh-yookassa-transaction', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentId: String(paymentId) }),
+      });
+      const json = await res.json();
+      if (!res.ok) {
+        notifications.show({
+          color: 'red',
+          title: 'Не удалось проверить',
+          message: json.error || `Код ${res.status}`,
+        });
+        return;
+      }
+      if (json.updated) {
+        notifications.show({
+          color: 'green',
+          message: `Статус обновлён: ${json.previousDbStatus} → ${json.ykStatus}`,
+        });
+        setRows((prev) =>
+          prev.map((r) => (r.id === row.id ? { ...r, status: json.ykStatus } : r))
+        );
+      } else {
+        notifications.show({
+          color: 'gray',
+          message: `Без изменений. В YooKassa: ${json.ykStatus} (в базе уже: ${json.previousDbStatus})`,
+        });
+      }
+    } catch {
+      notifications.show({ color: 'red', message: 'Ошибка сети' });
+    } finally {
+      setCheckingRowId(null);
     }
   };
 
@@ -241,7 +271,7 @@ export default function AdminTransactionsPage() {
               onChange={(e) => setDraft((d) => ({ ...d, phone: e.target.value }))}
             />
             <TextInput
-              label="Поиск по OrderAcquiringID"
+              label="Поиск по order_acquiring_id"
               placeholder="uuid или часть"
               value={draft.orderSearch}
               onChange={(e) => setDraft((d) => ({ ...d, orderSearch: e.target.value }))}
@@ -293,37 +323,42 @@ export default function AdminTransactionsPage() {
             <Table striped highlightOnHover withTableBorder withColumnBorders>
               <Table.Thead>
                 <Table.Tr>
-                  <Table.Th>ID</Table.Th>
-                  <Table.Th>OrderAcquiringID</Table.Th>
-                  <Table.Th>Phone</Table.Th>
-                  <Table.Th>Status</Table.Th>
-                  <Table.Th>Date</Table.Th>
-                  <Table.Th>Amount</Table.Th>
-                  <Table.Th>Type</Table.Th>
-                  <Table.Th>ItemID</Table.Th>
-                  <Table.Th>TicketCount</Table.Th>
-                  <Table.Th>Info</Table.Th>
+                  <Table.Th>id</Table.Th>
+                  <Table.Th>order_acquiring_id</Table.Th>
+                  <Table.Th>phone</Table.Th>
+                  <Table.Th>status</Table.Th>
+                  <Table.Th>created_at</Table.Th>
+                  <Table.Th>date</Table.Th>
+                  <Table.Th>amount</Table.Th>
+                  <Table.Th>type</Table.Th>
+                  <Table.Th>item_id</Table.Th>
+                  <Table.Th>ticket_count</Table.Th>
+                  <Table.Th>info</Table.Th>
+                  <Table.Th>child_name</Table.Th>
+                  <Table.Th>client_name</Table.Th>
+                  <Table.Th style={{ whiteSpace: 'nowrap' }}>YooKassa</Table.Th>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
                 {rows.map((row) => (
-                  <Table.Tr key={row.ID}>
-                    <Table.Td>{row.ID}</Table.Td>
+                  <Table.Tr key={row.id}>
+                    <Table.Td>{row.id}</Table.Td>
                     <Table.Td>
                       <Text size="xs" style={{ wordBreak: 'break-all', maxWidth: 220 }}>
-                        {row.OrderAcquiringID}
+                        {row.order_acquiring_id}
                       </Text>
                     </Table.Td>
-                    <Table.Td>{row.Phone}</Table.Td>
-                    <Table.Td>{row.Status}</Table.Td>
-                    <Table.Td>{formattedDate(row.Date)}</Table.Td>
-                    <Table.Td>{row.Amount}</Table.Td>
-                    <Table.Td>{row.Type}</Table.Td>
+                    <Table.Td>{row.phone}</Table.Td>
+                    <Table.Td>{row.status}</Table.Td>
+                    <Table.Td>{formattedDate(row.created_at)}</Table.Td>
+                    <Table.Td>{formattedDate(row.date)}</Table.Td>
+                    <Table.Td>{row.amount}</Table.Td>
+                    <Table.Td>{row.type}</Table.Td>
                     <Table.Td>
-                      {row.ItemID != null && row.ItemID !== '' ? (
+                      {row.item_id != null && row.item_id !== '' && (row.type === 'show' || row.type === 'workshop') ? (
                         <button
                           type="button"
-                          onClick={(e) => handleItemIdClick(e, row.ItemID)}
+                          onClick={(e) => handleItemIdClick(e, row.item_id, row.type)}
                           style={{
                             cursor: 'pointer',
                             backgroundColor: 'var(--mantine-color-green-1)',
@@ -335,17 +370,30 @@ export default function AdminTransactionsPage() {
                             font: 'inherit',
                           }}
                         >
-                          {row.ItemID}
+                          {row.item_id}
                         </button>
                       ) : (
-                        '—'
+                        row.item_id ?? '—'
                       )}
                     </Table.Td>
-                    <Table.Td>{row.TicketCount}</Table.Td>
+                    <Table.Td>{row.ticket_count}</Table.Td>
                     <Table.Td>
                       <Text size="xs" lineClamp={2}>
-                        {row.Info || '—'}
+                        {row.info || '—'}
                       </Text>
+                    </Table.Td>
+                    <Table.Td>{row.child_name ?? '—'}</Table.Td>
+                    <Table.Td>{row.client_name ?? '—'}</Table.Td>
+                    <Table.Td>
+                      <Button
+                        type="button"
+                        variant="light"
+                        size="xs"
+                        loading={checkingRowId === row.id}
+                        onClick={() => handleCheckYooKassaPayment(row)}
+                      >
+                        Проверить оплату
+                      </Button>
                     </Table.Td>
                   </Table.Tr>
                 ))}
@@ -408,13 +456,13 @@ export default function AdminTransactionsPage() {
                 <Text component="span" fw={600}>
                   Дата:
                 </Text>{' '}
-                {formatScheduleStartForPopup(schedulePopup.startDateTime).datePart}
+                {formatNaiveIrkutskForTransactionPopup(schedulePopup.startDateTime).datePart}
               </Text>
               <Text size="sm">
                 <Text component="span" fw={600}>
                   Время:
                 </Text>{' '}
-                {formatScheduleStartForPopup(schedulePopup.startDateTime).timePart}
+                {formatNaiveIrkutskForTransactionPopup(schedulePopup.startDateTime).timePart}
               </Text>
             </Stack>
           )}

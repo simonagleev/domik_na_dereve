@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { pgQuery } from '@/lib/postgres';
 import { getAdminPayload } from '@/lib/adminAuth';
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 export async function GET(request, { params }) {
   if (!getAdminPayload(request)) {
@@ -19,16 +17,16 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: 'Некорректный ID' }, { status: 400 });
   }
 
-  const { data, error } = await supabase.from('shows').select('*').eq('ID', numericId).maybeSingle();
-
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  try {
+    const { rows } = await pgQuery('SELECT * FROM shows WHERE id = $1', [numericId]);
+    const row = rows[0];
+    if (!row) {
+      return NextResponse.json({ error: 'Не найдено' }, { status: 404 });
+    }
+    return NextResponse.json(row);
+  } catch (error) {
+    return NextResponse.json({ error: error?.message || 'Ошибка запроса' }, { status: 500 });
   }
-  if (!data) {
-    return NextResponse.json({ error: 'Не найдено' }, { status: 404 });
-  }
-
-  return NextResponse.json(data);
 }
 
 export async function PATCH(request, { params }) {
@@ -48,20 +46,48 @@ export async function PATCH(request, { params }) {
 
   const body = await request.json();
 
-  const updates = {};
-  const allowed = ['Name', 'Price', 'MaxTikets', 'Description', 'Comments', 'ImageName', 'ImagePath', 'Age', 'Duration'];
+  const allowed = [
+    'name',
+    'price',
+    'max_tickets',
+    'description',
+    'comments',
+    'image_name',
+    'image_path',
+    'age',
+    'duration',
+    'people_per_ticket',
+  ];
+
+  const sets = [];
+  const values = [];
+  let i = 1;
   for (const key of allowed) {
     if (Object.prototype.hasOwnProperty.call(body, key)) {
-      updates[key] = body[key];
+      sets.push(`${key} = $${i}`);
+      values.push(body[key]);
+      i += 1;
     }
   }
 
-  const { data, error } = await supabase.from('shows').update(updates).eq('ID', numericId).select().single();
-
-  if (error) {
-    console.error('PATCH shows', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (sets.length === 0) {
+    return NextResponse.json({ error: 'Нет полей для обновления' }, { status: 400 });
   }
 
-  return NextResponse.json(data);
+  values.push(numericId);
+
+  try {
+    const { rows } = await pgQuery(
+      `UPDATE shows SET ${sets.join(', ')} WHERE id = $${i} RETURNING *`,
+      values
+    );
+    const row = rows[0];
+    if (!row) {
+      return NextResponse.json({ error: 'Не найдено' }, { status: 404 });
+    }
+    return NextResponse.json(row);
+  } catch (error) {
+    console.error('PATCH shows', error);
+    return NextResponse.json({ error: error?.message || 'Ошибка записи' }, { status: 500 });
+  }
 }

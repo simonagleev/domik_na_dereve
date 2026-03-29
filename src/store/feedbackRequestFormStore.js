@@ -12,6 +12,8 @@ export const useFeedbackRequestFormStore = create((set) => ({
         cw_name: '',
     },
     isSuccess: false,
+    /** Тост после отправки заявки (дни рождения / творческие мастерские); живёт после закрытия модалки */
+    feedbackToast: null,
     //modal
     openFeedbackRequestForm: (type) => set({ isFeedbackRequestFormOpen: true, type: type }),
     closeFeedbackRequestForm: () => set({ isFeedbackRequestFormOpen: false }),
@@ -35,4 +37,6 @@ export const useFeedbackRequestFormStore = create((set) => ({
     }),
     setIsSuccess: (value) => set({ isSuccess: value }),
 
+    showFeedbackToast: (payload) => set({ feedbackToast: payload }),
+    clearFeedbackToast: () => set({ feedbackToast: null }),
 }));

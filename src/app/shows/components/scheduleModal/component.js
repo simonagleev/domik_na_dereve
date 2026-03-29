@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './scheduleModal.module.css';
-import cm from '@/components/clientModal/clientModal.module.css';
 import { useShowsStore } from '@/store/showsStore';
 import ItemCard from './ItemCard';
 import { usePaymentModalStore } from '@/store/PaymentModalStore';
@@ -41,10 +40,10 @@ export default function ScheduleModal() {
   }
 
   return (
-    <div className={cm.overlay} onClick={handleClickOutside}>
+    <div className="client-modal-overlay" onClick={handleClickOutside}>
       <div
-        className={`${cm.panelWide} ${
-          isPaymentFormModalOpen ? cm.panelWidePayment : ''
+        className={`client-modal-panel-wide ${
+          isPaymentFormModalOpen ? 'client-modal-panel-wide-payment' : ''
         }`}
         onClick={(e) => e.stopPropagation()}
       >

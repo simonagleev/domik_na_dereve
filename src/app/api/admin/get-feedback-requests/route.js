@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { pgQuery } from '@/lib/postgres';
 import { getAdminPayload } from '@/lib/adminAuth';
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 const ALLOWED_PAGE_SIZES = [10, 25, 50, 100];
 
@@ -24,44 +22,74 @@ export async function GET(request) {
   const phone = searchParams.get('phone')?.trim() || '';
   const type = searchParams.get('type')?.trim() || '';
 
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
+  const offset = (page - 1) * pageSize;
 
-  let query = supabase.from('feedbackRequests').select('*', { count: 'exact' });
+  const conditions = [];
+  const params = [];
+  let idx = 1;
 
   if (dateFrom) {
-    query = query.gte('CreatedAt', `${dateFrom}T00:00:00`);
+    conditions.push(`created_at >= $${idx}::timestamptz`);
+    params.push(`${dateFrom}T00:00:00`);
+    idx += 1;
   }
   if (dateTo) {
-    query = query.lte('CreatedAt', `${dateTo}T23:59:59.999`);
+    conditions.push(`created_at <= $${idx}::timestamptz`);
+    params.push(`${dateTo}T23:59:59.999`);
+    idx += 1;
   }
   if (phone) {
-    query = query.ilike('Phone', `%${phone}%`);
+    conditions.push(`phone ILIKE $${idx}`);
+    params.push(`%${phone}%`);
+    idx += 1;
   }
   if (type) {
-    query = query.eq('Type', type);
+    conditions.push(`"type" = $${idx}`);
+    params.push(type);
+    idx += 1;
   }
 
-  const [{ data, error, count }, typesRes] = await Promise.all([
-    query.order('CreatedAt', { ascending: false }).range(from, to),
-    supabase.from('feedbackRequestTypes').select('id, Type, Name').order('id', { ascending: true }),
-  ]);
+  const whereSql = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
-  if (error) {
+  try {
+    const countRes = await pgQuery(
+      `SELECT COUNT(*)::bigint AS c FROM feedback_requests ${whereSql}`,
+      params
+    );
+    const total = Number(countRes.rows[0]?.c ?? 0);
+
+    const dataParams = [...params, pageSize, offset];
+    const limitIdx = idx;
+    const offsetIdx = idx + 1;
+
+    const dataRes = await pgQuery(
+      `
+      SELECT id, created_at, name, phone, type, child_name, child_age, event_date
+      FROM feedback_requests
+      ${whereSql}
+      ORDER BY created_at DESC
+      LIMIT $${limitIdx} OFFSET $${offsetIdx}
+      `,
+      dataParams
+    );
+
+    const typesRes = await pgQuery(
+      `SELECT id, "type", name FROM feedback_request_types ORDER BY id ASC`,
+      []
+    );
+
+    return NextResponse.json({
+      data: dataRes.rows ?? [],
+      total,
+      page,
+      pageSize,
+      types: typesRes.rows ?? [],
+    });
+  } catch (error) {
     console.error('get-feedback-requests', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error?.message || 'Ошибка запроса к базе' },
+      { status: 500 }
+    );
   }
-
-  if (typesRes.error) {
-    console.error('get-feedback-requests types', typesRes.error);
-    return NextResponse.json({ error: typesRes.error.message }, { status: 500 });
-  }
-
-  return NextResponse.json({
-    data: data ?? [],
-    total: count ?? 0,
-    page,
-    pageSize,
-    types: typesRes.data ?? [],
-  });
 }

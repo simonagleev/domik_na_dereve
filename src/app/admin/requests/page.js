@@ -71,8 +71,8 @@ export default function AdminRequestsPage() {
   const typeNameByCode = useMemo(() => {
     const m = new Map();
     for (const t of types) {
-      const code = t?.Type ?? t?.type;
-      const label = t?.Name ?? t?.name ?? code;
+      const code = t?.type;
+      const label = t?.name ?? code;
       if (code != null) m.set(String(code), String(label));
     }
     return m;
@@ -81,8 +81,8 @@ export default function AdminRequestsPage() {
   const typeSelectData = useMemo(() => {
     const opts = [{ value: '', label: 'Все' }];
     for (const t of types) {
-      const code = t?.Type ?? t?.type;
-      const label = t?.Name ?? t?.name ?? code;
+      const code = t?.type;
+      const label = t?.name ?? code;
       if (code != null) {
         opts.push({ value: String(code), label: `${label} (${code})` });
       }
@@ -256,13 +256,13 @@ export default function AdminRequestsPage() {
               <Table.Tbody>
                 {rows.map((row, index) => {
                   const idVal = rowField(row, 'id', 'ID');
-                  const created = rowField(row, 'CreatedAt', 'created_at', 'createdat');
-                  const nameVal = rowField(row, 'Name', 'name');
-                  const phoneVal = rowField(row, 'Phone', 'phone');
-                  const typeVal = rowField(row, 'Type', 'type');
-                  const childNameVal = rowField(row, 'ChildName', 'childname', 'child_name');
-                  const childAgeVal = rowField(row, 'ChildAge', 'childage', 'child_age');
-                  const eventDateVal = rowField(row, 'EventDate', 'eventdate', 'event_date');
+                  const created = rowField(row, 'created_at', 'CreatedAt');
+                  const nameVal = rowField(row, 'name', 'Name');
+                  const phoneVal = rowField(row, 'phone', 'Phone');
+                  const typeVal = rowField(row, 'type', 'Type');
+                  const childNameVal = rowField(row, 'child_name', 'ChildName');
+                  const childAgeVal = rowField(row, 'child_age', 'ChildAge');
+                  const eventDateVal = rowField(row, 'event_date', 'EventDate');
                   return (
                     <Table.Tr key={idVal != null ? String(idVal) : `request-${index}`}>
                       <Table.Td>{idVal ?? '—'}</Table.Td>

@@ -1,4 +1,4 @@
-/* Оверлей и широкая панель — clientModal.module.css */
+/* Оверлей и широкая панель — globals.css (.client-modal-*) */
 
 .modal_top_bar {
     display: grid;

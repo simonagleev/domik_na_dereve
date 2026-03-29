@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '../../../../lib/supabase';
-import { withTransaction } from '@/lib/postgres';
+import { withTransaction, pgQuery } from '@/lib/postgres';
 import { getYooKassaCredentials } from '@/lib/yookassaCredentials';
+import { isCommentMarkedTest, shouldIncludeTestScheduleSlots } from '@/lib/scheduleTestSlots';
 
 async function insertOnlineTransactionPg(client, payload) {
   const {
@@ -62,7 +62,7 @@ async function decreaseScheduleRemainingPg(client, type, itemID, count) {
     );
     return r.rowCount > 0;
   }
-  if (type === 'mk') {
+  if (type === 'workshop') {
     const r = await client.query(
       `
       UPDATE workshop_schedule
@@ -91,6 +91,40 @@ export async function POST(request) {
     child_name,
     client_name,
   } = body;
+
+  if (type !== 'show' && type !== 'workshop') {
+    return NextResponse.json(
+      {
+        error:
+          'Этот тип оплаты не поддерживается. Спектакли и мастер-классы — через type show или workshop.',
+      },
+      { status: 400 }
+    );
+  }
+
+  const countNum = Number(count);
+  if (!Number.isFinite(countNum) || countNum < 1) {
+    return NextResponse.json({ error: 'Некорректное количество билетов' }, { status: 400 });
+  }
+
+  if (!shouldIncludeTestScheduleSlots(request)) {
+    const slotId = Number(itemID);
+    if (Number.isNaN(slotId)) {
+      return NextResponse.json({ error: 'Некорректный слот расписания' }, { status: 400 });
+    }
+    const slotSql =
+      type === 'show'
+        ? `SELECT comments FROM shows_schedule WHERE id = $1`
+        : `SELECT comments FROM workshop_schedule WHERE id = $1`;
+    const { rows: slotRows } = await pgQuery(slotSql, [slotId]);
+    const slotComment = slotRows[0]?.comments;
+    if (isCommentMarkedTest(slotComment)) {
+      return NextResponse.json(
+        { error: 'Этот слот недоступен для покупки.' },
+        { status: 403 }
+      );
+    }
+  }
 
   const { shopId, secretKey, isTest } = getYooKassaCredentials();
   if (!shopId || !secretKey) {
@@ -138,9 +172,9 @@ export async function POST(request) {
           items: [
             {
               description: `Оплата билета в "Домик на дереве"`,
-              quantity: count,
+              quantity: countNum,
               amount: {
-                value: (amount / count).toFixed(2),
+                value: (amount / countNum).toFixed(2),
                 currency: 'RUB',
               },
               vat_code: 1,
@@ -163,74 +197,46 @@ export async function POST(request) {
     const confirmationUrl = paymentData.confirmation.confirmation_url;
     const orderStatus = paymentData.status;
 
-    if (type === 'show' || type === 'mk') {
-      try {
-        // Одна транзакция: запись платежа + списание мест. Если UPDATE не прошёл (нет билетов) — ROLLBACK и INSERT тоже откатится.
-        await withTransaction(async (client) => {
-          await insertOnlineTransactionPg(client, {
-            orderId,
-            orderStatus,
-            phone,
-            amount,
-            type,
-            itemID,
-            ticketCount: count,
-            info: infoForDb,
-            child_name,
-            client_name,
-          });
-
-          const ok = await decreaseScheduleRemainingPg(client, type, itemID, count);
-          if (!ok) {
-            throw Object.assign(new Error('NO_TICKETS'), { code: 'NO_TICKETS' });
-          }
+    /*
+     * [СТАРАЯ БД SUPABASE] Для других type раньше писали в onlineTransactions и вызывали
+     * decrease_remaining_count_birthdays — перенесено на отказ: поддерживаются только show/workshop (см. проверку выше).
+     */
+    try {
+      // Одна транзакция: запись платежа + списание мест. Если UPDATE не прошёл (нет билетов) — ROLLBACK и INSERT тоже откатится.
+      await withTransaction(async (client) => {
+        await insertOnlineTransactionPg(client, {
+          orderId,
+          orderStatus,
+          phone,
+          amount,
+          type,
+          itemID,
+          ticketCount: countNum,
+          info: infoForDb,
+          child_name,
+          client_name,
         });
-      } catch (e) {
-        if (e?.code === 'NO_TICKETS') {
-          return NextResponse.json(
-            { error: 'Недостаточно билетов на выбранную дату' },
-            { status: 409 }
-          );
+
+        const ok = await decreaseScheduleRemainingPg(client, type, itemID, countNum);
+        if (!ok) {
+          throw Object.assign(new Error('NO_TICKETS'), { code: 'NO_TICKETS' });
         }
-        console.error('create-payment PG transaction', e);
+      });
+    } catch (e) {
+      if (e?.code === 'NO_TICKETS') {
         return NextResponse.json(
-          { error: e?.message || 'Ошибка записи в базу данных' },
-          { status: 500 }
+          { error: 'Недостаточно билетов на выбранную дату' },
+          { status: 409 }
         );
       }
-    } else {
-      const { error: dbError } = await supabase.from('onlineTransactions').insert([
-        {
-          OrderAcquiringID: orderId,
-          Status: orderStatus,
-          Date: new Date().toISOString(),
-          Amount: amount,
-          Type: type,
-          Phone: phone,
-          ItemID: itemID,
-          TicketCount: count,
-          Info: infoForDb,
-        },
-      ]);
-
-      if (dbError) {
-        console.error('Ошибка записи в Supabase:', dbError);
-        return NextResponse.json({ error: 'Ошибка записи в базу данных' }, { status: 500 });
-      }
-
-      const { error: dbError2 } = await supabase.rpc('decrease_remaining_count_birthdays', {
-        item_id: itemID,
-        count: count,
-      });
-
-      if (dbError2) {
-        console.log('ОШИБКА обновления RemainingCount (Supabase)');
-        console.log(dbError2);
-        return NextResponse.json({ error: dbError2.error }, { status: 500 });
-      }
+      console.error('create-payment PG transaction', e);
+      return NextResponse.json(
+        { error: e?.message || 'Ошибка записи в базу данных' },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json({ confirmationUrl });
+    return NextResponse.json({ confirmationUrl, paymentId: orderId });
   } catch (error) {
     console.error('Ошибка создания платежа:', error);
     return NextResponse.json({ error: 'Ошибка при запросе к ЮKassa' }, { status: 500 });

@@ -12,7 +12,7 @@ export default function Workshops() {
                         <h1 className={styles.header}>КЛАССЫ</h1>
                     </div>
                 </div>
-                <PaymentCardCommon type={'mk'} />
+                <PaymentCardCommon type={'workshops'} />
             </div>
             <div className={styles.content}>
                 <WorkshopsSchedule />

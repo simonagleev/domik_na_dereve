@@ -2,7 +2,7 @@
 
 import FeedbackRequestForm from '@/components/FeedbackRequestForm/FeedbackRequestForm';
 
-/** Та же карточка и оверлей, что у FeedbackRequestForm (clientModal). */
+/** Та же карточка и оверлей, что у FeedbackRequestForm (globals.css .client-modal-*). */
 export default function FeedbackRequestModal() {
   return <FeedbackRequestForm type="birthday" />;
 }

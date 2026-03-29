@@ -1,35 +1,37 @@
-import { supabase } from '../../../../lib/supabase';
+import { pgQuery } from '@/lib/postgres';
 
 export async function POST(request) {
-    try {
-        const data = await request.json();
-        if (!data.name || !data.phone || !data.type) {
-            return new Response(JSON.stringify({ error: 'Не все данные переданы' }), { status: 400 });
-        }
-
-        // Вставляем данные в таблицу feedbackRequests
-        const { error: dbError } = await supabase.from('feedbackRequests').insert([
-            {
-                Name: data.name,
-                Phone: data.phone,
-                Type: data.type,
-                ChildName: data.childName,
-                ChildAge: data.childAge ? Number(data.childAge) : null,
-                EventDate: data.eventDate ? data.eventDate : 'Дата не указана',
-            },
-        ]);
-
-        // Проверка на ошибки при вставке в базу данных
-        if (dbError) {
-            console.error('Ошибка записи в Supabase:', dbError);
-            return Response.json({ error: 'Ошибка записи в базу данных' }, { status: 500 });
-        }
-        return new Response(JSON.stringify({ success: true, received: data }), { status: 200 });
-    } catch (error) {
-        console.error('Ошибка обработки запроса:', error);
-        return new Response(JSON.stringify({ error: 'Произошла ошибка при обработке запроса' }), { status: 500 });
+  try {
+    const data = await request.json();
+    if (!data.name || !data.phone || !data.type) {
+      return new Response(JSON.stringify({ error: 'Не все данные переданы' }), { status: 400 });
     }
+
+    await pgQuery(
+      `
+      INSERT INTO feedback_requests (
+        name,
+        phone,
+        "type",
+        child_name,
+        child_age,
+        event_date
+      )
+      VALUES ($1, $2, $3, $4, $5, $6)
+      `,
+      [
+        data.name,
+        data.phone,
+        data.type,
+        data.childName ?? null,
+        data.childAge ? Number(data.childAge) : null,
+        data.eventDate ? data.eventDate : 'Дата не указана',
+      ]
+    );
+
+    return new Response(JSON.stringify({ success: true, received: data }), { status: 200 });
+  } catch (error) {
+    console.error('Ошибка записи заявки (Postgres):', error);
+    return new Response(JSON.stringify({ error: 'Ошибка записи в базу данных' }), { status: 500 });
+  }
 }
-
-
-

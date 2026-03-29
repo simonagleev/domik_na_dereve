@@ -1,6 +1,5 @@
 'use client'
 import styles from "./ModalDescription.module.css";
-import cm from "@/components/clientModal/clientModal.module.css";
 import { useDescriptionModatStore } from "@/store/descriptionModatStore";
 
 export default function ModalDescription({ }) {
@@ -29,8 +28,8 @@ export default function ModalDescription({ }) {
         //     break;
     }
     return (
-        <div className={cm.overlay} onClick={handleClickOutside} >
-            <div className={`${cm.panel} ${styles.form_container}`}>
+        <div className="client-modal-overlay" onClick={handleClickOutside} >
+            <div className={`client-modal-panel ${styles.form_container}`}>
                 {/* Кнопка крестик */}
                 <button className={styles.close_button} onClick={closeDescriptionModal} aria-label="Закрыть форму">
                     &times;

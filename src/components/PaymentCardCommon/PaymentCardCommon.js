@@ -19,7 +19,7 @@ export default function PaymentCardCommon({ type }) {
             </h2>
             buttonText = 'Купить билеты'
             break
-        case 'mk':
+        case 'workshops':
             console.log('CASE')
             title = <h2 className={styles.card_header}>
                 Мастер-классы для <br />
@@ -72,7 +72,7 @@ export default function PaymentCardCommon({ type }) {
             <button
                 className={styles.buy_btn}
                 onClick={() => {
-                    const target = document.getElementById(`${type === 'shows' ? "shows_schedule" : type === 'mk' ? "workshop_schedule" : null}`);
+                    const target = document.getElementById(`${type === 'shows' ? "shows_schedule" : type === 'workshops' ? "workshop_schedule" : null}`);
                     if (target) {
                         target.scrollIntoView({ behavior: "smooth" });
                     } else if (action) {

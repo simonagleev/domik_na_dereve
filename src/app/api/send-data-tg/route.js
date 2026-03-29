@@ -67,7 +67,7 @@ export async function POST(request) {
         : `Имя: ${childName}`;
 
     const messageWorkshop = `
-        Новый запрос на запись MK:
+        Новый запрос на запись МК:
       Дата и время: ${dateD} в ${dateT},
         Название: ${data.title}
         Количество: ${data.count}
@@ -94,7 +94,7 @@ export async function POST(request) {
       case 'show':
         message = messageShow
         break;
-      case 'mk':
+      case 'workshop':
         message = messageWorkshop
         break;
       default:

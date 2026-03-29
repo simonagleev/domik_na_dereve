@@ -13,6 +13,7 @@ import { useWorkshopsEventConstructorStore } from './components/workshops/store/
 export default function AdminEventConstructorPage() {
   const eventTypes = useEventConstructorStore((s) => s.eventTypes);
   const typesLoading = useEventConstructorStore((s) => s.typesLoading);
+  const typesError = useEventConstructorStore((s) => s.typesError);
   const activeTech = useEventConstructorStore((s) => s.activeTech);
 
   const showsRows = useShowsEventConstructorStore((s) => s.showsRows);
@@ -65,41 +66,50 @@ export default function AdminEventConstructorPage() {
     return (
       <Stack gap="sm">
         <Title order={2}>Конструктор мероприятий</Title>
-        <Text c="dimmed">
-          В таблице eventTypes нет активных записей (IsActive). Добавь типы в Supabase или проверь имя таблицы/колонок.
-        </Text>
+        {typesError ? (
+          <Text c="red" size="sm">
+            Не удалось загрузить типы: {typesError}. Проверь таблицу event_types и лог сервера.
+          </Text>
+        ) : (
+          <Text c="dimmed">
+            Нет типов для вкладок: в event_types нет строк с is_active = true (или все отфильтрованы). Добавь
+            записи или выставь is_active.
+          </Text>
+        )}
       </Stack>
     );
   }
+
+  const tabsValue = activeTech ?? eventTypes[0]?.tech_name ?? null;
 
   return (
     <Stack gap="md" w="100%" maw="100%">
       <Title order={2}>Конструктор мероприятий</Title>
 
-      <Tabs value={activeTech} onChange={setActiveTech}>
+      <Tabs value={tabsValue} onChange={setActiveTech}>
         <Box style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }} mb="xs">
           <Tabs.List style={{ flexWrap: 'nowrap', width: 'max-content', minWidth: '100%' }}>
             {eventTypes.map((t) => (
-              <Tabs.Tab key={t.ID} value={t.TechName}>
-                {t.Name}
+              <Tabs.Tab key={t.id} value={t.tech_name}>
+                {t.name}
               </Tabs.Tab>
             ))}
           </Tabs.List>
         </Box>
 
         {eventTypes.map((t) => (
-          <Tabs.Panel key={t.ID} value={t.TechName} pt="md">
-            {t.TechName === 'shows' ? (
+          <Tabs.Panel key={t.id} value={t.tech_name} pt="md">
+            {t.tech_name === 'shows' ? (
               <ShowsTable
-                title={t.Name}
+                title={t.name}
                 loading={showsLoading}
                 rows={showsRows}
                 onCreate={openCreateModal}
                 onEdit={openEditModal}
               />
-            ) : t.TechName === 'workshops' ? (
+            ) : t.tech_name === 'workshops' ? (
               <WorkshopsTable
-                title={t.Name}
+                title={t.name}
                 loading={workshopsLoading}
                 rows={workshopsRows}
                 onCreate={openCreateWorkshopsModal}
@@ -108,7 +118,7 @@ export default function AdminEventConstructorPage() {
             ) : (
               <Card withBorder radius="md" p="lg">
                 <Text c="dimmed">
-                  Таблица для типа «{t.Name}» ({t.TechName}) будет подключена позже - сейчас реализованы только спектакли
+                  Таблица для типа «{t.name}» ({t.tech_name}) будет подключена позже - сейчас реализованы только спектакли
                   (shows).
                 </Text>
               </Card>

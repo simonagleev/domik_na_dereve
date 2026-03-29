@@ -33,7 +33,7 @@ export default function WorkshopsSchedule({ }) {
         setLoading(true)
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/get-workshop-schedule');
+                const response = await fetch('/api/get-workshop-schedule', { credentials: 'include' });
                 const data = await response.json();
 
                 if (response.ok) {
@@ -85,7 +85,7 @@ export default function WorkshopsSchedule({ }) {
             {schedule.length > 0 ? <div className={styles.more} onClick={handleMore}>Еще...</div> : null}
 
             {isPaymentFormModalOpen && currentWorkshopItem && (
-                <PaymentForm type={'mk'} data={currentWorkshopItem} />)}
+                <PaymentForm type={'workshop'} data={currentWorkshopItem} />)}
         </div>
     );
 }

@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { pgQuery } from '@/lib/postgres';
 import { getAdminPayload } from '@/lib/adminAuth';
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 /** Пока список/запись реализованы только для shows */
 const SUPPORTED_LIST = new Set(['shows']);
@@ -17,14 +15,13 @@ export async function GET(request, { params }) {
     return NextResponse.json([]);
   }
 
-  const { data, error } = await supabase.from(techName).select('*').order('ID', { ascending: true });
-
-  if (error) {
+  try {
+    const { rows } = await pgQuery('SELECT * FROM shows ORDER BY id ASC', []);
+    return NextResponse.json(rows ?? []);
+  } catch (error) {
     console.error(`GET events/${techName}`, error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error?.message || 'Ошибка запроса' }, { status: 500 });
   }
-
-  return NextResponse.json(data ?? []);
 }
 
 export async function POST(request, { params }) {
@@ -39,24 +36,38 @@ export async function POST(request, { params }) {
 
   const body = await request.json();
 
-  const row = {
-    Name: body.Name ?? '',
-    Price: body.Price ?? 0,
-    MaxTikets: body.MaxTikets ?? 0,
-    Description: body.Description ?? null,
-    Comments: body.Comments ?? null,
-    ImageName: body.ImageName ?? null,
-    ImagePath: body.ImagePath ?? null,
-    Age: body.Age ?? null,
-    Duration: body.Duration ?? null,
-  };
+  const peoplePerTicket =
+    body.people_per_ticket == null || body.people_per_ticket === ''
+      ? 1
+      : Math.max(1, Number(body.people_per_ticket) || 1);
 
-  const { data, error } = await supabase.from('shows').insert(row).select().single();
+  try {
+    const { rows } = await pgQuery(
+      `
+      INSERT INTO shows (
+        name, price, max_tickets, description, comments,
+        image_name, image_path, age, duration, people_per_ticket
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      RETURNING *
+      `,
+      [
+        body.name ?? '',
+        Number(body.price) || 0,
+        body.max_tickets ?? 0,
+        body.description ?? null,
+        body.comments ?? null,
+        body.image_name ?? null,
+        body.image_path ?? null,
+        body.age ?? null,
+        body.duration ?? null,
+        peoplePerTicket,
+      ]
+    );
 
-  if (error) {
+    return NextResponse.json(rows[0]);
+  } catch (error) {
     console.error('POST shows', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: error?.message || 'Ошибка записи' }, { status: 500 });
   }
-
-  return NextResponse.json(data);
 }

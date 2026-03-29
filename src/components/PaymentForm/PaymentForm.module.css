@@ -5,7 +5,7 @@
     color: rgba(38, 38, 38, 0.85);
 }
 
-/* Оверлей и базовая карточка — clientModal.module.css; здесь только дополнения к .payment_form */
+/* Оверлей и базовая карточка — globals.css (.client-modal-*); здесь только дополнения к .payment_form */
 
 /* Внутри модалки расписания: без второй «карточки» */
 .payment_form_embedded {

@@ -1,23 +1,5 @@
 import { create } from 'zustand';
 
-function normalizeShowRow(r) {
-  return {
-    ID: r.id,
-    CreatedAt: r.created_at,
-    Name: r.name,
-    Price: r.price,
-    MaxTikets: r.max_tickets,
-    Description: r.description,
-    Comments: r.comments,
-    Age: r.age,
-    Duration: r.duration,
-    ImageName: r.image_name,
-    ImagePath: r.image_path,
-    PreviewImagePath: r.preview_image_path,
-    PeoplePerTicket: r.people_per_ticket,
-  };
-}
-
 export const useShowsEventConstructorStore = create((set, get) => ({
   showsRows: [],
   showsLoading: false,
@@ -48,7 +30,7 @@ export const useShowsEventConstructorStore = create((set, get) => ({
         return;
       }
       const rows = Array.isArray(json?.data) ? json.data : [];
-      set({ showsRows: rows.map(normalizeShowRow) });
+      set({ showsRows: rows });
     } catch (e) {
       console.error('shows fetch', e);
       set({ showsRows: [] });

@@ -12,12 +12,12 @@ export default function ShowssSchedule({ type }) {
     const [error, setError] = useState(null);
     const { updateSchedules, showSchedules } = useShowsStore();
 
-    // Получаем данные из SUPABASE DB
+    // Расписание с API (Postgres, /api/showsSchedule)
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
             try {
-                const response = await fetch('/api/showsSchedule');
+                const response = await fetch('/api/showsSchedule', { credentials: 'include' });
                 const data = await response.json();
 
                 if (response.ok) {

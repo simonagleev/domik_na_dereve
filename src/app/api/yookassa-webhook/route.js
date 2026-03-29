@@ -1,13 +1,18 @@
 import { NextResponse } from 'next/server';
 import { pgQuery } from '@/lib/postgres';
-
-/** Отмена/возврат: вернуть билеты на слот и обновить статус в online_transactions. */
-const REVERT_STATUSES = ['canceled', 'refunded'];
+import { applyCanceledPaymentAndRestoreSeats } from '@/lib/yookassaSyncPaymentStatus';
 
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { object } = body;
+    const object = body?.object;
+    if (!object?.id || typeof object.status !== 'string') {
+      console.warn(
+        'yookassa-webhook: неожиданное тело уведомления',
+        typeof body === 'object' ? JSON.stringify(body).slice(0, 800) : String(body)
+      );
+      return NextResponse.json({ success: true });
+    }
     const { id: orderAcquiringID, status: newStatus } = object;
 
     if (newStatus === 'succeeded') {
@@ -21,40 +26,29 @@ export async function POST(request) {
       return NextResponse.json({ success: true });
     }
 
-    if (REVERT_STATUSES.includes(newStatus)) {
-      const { rows } = await pgQuery(
-        `SELECT "type", item_id, ticket_count FROM online_transactions WHERE order_acquiring_id = $1`,
-        [orderAcquiringID]
-      );
-
-      if (rows.length === 0) {
-        console.warn('yookassa-webhook: нет транзакции для отмены/возврата', orderAcquiringID);
-        return NextResponse.json({ success: true });
-      }
-
-      const tx = rows[0];
-      const ticketCount = Number(tx.ticket_count) || 0;
-      const itemId = tx.item_id;
-
-      if (ticketCount > 0 && itemId != null) {
-        if (tx.type === 'show') {
-          await pgQuery(
-            `UPDATE shows_schedule SET remaining_count = remaining_count + $1 WHERE id = $2`,
-            [ticketCount, itemId]
-          );
-        } else if (tx.type === 'mk') {
-          await pgQuery(
-            `UPDATE workshop_schedule SET remaining_count = remaining_count + $1 WHERE id = $2`,
-            [ticketCount, itemId]
-          );
+    if (newStatus === 'canceled') {
+      const { restored } = await applyCanceledPaymentAndRestoreSeats(orderAcquiringID);
+      if (!restored) {
+        const { rows } = await pgQuery(
+          `SELECT status FROM online_transactions WHERE order_acquiring_id = $1`,
+          [orderAcquiringID]
+        );
+        if (rows.length === 0) {
+          console.warn('yookassa-webhook: нет транзакции для canceled', orderAcquiringID);
         }
       }
+      return NextResponse.json({ success: true });
+    }
 
-      await pgQuery(
+    /** Редкий случай; денежных возвратов нет — только синхронизация статуса в БД, слот не меняем. */
+    if (newStatus === 'refunded') {
+      const r = await pgQuery(
         `UPDATE online_transactions SET status = $1 WHERE order_acquiring_id = $2`,
         [newStatus, orderAcquiringID]
       );
-
+      if (r.rowCount === 0) {
+        console.warn('yookassa-webhook: нет транзакции для refunded', orderAcquiringID);
+      }
       return NextResponse.json({ success: true });
     }
 

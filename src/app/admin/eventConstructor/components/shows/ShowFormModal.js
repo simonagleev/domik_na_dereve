@@ -44,15 +44,15 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
     setError('');
     if (mode === 'edit' && initialRow) {
       setForm({
-        name: initialRow.Name ?? '',
-        price: initialRow.Price ?? 0,
-        max_tickets: initialRow.MaxTikets ?? 14,
-        description: initialRow.Description ?? '',
-        comments: initialRow.Comments ?? '',
-        image_path: initialRow.ImagePath ?? '',
-        age: initialRow.Age ?? null,
-        duration: initialRow.Duration ?? null,
-        people_per_ticket: initialRow.PeoplePerTicket ?? 1,
+        name: initialRow.name ?? '',
+        price: initialRow.price ?? 0,
+        max_tickets: initialRow.max_tickets ?? 14,
+        description: initialRow.description ?? '',
+        comments: initialRow.comments ?? '',
+        image_path: initialRow.image_path ?? '',
+        age: initialRow.age ?? null,
+        duration: initialRow.duration ?? null,
+        people_per_ticket: initialRow.people_per_ticket ?? 1,
       });
     } else {
       setForm({
@@ -168,7 +168,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
           title: 'Успешно',
           message: 'Спектакль создан',
         });
-      } else if (initialRow?.ID != null) {
+      } else if (initialRow?.id != null) {
         const res = await fetch('/api/admin/postgres/raw-sql-exec', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -198,7 +198,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
               payload.duration,
               payload.image_path,
               payload.people_per_ticket,
-              initialRow.ID,
+              initialRow.id,
             ],
           }),
         });
@@ -336,11 +336,12 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                 ) : null}
               </div>
               <TextInput
-                label="image_path"
+                label="Путь к изображению (image_path)"
                 withAsterisk
                 value={form.image_path}
-                readOnly
-                description="Заполняется после выбора файла"
+                onChange={(e) => setForm((f) => ({ ...f, image_path: inputChangeValue(e) }))}
+                placeholder="/uploads/shows/… или /img/shows/…"
+                description="Вставьте путь к уже существующему файлу или загрузите файл выше — путь подставится автоматически."
               />
               {previewSrc ? <Image src={previewSrc} alt="preview" w={200} radius="md" fit="contain" /> : null}
               {error ? (

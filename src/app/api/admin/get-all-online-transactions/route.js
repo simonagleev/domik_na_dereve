@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { pgQuery } from '@/lib/postgres';
 import { getAdminPayload } from '@/lib/adminAuth';
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 const ALLOWED_PAGE_SIZES = [10, 25, 50, 100];
 
@@ -26,41 +24,91 @@ export async function GET(request) {
   const phone = searchParams.get('phone')?.trim() || '';
   const orderSearch = searchParams.get('orderSearch')?.trim() || '';
 
-  const from = (page - 1) * pageSize;
-  const to = from + pageSize - 1;
+  const offset = (page - 1) * pageSize;
 
-  let query = supabase.from('onlineTransactions').select('*', { count: 'exact' });
+  const conditions = [];
+  const params = [];
+  let i = 1;
 
   if (dateFrom) {
-    query = query.gte('Date', `${dateFrom}T00:00:00`);
+    conditions.push(`created_at >= $${i}::timestamptz`);
+    params.push(`${dateFrom}T00:00:00`);
+    i += 1;
   }
   if (dateTo) {
-    query = query.lte('Date', `${dateTo}T23:59:59.999`);
+    conditions.push(`created_at <= $${i}::timestamptz`);
+    params.push(`${dateTo}T23:59:59.999`);
+    i += 1;
   }
   if (status) {
-    query = query.eq('Status', status);
+    conditions.push(`status = $${i}`);
+    params.push(status);
+    i += 1;
   }
   if (type) {
-    query = query.eq('Type', type);
+    conditions.push(`type = $${i}`);
+    params.push(type);
+    i += 1;
   }
   if (phone) {
-    query = query.ilike('Phone', `%${phone}%`);
+    conditions.push(`phone ILIKE $${i}`);
+    params.push(`%${phone}%`);
+    i += 1;
   }
   if (orderSearch) {
-    query = query.ilike('OrderAcquiringID', `%${orderSearch}%`);
+    conditions.push(`order_acquiring_id::text ILIKE $${i}`);
+    params.push(`%${orderSearch}%`);
+    i += 1;
   }
 
-  const { data, error, count } = await query.order('Date', { ascending: false }).range(from, to);
+  const whereSql = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
 
-  if (error) {
+  try {
+    const countRes = await pgQuery(
+      `SELECT COUNT(*)::bigint AS c FROM online_transactions ${whereSql}`,
+      params
+    );
+    const total = Number(countRes.rows[0]?.c ?? 0);
+
+    const dataParams = [...params, pageSize, offset];
+    const limitIdx = i;
+    const offsetIdx = i + 1;
+
+    const dataRes = await pgQuery(
+      `
+      SELECT
+        id,
+        created_at,
+        order_acquiring_id,
+        phone,
+        status,
+        "date",
+        amount,
+        type,
+        item_id,
+        info,
+        ticket_count,
+        child_name,
+        client_name
+      FROM online_transactions
+      ${whereSql}
+      ORDER BY created_at DESC
+      LIMIT $${limitIdx} OFFSET $${offsetIdx}
+      `,
+      dataParams
+    );
+
+    return NextResponse.json({
+      data: dataRes.rows ?? [],
+      total,
+      page,
+      pageSize,
+    });
+  } catch (error) {
     console.error('get-all-online-transactions', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { error: error?.message || 'Ошибка запроса к базе' },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({
-    data: data ?? [],
-    total: count ?? 0,
-    page,
-    pageSize,
-  });
 }

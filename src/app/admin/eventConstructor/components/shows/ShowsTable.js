@@ -37,8 +37,8 @@ export default function ShowsTable({ title, loading, rows, onCreate, onEdit }) {
               {rows.map((row) => {
                 const src = resolveEventImageSrc(row);
                 return (
-                  <Table.Tr key={row.ID} style={{ cursor: 'pointer' }} onClick={() => onEdit(row)}>
-                    <Table.Td>{row.ID}</Table.Td>
+                  <Table.Tr key={row.id} style={{ cursor: 'pointer' }} onClick={() => onEdit(row)}>
+                    <Table.Td>{row.id}</Table.Td>
                     <Table.Td>
                       {src ? (
                         <Image src={src} alt="" w={56} h={56} radius="sm" fit="cover" />
@@ -48,18 +48,20 @@ export default function ShowsTable({ title, loading, rows, onCreate, onEdit }) {
                         </Text>
                       )}
                     </Table.Td>
-                    <Table.Td>{row.Name}</Table.Td>
-                    <Table.Td>{row.Price}</Table.Td>
-                    <Table.Td>{row.MaxTikets}</Table.Td>
-                    <Table.Td>{row.Age != null && row.Age !== '' ? row.Age : '—'}</Table.Td>
+                    <Table.Td>{row.name}</Table.Td>
+                    <Table.Td>{row.price}</Table.Td>
+                    <Table.Td>{row.max_tickets}</Table.Td>
+                    <Table.Td>{row.age != null && row.age !== '' ? row.age : '—'}</Table.Td>
                     <Table.Td>
-                      <Text size="sm">{row.Duration != null && row.Duration !== '' ? row.Duration : '—'}</Text>
+                      <Text size="sm">{row.duration != null && row.duration !== '' ? row.duration : '—'}</Text>
                       <Text size="xs" c="dimmed">
-                        ({formatDurationRu(row.Duration)})
+                        ({formatDurationRu(row.duration)})
                       </Text>
                     </Table.Td>
                     <Table.Td>
-                      {row.PeoplePerTicket != null && row.PeoplePerTicket !== '' ? row.PeoplePerTicket : '—'}
+                      {row.people_per_ticket != null && row.people_per_ticket !== ''
+                        ? row.people_per_ticket
+                        : '—'}
                     </Table.Td>
                   </Table.Tr>
                 );

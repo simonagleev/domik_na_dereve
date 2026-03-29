@@ -254,11 +254,56 @@ export const useAdminScheduleStore = create((set, get) => ({
     }
   },
 
+  /**
+   * Удаление слота расписания (после подтверждения на клиенте).
+   */
+  deleteScheduleSlot: async (eventType, slotId) => {
+    const id = Number(slotId);
+    if (!id || Number.isNaN(id)) {
+      notifications.show({
+        color: 'red',
+        title: 'Ошибка',
+        message: 'Некорректный идентификатор слота.',
+      });
+      return false;
+    }
+
+    try {
+      if (eventType === 'shows') {
+        await rawExec('DELETE FROM shows_schedule WHERE id = $1', [id]);
+      } else if (eventType === 'workshops') {
+        await rawExec('DELETE FROM workshop_schedule WHERE id = $1', [id]);
+      } else {
+        return false;
+      }
+
+      notifications.show({
+        color: 'green',
+        title: 'Удалено',
+        message: 'Слот расписания удалён.',
+      });
+
+      if (eventType === 'shows') {
+        await get().loadShowsSchedule();
+      } else {
+        await get().loadWorkshopsSchedule();
+      }
+      return true;
+    } catch (err) {
+      notifications.show({
+        color: 'red',
+        title: 'Ошибка',
+        message: err?.message || 'Не удалось удалить слот',
+      });
+      return false;
+    }
+  },
+
   loadShowsSchedule: async () => {
     set({ showsScheduleLoading: true });
     try {
       const rows = await rawSelect(`
-        SELECT ss.id, ss.start_datetime, ss.show_id, ss.remaining_count, ss.is_active, ss.comments,
+        SELECT ss.id, to_char(ss.start_datetime, 'YYYY-MM-DD"T"HH24:MI:SS') AS start_datetime, ss.show_id, ss.remaining_count, ss.is_active, ss.comments,
                s.name AS show_name
         FROM shows_schedule ss
         LEFT JOIN shows s ON s.id = ss.show_id
@@ -277,7 +322,7 @@ export const useAdminScheduleStore = create((set, get) => ({
     set({ workshopsScheduleLoading: true });
     try {
       const rows = await rawSelect(`
-        SELECT ws.id, ws.start_datetime, ws.workshop_id, ws.remaining_count, ws.is_active, ws.comments,
+        SELECT ws.id, to_char(ws.start_datetime, 'YYYY-MM-DD"T"HH24:MI:SS') AS start_datetime, ws.workshop_id, ws.remaining_count, ws.is_active, ws.comments,
                w.name AS workshop_name
         FROM workshop_schedule ws
         LEFT JOIN workshops w ON w.id = ws.workshop_id

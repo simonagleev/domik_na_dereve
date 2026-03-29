@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './PaymentForm.module.css';
-import cm from '@/components/clientModal/clientModal.module.css';
 import { usePaymentModalStore } from '@/store/PaymentModalStore';
 import { normalizeRuPhoneInput } from '@/lib/phoneInput';
 import Link from 'next/link';
@@ -12,8 +11,6 @@ import { useEffect, useMemo, useState } from 'react';
  */
 export default function PaymentForm({ type, data, variant = 'standalone' }) {
   const isEmbedded = variant === 'embedded';
-  const isDev = process.env.NODE_ENV === 'development';
-
   const price = useMemo(() => Number(data?.Price ?? data?.price ?? 0), [data]);
 
   const {
@@ -127,11 +124,12 @@ export default function PaymentForm({ type, data, variant = 'standalone' }) {
     try {
       const response = await fetch('/api/create-payment', {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           amount: formData.amount,
           description: 'Оплата заказа',
-          return_url: isDev ? 'http://localhost:3000/' : 'https://domiknadereve-irk.ru',
+          return_url: `${window.location.origin}/payment-return`,
           phone: formData.phone,
           itemID: formData.itemID,
           type,
@@ -144,7 +142,16 @@ export default function PaymentForm({ type, data, variant = 'standalone' }) {
 
       const dataResponse = await response.json();
       if (response.ok && dataResponse.confirmationUrl) {
-        const orderId = new URL(dataResponse.confirmationUrl).searchParams.get('orderId');
+        const paymentId =
+          dataResponse.paymentId ||
+          new URL(dataResponse.confirmationUrl).searchParams.get('orderId');
+        try {
+          if (paymentId) {
+            sessionStorage.setItem('yookassa_pending_payment_id', paymentId);
+          }
+        } catch (_) {
+          /* sessionStorage недоступен */
+        }
         const requestBody = {
           childName: formData.childName.trim(),
           clientName: formData.clientName.trim(),
@@ -152,8 +159,8 @@ export default function PaymentForm({ type, data, variant = 'standalone' }) {
           email: formData.email,
           type,
           count,
-          orderID: orderId,
-          title: type === 'mk' ? data.Name : data.ShowID,
+          orderID: paymentId,
+          title: type === 'workshop' ? data.Name : data.ShowID,
           date: data.StartDateTime,
         };
 
@@ -206,7 +213,7 @@ export default function PaymentForm({ type, data, variant = 'standalone' }) {
           className={
             isEmbedded
               ? `${styles.payment_form_embedded}`
-              : `${cm.panel} ${styles.payment_form}`
+              : `client-modal-panel ${styles.payment_form}`
           }
         >
           {!isEmbedded ? (
@@ -286,7 +293,7 @@ export default function PaymentForm({ type, data, variant = 'standalone' }) {
             >
               {type === 'show'
                 ? 'Купить билеты'
-                : type === 'mk'
+                : type === 'workshop'
                   ? 'Записаться на мастер класс'
                   : 'Отправить'}
             </button>
@@ -350,7 +357,7 @@ export default function PaymentForm({ type, data, variant = 'standalone' }) {
   }
 
   return (
-    <div className={cm.overlay} onClick={handleClickOutside}>
+    <div className="client-modal-overlay" onClick={handleClickOutside}>
       {formBody}
     </div>
   );

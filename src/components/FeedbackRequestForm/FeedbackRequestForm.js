@@ -1,9 +1,9 @@
 'use client'
 import styles from "./FeedbackRequestForm.module.css";
-import cm from "@/components/clientModal/clientModal.module.css";
 import { useEffect, useState } from "react";
 import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
 import { normalizeRuPhoneInput } from "@/lib/phoneInput";
+import { irkutskTodayDateString } from "@/lib/irkutskTime";
 
 export default function FeedbackRequestForm({ type }) {
     const {
@@ -11,7 +11,8 @@ export default function FeedbackRequestForm({ type }) {
         formData,
         updateFormData,
         resetFormData,
-        setIsSuccess
+        setIsSuccess,
+        showFeedbackToast,
     } = useFeedbackRequestFormStore();
 
     const [loading, setLoading] = useState(false);
@@ -124,37 +125,60 @@ export default function FeedbackRequestForm({ type }) {
             return;
         }
 
-        if (!formData.name || !formData.phone || !formData.type) { //проверка на заполнение данных
-            e.preventDefault();
+        if (!formData.name || !formData.phone || !formData.type) {
             alert('Пожалуйста, заполните все поля!');
             return;
-        } else {
-            setLoading(true);
+        }
 
-            try {
-                fetch('/api/send-feedback-request', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        handleSendTelegram()
-                        data.success ? successHandler() : null
-                    })
-                    .catch(error => console.error('Ошибка:', error));
-            } catch (error) {
-                console.error('Ошибка при отправке данных:', error);
+        const isBirthdayOrCreative = type === 'birthday' || type === 'creative_workshops';
+
+        setLoading(true);
+        try {
+            const response = await fetch('/api/send-feedback-request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            const data = await response.json().catch(() => ({}));
+            const ok = response.ok && data.success === true;
+
+            if (ok) {
+                handleSendTelegram();
+                successHandler();
+                if (isBirthdayOrCreative) {
+                    showFeedbackToast({
+                        message:
+                            'Заявка отправлена, мы свяжемся с вами для уточнения деталей',
+                        variant: 'success',
+                    });
+                }
+                handleClose();
+            } else {
+                if (isBirthdayOrCreative) {
+                    showFeedbackToast({
+                        message: 'Упс, не отправлено',
+                        variant: 'error',
+                    });
+                }
             }
-            handleClose()
+        } catch (error) {
+            console.error('Ошибка при отправке данных:', error);
+            if (isBirthdayOrCreative) {
+                showFeedbackToast({
+                    message: 'Упс, не отправлено',
+                    variant: 'error',
+                });
+            }
+        } finally {
+            setLoading(false);
         }
     }
 
     return (
-        <div className={cm.overlay} onClick={handleClickOutside}>
-            <div className={`${cm.panel} ${styles.payment_form}`}>
+        <div className="client-modal-overlay" onClick={handleClickOutside}>
+            <div className={`client-modal-panel ${styles.payment_form}`}>
                 {/* Кнопка крестик */}
                 <div className={styles.close_button_container}>
                     <button className={styles.close_button} onClick={handleClose} aria-label="Закрыть форму">
@@ -202,7 +226,7 @@ export default function FeedbackRequestForm({ type }) {
                                 id="eventDate"
                                 name="eventDate"
                                 value={formData.eventDate ? formData.eventDate : ''}
-                                min={new Date().toISOString().split('T')[0]}
+                                min={irkutskTodayDateString()}
                                 onChange={e => handleEventDateChange(e)}
                             />
                         </div> : null
@@ -211,7 +235,7 @@ export default function FeedbackRequestForm({ type }) {
 
                     <button className={styles.submit_btn} type="submit">
                         {type === 'show' ? 'Купить билеты'
-                            : type === 'mk' ? 'Записаться на мастер класс'
+                            : type === 'workshop' ? 'Записаться на мастер класс'
                                 : type === 'birthday' ? 'Узнать стоимость'
                                     : type === 'camp' ? 'Записаться'
                                         : 'Отправить'

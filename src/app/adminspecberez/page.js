@@ -13,8 +13,9 @@ export default function AdminPage() {
                 },
             })
                 .then(response => response.json())
-                .then(data => {
-                    setTransactions(data.slice(0, 20))
+                .then((json) => {
+                    const list = Array.isArray(json?.data) ? json.data : [];
+                    setTransactions(list.slice(0, 20));
                 })
                 .catch(error => console.error('Ошибка:', error));
         } catch (error) {
@@ -31,17 +32,17 @@ export default function AdminPage() {
         <div style={{width: '100%'}}>
             {transactions.map(e => {
                 return (
-                    <div style={{fontSize: '.8em', display: 'flex', width: '100%', justifyContent: 'space-around', alignItems: 'center', gap:"10px", border: '1px solid green' }} key={e.ID}>
-                        <div>{e.ID}</div>
+                    <div style={{fontSize: '.8em', display: 'flex', width: '100%', justifyContent: 'space-around', alignItems: 'center', gap:"10px", border: '1px solid green' }} key={e.id}>
+                        <div>{e.id}</div>
                         {/* <div >
                             <p >{formatDate(e.Date.split('T')[0])}</p>
                         </div>
                         <div>
                             <p >{e.Date.split('T')[1].substring(0, 5)}</p>
                         </div> */}
-                        <div style={{borderLeft: '1px solid green', paddingLeft: '5px'}}>{e.Phone}</div>
-                        <div style={{borderLeft: '1px solid green', borderRight: '1px solid green', padding: '3px 5px'}}>{e.OrderAcquiringID}</div>
-                        <div>{e.Type}</div>
+                        <div style={{borderLeft: '1px solid green', paddingLeft: '5px'}}>{e.phone}</div>
+                        <div style={{borderLeft: '1px solid green', borderRight: '1px solid green', padding: '3px 5px'}}>{e.order_acquiring_id}</div>
+                        <div>{e.type}</div>
                     </div>)
             })}
         </div>

@@ -1,22 +1,5 @@
 import { create } from 'zustand';
 
-function normalizeWorkshopRow(r) {
-  return {
-    ID: r.id,
-    Name: r.name,
-    Price: r.price,
-    MaxTikets: r.max_tickets,
-    Description: r.description,
-    Comments: r.comments,
-    Age: r.age,
-    Duration: r.duration,
-    ImageName: r.image_name,
-    ImagePath: r.image_path,
-    PreviewImagePath: r.preview_image_path,
-    PeoplePerTicket: r.people_per_ticket,
-  };
-}
-
 export const useWorkshopsEventConstructorStore = create((set, get) => ({
   workshopsRows: [],
   workshopsLoading: false,
@@ -47,7 +30,7 @@ export const useWorkshopsEventConstructorStore = create((set, get) => ({
         return;
       }
       const rows = Array.isArray(json?.data) ? json.data : [];
-      set({ workshopsRows: rows.map(normalizeWorkshopRow) });
+      set({ workshopsRows: rows });
     } catch (e) {
       console.error('workshops fetch', e);
       set({ workshopsRows: [] });
@@ -60,4 +43,3 @@ export const useWorkshopsEventConstructorStore = create((set, get) => ({
     await get().loadWorkshops();
   },
 }));
-

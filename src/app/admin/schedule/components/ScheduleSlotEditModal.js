@@ -13,24 +13,9 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useAdminScheduleStore } from '../store/adminScheduleStore';
+import { parseNaiveIrkutskDateTimeParts } from '@/lib/irkutskTime';
 
 const EVENT_TYPES_WITH_PG = new Set(['shows', 'workshops']);
-
-function startToDateTimeParts(value) {
-  if (value == null || value === '') {
-    return { date: '', time: '' };
-  }
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) {
-    return { date: '', time: '' };
-  }
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  const h = String(d.getHours()).padStart(2, '0');
-  const min = String(d.getMinutes()).padStart(2, '0');
-  return { date: `${y}-${m}-${day}`, time: `${h}:${min}` };
-}
 
 function buildStartDatetime(date, time) {
   const d = String(date || '').trim();
@@ -56,7 +41,7 @@ export default function ScheduleSlotEditModal({ opened, onClose, eventType, row,
 
   useEffect(() => {
     if (!opened || !row) return;
-    const parts = startToDateTimeParts(row.start_datetime);
+    const parts = parseNaiveIrkutskDateTimeParts(row.start_datetime);
     setDate(parts.date);
     setTime(parts.time);
     setRemaining_count(
