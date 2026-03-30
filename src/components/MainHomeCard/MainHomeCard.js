@@ -3,10 +3,21 @@ import Image from "next/image";
 import styles from "./MainHomeCard.module.css";
 import Link from "next/link";
 
-export default function MainHomeCard({header, paragraph, buttonText, colorBg, link, id, key}) {
+export default function MainHomeCard({
+    header,
+    paragraph,
+    buttonText,
+    colorBg,
+    link,
+    id,
+    key,
+    suppressShadow,
+}) {
 
     return (
-        <div className={styles.card_container}>
+        <div
+            className={`${styles.card_container} ${suppressShadow ? styles.card_noShadow : ""}`}
+        >
             <div className={styles.card_social_container}>
                 <a href="https://t.me/DomiknaDereve38" target="_blank" rel="noopener noreferrer">
                     <Image
