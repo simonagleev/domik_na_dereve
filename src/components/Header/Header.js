@@ -14,7 +14,10 @@ const gradientMap = {
 export default function Header() {
     const season = getSeasonIrkutskNow();
     return (
-        <header className={styles.header} style={{ background: gradientMap[season] || "transparent" }}>
+        <header
+            className={styles.header}
+            style={{ ["--header-gradient"]: gradientMap[season] || "transparent" }}
+        >
             <Link href="/">
                 <Image
                     className={styles.logo}

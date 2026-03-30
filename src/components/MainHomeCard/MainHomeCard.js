@@ -46,7 +46,13 @@ export default function MainHomeCard({
             </p>
 
             <div className={styles.wrapper} >
-                <Link className={styles.button} style={{ background: colorBg }} href={`/${link}`}>{buttonText}</Link>
+                <Link
+                    className={`${styles.button} ${styles.buttonGradientFill}`}
+                    style={{ ["--btn-gradient"]: colorBg }}
+                    href={`/${link}`}
+                >
+                    {buttonText}
+                </Link>
             </div>
         </div>
     );

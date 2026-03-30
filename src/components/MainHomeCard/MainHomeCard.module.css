@@ -29,6 +29,16 @@
         opacity: 1;
       }}
 
+@keyframes btnGradientShimmer {
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
 .card_social_container {
     display: flex;
     gap: 8px;
@@ -108,6 +118,26 @@
     padding-top: 16px;
     padding-bottom: 15px;
     animation: test 1.5s ease-in;
+}
+
+.buttonGradientFill {
+    background: var(--btn-gradient, rgba(144, 125, 147, 1));
+    background-size: 260% 100%;
+    background-position: 0% 50%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .buttonGradientFill {
+        animation:
+            test 1.5s ease-in,
+            btnGradientShimmer 3.5s ease-in-out infinite;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .buttonGradientFill {
+        background-size: 100% 100%;
+    }
 }
 
 
