@@ -34,9 +34,13 @@ export function irkutskCutoffPlusOneHourString() {
     minute: '2-digit',
     second: '2-digit',
     hour12: false,
+    // В некоторых окружениях часовой цикл "h24" может вернуть "24" вместо "00"
+    // (например, "24:57"). Для PostgreSQL это невалидно, поэтому форсируем 00–23.
+    hourCycle: 'h23',
   }).formatToParts(d);
   const map = Object.fromEntries(parts.map((p) => [p.type, p.value]));
-  return `${map.year}-${map.month}-${map.day} ${map.hour}:${map.minute}:${map.second}`;
+  const hh = map.hour === '24' ? '00' : map.hour;
+  return `${map.year}-${map.month}-${map.day} ${hh}:${map.minute}:${map.second}`;
 }
 
 /**
