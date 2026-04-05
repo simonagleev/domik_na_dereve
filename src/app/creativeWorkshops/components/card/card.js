@@ -4,9 +4,8 @@ import styles from "./card.module.css";
 import Image from "next/image";
 import { useState } from "react";
 import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
-import { type } from "os";
 
-export default function Cw_card({ data, index }) {
+export default function CwCard({ data, index }) {
     const [expanded, setExpanded] = useState(false);
     const { openFeedbackRequestForm, updateFormData } = useFeedbackRequestFormStore();
 

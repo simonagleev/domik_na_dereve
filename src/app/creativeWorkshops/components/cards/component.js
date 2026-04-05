@@ -1,7 +1,6 @@
 'use client'
-import Cw_card from "../card/card";
+import CwCard from "../card/card";
 import styles from "./cards.module.css";
-import Image from "next/image";
 
 const cardsData = [
     {
@@ -156,13 +155,13 @@ const cardsData = [
 export default function CwCards({ }) {
 
     return (
-        <div className={styles.cw_cards} >
-            <h2 className={styles.cw_cards_heading}>
+        <div className={styles.CwCards} >
+            <h2 className={styles.CwCards_heading}>
                 Наши творческие мастерские
             </h2>
-            <div className={styles.cw_cards_container}>
+            <div className={styles.CwCards_container}>
                 {cardsData.map((e, index) => {
-                    return <Cw_card data={e} key={index} />
+                    return <CwCard data={e} key={index} />
                 })}
             </div>
         </div>

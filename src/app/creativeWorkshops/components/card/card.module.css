@@ -6,13 +6,13 @@
     flex: 1;
     border-radius: 30px;
     padding: 25px;
-    background-color: #fff;
+    background-color: #fffdfd;
     flex-grow: 1;
-
     width: 100%;
     max-width: 33%;
     min-width: 25%;
-
+    box-shadow: 1px 0px 5px #5e675e;
+    border: 1px solid #b1b1b2;
     /* NEW */
     height: 675px;
     overflow: hidden;
