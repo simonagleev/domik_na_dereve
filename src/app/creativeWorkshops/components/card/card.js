@@ -16,10 +16,11 @@ export default function CwCard({ data, index }) {
                     <div className={styles.card_image_container}>
                         <Image
                             className={styles.card_image}
-                            src={`${data.imageUrl}`}
+                            src={data.imageUrl}
                             alt="мк фото"
                             width={300}
                             height={350}
+                            sizes="(max-width: 480px) 100vw, 33vw"
                         />
                     </div>
                     <h2 className={styles.card_title}>

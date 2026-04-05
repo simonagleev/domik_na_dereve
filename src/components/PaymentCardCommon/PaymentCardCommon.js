@@ -15,21 +15,21 @@ export default function PaymentCardCommon({ type }) {
             title = <h2 className={styles.card_header}>
                 Погружение в <br />
                 волшебный мир вместе <br />
-                c <span style={{ color: 'rgba(124, 152, 120, 1)' }}>“Домиком на дереве”</span>
+                c <span className={styles.accent}>“Домиком на дереве”</span>
             </h2>
             buttonText = 'Купить билеты'
             break
         case 'workshops':
-            console.log('CASE')
             title = <h2 className={styles.card_header}>
                 Мастер-классы для <br />
-                <span style={{ color: 'rgba(124, 152, 120, 1)' }}>юных талантов</span>
+                <span className={styles.accent}>юных талантов</span>
             </h2>
-            text = <p className={styles.card_text}>
-                Проводим МК по актерскому искусству,<br />
-                сценической речи, рукоделию и другим<br />
-                направлениям для детей разного возраста
-            </p>
+            text = ''
+            // <p className={styles.card_text}>
+            //     Проводим МК по актерскому искусству,<br />
+            //     сценической речи, рукоделию и другим<br />
+            //     направлениям для детей разного возраста
+            // </p>
             buttonText = 'Перейти к списку МК'
 
             break
@@ -37,7 +37,7 @@ export default function PaymentCardCommon({ type }) {
             title = <h2 className={styles.card_header}>
                 Устройте волшебный<br />
                 день рождения в<br />
-                <span style={{ color: 'rgba(124, 152, 120, 1)' }}>“Домике на дереве”</span>
+                <span className={styles.accent}>“Домике на дереве”</span>
             </h2>
             buttonText = 'Узнать стоимость'
             action = () => { openFeedbackRequestForm('birthday') }
@@ -45,7 +45,7 @@ export default function PaymentCardCommon({ type }) {
         case 'creative_workshops':
             title = <h2 className={styles.card_header}>
                 Начни творческий путь в<br />
-                <span style={{ color: 'rgba(124, 152, 120, 1)' }}>“Домике на дереве”</span>
+                <span className={styles.accent}>“Домике на дереве”</span>
             </h2>
             buttonText = 'Записаться на занятие'
             action = () => { openFeedbackRequestForm('creative_workshops') }
@@ -53,7 +53,7 @@ export default function PaymentCardCommon({ type }) {
         case 'camp':
             title = <h2 className={styles.card_header}>
                 Летний Лагерь с<br />
-                <span style={{ color: 'rgba(124, 152, 120, 1)' }}> “Домиком на дереве”</span>
+                <span className={styles.accent}> “Домиком на дереве”</span>
             </h2>
             buttonText = 'Отправить заявку'
             action = () => { openFeedbackRequestForm('camp') }
@@ -61,30 +61,30 @@ export default function PaymentCardCommon({ type }) {
         default:
             title = <h2 className={styles.card_header}>
                 Нет информации<br />
-                <span style={{ color: 'rgba(124, 152, 120, 1)' }}>попробуйте еще раз</span>
+                <span className={styles.accent}>попробуйте еще раз</span>
             </h2>
     }
 
     return (
-        <div className={styles.card_container} >
-            {title}
-            {text}
-            <button
-                className={styles.buy_btn}
-                onClick={() => {
-                    const target = document.getElementById(`${type === 'shows' ? "shows_schedule" : type === 'workshops' ? "workshop_schedule" : null}`);
-                    if (target) {
-                        target.scrollIntoView({ behavior: "smooth" });
-                    } else if (action) {
-                        console.log('TEST action')
-                        action()
-                    } else {
-                        console.log('No action')
-                    }
-                }}
-            >
-                {buttonText}
-            </button>
+        <div className={styles.card_container}>
+            <div className={styles.card_inner}>
+                {title}
+                {text}
+                <button
+                    type="button"
+                    className={styles.buy_btn}
+                    onClick={() => {
+                        const target = document.getElementById(`${type === 'shows' ? "shows_schedule" : type === 'workshops' ? "workshop_schedule" : null}`);
+                        if (target) {
+                            target.scrollIntoView({ behavior: "smooth" });
+                        } else if (action) {
+                            action();
+                        }
+                    }}
+                >
+                    {buttonText}
+                </button>
+            </div>
         </div>
     );
 }

@@ -13,8 +13,7 @@
     min-width: 25%;
     box-shadow: 1px 0px 5px #5e675e;
     border: 1px solid #b1b1b2;
-    /* NEW */
-    height: 675px;
+    min-height: 0;
     overflow: hidden;
 }
 
@@ -26,17 +25,19 @@
 .card_image_container {
     width: 100%;
     position: relative;
-    /* NEW */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    aspect-ratio: 300 / 350;
     border-radius: 30px;
     overflow: hidden;
-
+    background-color: #f0f0f0;
 }
 
 .card_image {
-    flex: 1;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 .age {
@@ -62,6 +63,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 .workshop_item {
@@ -69,7 +71,8 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    min-height: 0;
 }
 
 .card_title {
@@ -115,6 +118,8 @@
 
 .buy_btn {
     width: 100%;
+    margin-top: auto;
+    flex-shrink: 0;
     background-color: rgba(124, 152, 120, 1);
     font-weight: 400;
     padding: 10px 68px 10px;
@@ -140,12 +145,6 @@
 
     .card_image_container {
         width: 100%;
-        position: relative;
-    }
-
-    .card_image {
-        width: 100%;
-        height: auto;
     }
 
     .age {

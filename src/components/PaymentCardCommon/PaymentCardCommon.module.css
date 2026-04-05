@@ -8,84 +8,143 @@
     max-width: 1107px;
     color: rgba(84, 59, 61, 1);
     text-align: center;
-    padding: 24px 50px 30px;
+    padding: 28px 44px 32px;
     position: absolute;
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 3;
+    box-shadow:
+        0 4px 24px rgba(84, 59, 61, 0.08),
+        0 1px 3px rgba(84, 59, 61, 0.06);
+    border: 1px solid rgba(177, 177, 178, 0.45);
+    box-sizing: border-box;
+}
+
+.card_inner {
+    width: 100%;
+    max-width: 36rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
 }
 
 .card_header {
     font-size: 1.75rem;
-    font-weight: 500;
-    margin-bottom: 0.6875rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
     font-family: 'Montserrat', sans-serif;
-    line-height: 34px;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
 }
 
-.color_word {
+.accent {
     color: rgba(124, 152, 120, 1);
+    font-weight: 600;
 }
 
 .card_text {
-    margin-bottom: 26px;
-    line-height: 19.5px;
+    margin: 0 0 1.25rem;
+    line-height: 1.55;
+    font-size: 1.0625rem;
+    color: rgba(84, 59, 61, 0.88);
+    max-width: 32rem;
 }
 
 .buy_btn {
     width: 100%;
+    max-width: 22rem;
+    margin-top: 0.25rem;
     background-color: rgba(124, 152, 120, 1);
-    font-weight: 400;
-    padding: 15px 68px 20px;
+    font-weight: 500;
+    padding: 15px 68px 18px;
     line-height: 24px;
-    font-size: 1.25rem;
+    font-size: clamp(0.9375rem, 2.2vw, 1.25rem);
     font-family: 'Montserrat', sans-serif;
     color: #fff;
     border: none;
     border-radius: 30px;
     cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(124, 152, 120, 0.25);
+    transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        background-color 0.22s ease,
+        filter 0.22s ease;
 }
 
+.buy_btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(124, 152, 120, 0.38);
+    filter: brightness(1.05);
+}
 
+.buy_btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 12px rgba(124, 152, 120, 0.3);
+    filter: brightness(0.97);
+    transition-duration: 0.1s;
+}
 
+.buy_btn:focus-visible {
+    outline: 2px solid rgba(124, 152, 120, 0.85);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .buy_btn {
+        transition: none;
+    }
+
+    .buy_btn:hover,
+    .buy_btn:active {
+        transform: none;
+    }
+}
 
 @media (max-width: 480px) {
     .card_container {
         align-items: center;
-        padding: 30px 20px;
+        padding: 28px 22px 30px;
         position: static;
         border: 2px solid rgba(144, 125, 147, 1);
         width: 100%;
+        max-width: none;
         transform: none;
         flex: 1;
+        box-shadow: 0 4px 20px rgba(84, 59, 61, 0.07);
+    }
+
+    .card_inner {
+        max-width: none;
+        gap: 0.125rem;
     }
 
     .card_header {
         font-size: 2.25rem;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         font-family: 'Montserrat', sans-serif;
-        line-height: 34px;
+        line-height: 1.25;
     }
 
     .card_header br {
         display: none;
     }
 
-    .color_word {
-        color: rgba(124, 152, 120, 1);
-    }
-
     .card_text {
-        margin-bottom: 26px;
-        line-height: 17px;
+        margin-bottom: 1.25rem;
+        line-height: 1.5;
         font-size: 1.167rem;
-        
+        max-width: none;
     }
 
     .buy_btn {
-        padding: 13px 40px;
+        max-width: none;
+        padding: 13px 16px 15px;
         line-height: 22px;
-        font-size: 1.5rem;
+        font-size: clamp(0.8125rem, 4.1vw, 1.5rem);
         width: 100%;
     }
 }

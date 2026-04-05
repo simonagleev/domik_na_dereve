@@ -26,9 +26,14 @@ export default function Home() {
     <div className={styles.component}>
       <div className={styles.container}>
         <div className={styles.home} style={{ backgroundImage: `url('/img/main_bg_${gradientMap[season]}.webp')` }}>
-          <h1 className={styles.header}>Домик <br /> на дереве</h1>
-          <div className={styles.right}>
+          <div className={styles.main_header_container}>
+            <h1 className={styles.header}>
+              Домик
+              <br />
+              <span className={styles.headerLine2}>на дереве</span>
+            </h1>
           </div>
+          <div className={styles.right} />
         </div>
         {/* <PaymentCard /> */}
         <MainHomeSlider />

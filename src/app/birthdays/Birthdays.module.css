@@ -16,37 +16,54 @@
 
 
 .home {
+  position: relative;
   width: 100%;
-  /* max-width: 1300px; */
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex: 1;
+  min-height: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 30px;
   padding-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .main_header_container {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  padding-left: 1.875rem;
-  padding-top: 5%;
-  container-type: inline-size;
-
+  height: 50%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(0, 1vmin, 0.35rem);
+  padding: clamp(0.5rem, 2vh, 1.25rem) clamp(0.85rem, 3vw, 2rem) clamp(0.35rem, 1.5vh, 1rem);
+  box-sizing: border-box;
+  pointer-events: none;
+  container-type: size;
 }
 
 .header {
-  font-size: clamp(1.2rem, 12cqw + 1rem, 13rem);
-  line-height: clamp(1.2em, 1.5cqw + 0.5rem, .8em);
+  margin: 0;
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  font-size: clamp(4rem, min(48cqh, 26vw), 22rem);
   font-weight: 700;
+  line-height: 0.82;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
   color: #fff;
 }
 
 .main_header_container .header:last-of-type {
-  padding-left: 3%;
+  padding-left: clamp(0.65rem, 3.5vw, 2.25rem);
 }
 
 .content {
@@ -69,43 +86,44 @@
   text-wrap: balance;
 }
 
-/* Для широких, но маленьких по высоте экранов */
-@media (max-height: 800px) and (min-width: 600px) {
-  .header {
-    font-size: clamp(1.2rem, 12cqw + 1rem, 9rem);
-    line-height: 1em;
-  }
-}
-
 @media (max-width: 480px) {
   .container {
     height: calc(100vh - 48px - 40px);
-
   }
 
   .home {
-    justify-content: flex-end;
-    align-items: flex-end;
-    padding-bottom: 20px;
     margin-bottom: 10px;
     flex: 1.5;
+    padding-bottom: 20px;
   }
 
-  .main_header_container .header:last-of-type {
-    padding-left: 5%;
+  .main_header_container {
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(0.5rem, 2vh, 1rem) clamp(0.6rem, 3.5vw, 1rem);
+    gap: clamp(0.1rem, 1vh, 0.35rem);
+  }
+
+  .header {
+    flex: 0 0 auto;
+    min-height: 0;
+    font-size: clamp(2.6rem, min(34cqh, 12vw), 6.25rem);
+    line-height: 0.84;
+    justify-content: center;
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
   }
 
   .right {
     display: none;
   }
-
-
 }
 
 @media (max-width: 480px) and (min-width: 435px) {
   .container {
     height: calc(100vh - 48px - 40px);
-
   }
 
   .home {
@@ -116,7 +134,3 @@
     display: none;
   }
 }
-
-
-
-
