@@ -26,11 +26,13 @@
 }
 
 .card_image_container {
-    flex: 1;
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 30px;
+    flex: 1 1 0;
+    min-width: 0;
 }
 
 .card_name {
@@ -63,10 +65,11 @@
 }
 
 .card_image {
-    /* width: 100%; */
-    /* height: auto; */
-    max-width: 625px;
-    flex: 1;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: inherit;
 }
 
 .card_date {
@@ -137,6 +140,7 @@
     .card_image_container {
         width: 100%;
         position: relative;
+        border-radius: 30px;
     }
 
     .card_image {

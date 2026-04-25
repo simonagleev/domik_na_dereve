@@ -53,6 +53,11 @@ export default function ItemCard({ data }) {
           <p className={styles.remainings}>Осталось билетов: {remaining}</p>
         </div>
       ) : null}
+      {remaining <= 0 ? (
+        <div className={styles.item_line}>
+          <p className={styles.remainings}>Билеты закончились</p>
+        </div>
+      ) : null}
 
       <button
         type="button"
