@@ -21,6 +21,9 @@ export async function POST(request) {
             case 'camp':
                 event = 'ЛЕТНИЙ ЛАГЕРЬ'
                 break;
+            case 'after_school_care':
+                event = 'ПРОДЛЕНКУ'
+                break;
             default:
                 event = 'Неизвестно (что-то пошло не так)'
                 break;

@@ -130,7 +130,7 @@ export default function FeedbackRequestForm({ type }) {
             return;
         }
 
-        const isBirthdayOrCreative = type === 'birthday' || type === 'creative_workshops';
+        const isBirthdayOrCreative = type === 'birthday' || type === 'creative_workshops' || type === 'after_school_care';
 
         setLoading(true);
         try {
@@ -195,7 +195,7 @@ export default function FeedbackRequestForm({ type }) {
                             onChange={(e) => handleNameChange(e)} />
                     </div>
                     <div className={styles.form_group}>
-                        <input id="phone" name="phone" placeholder="Номер телефона для связи"
+                        <input id="phone" name="phone" placeholder="Номер телефона"
                             maxLength={12}
                             minLength={12}
                             value={formData.phone}
@@ -237,8 +237,9 @@ export default function FeedbackRequestForm({ type }) {
                         {type === 'show' ? 'Купить билеты'
                             : type === 'workshop' ? 'Записаться на мастер класс'
                                 : type === 'birthday' ? 'Узнать стоимость'
-                                    : type === 'camp' ? 'Записаться'
-                                        : 'Отправить'
+                                    : type === 'after_school_care' ? 'Присоединиться'
+                                        : type === 'camp' ? 'Записаться'
+                                            : 'Отправить'
                         }
                     </button>
                 </form>

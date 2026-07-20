@@ -1,0 +1,154 @@
+.container {
+  width: 100%;
+  max-width: 1500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 25px 0 40px;
+}
+
+.why_container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: #FFF;
+  border-radius: 30px;
+  padding: 55px 45px;
+  margin-bottom: 30px;
+  gap: 30px;
+}
+
+.why_left {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.why_heading {
+  font-weight: 500;
+  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  line-height: 1.2;
+  margin: 0 0 15px;
+}
+
+.why_heading_accent {
+  color: rgba(119, 171, 199, 1);
+}
+
+.why_text {
+  font-size: 1.125rem;
+  font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+  line-height: 1.4;
+  margin: 15px 0 25px;
+}
+
+.why_img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 30px;
+  display: block;
+}
+
+.why_right {
+  flex: 1;
+}
+
+.why_card {
+  display: flex;
+  gap: 30px;
+  border-radius: 30px;
+  background-color: rgba(248, 248, 248, 1);
+  padding: 22px 28px;
+  margin-bottom: 20px;
+}
+
+.why_card:last-child {
+  margin-bottom: 0;
+}
+
+.why_card_number {
+  font-size: 2.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 500;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.why_card_text {
+  font-weight: 500;
+  font-size: 1.5rem;
+  font-size: clamp(1rem, 2.8vw, 1.5rem);
+  line-height: 1.35;
+}
+
+.why_card_text strong {
+  font-weight: 600;
+}
+
+.button_container {
+  width: 100%;
+  max-width: 500px;
+}
+
+@media (max-width: 900px) {
+  .why_container {
+    flex-direction: column;
+    padding: 30px 25px;
+    gap: 15px;
+  }
+
+  .why_left {
+    width: 100%;
+  }
+
+  .why_img {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .why_right {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .why_container {
+    padding: 14px 16px;
+  }
+
+  .why_heading {
+    font-size: 1.75rem;
+    line-height: 26px;
+  }
+
+  .why_text {
+    font-size: 1.125rem;
+    line-height: 23px;
+    margin: 10px 0 15px;
+  }
+
+  .why_img {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .why_card {
+    gap: 10px;
+    padding: 9px 20px;
+    margin-bottom: 15px;
+  }
+
+  .why_card_number {
+    font-size: 2rem;
+    line-height: 31px;
+  }
+
+  .why_card_text {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+}

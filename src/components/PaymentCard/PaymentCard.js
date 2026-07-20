@@ -63,7 +63,7 @@ export default function PaymentCard() {
                 </defs>
             </svg>
 
-            <div className={styles.wrapper} >
+            {/* <div className={styles.wrapper} >
                 <Link className={styles.button} style={{ background: gradientMap[season] || "transparent" }} href="/workshops">Мастер-классы</Link>
             </div>
             <svg style={{ visibility: "hidden", position: "absolute" }} width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -73,7 +73,7 @@ export default function PaymentCard() {
                         <feComposite in="SourceGraphic" in2="goo" operator="atop" />
                     </filter>
                 </defs>
-            </svg>
+            </svg> */}
         </div>
     );
 }

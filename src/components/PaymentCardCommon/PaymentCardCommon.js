@@ -33,6 +33,13 @@ export default function PaymentCardCommon({ type }) {
             buttonText = 'Перейти к списку МК'
 
             break
+        case 'afterSchoolCare':
+            title = <h2 className={styles.card_header}>
+                Подарите себе спокойствие, а ребенку - интересное детство!
+            </h2>
+            buttonText = 'Присоединиться'
+            action = () => { openFeedbackRequestForm('after_school_care') }
+            break
         case 'birthdays':
             title = <h2 className={styles.card_header}>
                 Устройте волшебный<br />

@@ -31,7 +31,8 @@ export default function Header() {
             <nav className={styles.nav} >
                 <Link href="/shows">Спектакли</Link>
                 {/* <Link href="/camp">Летний лагерь</Link> */}
-                <Link href="/workshops">Мастер-классы</Link>
+                {/* <Link href="/workshops">Мастер-классы</Link> */}
+                <Link href="/afterSchoolCare">Продленка</Link>
                 <Link href="/birthdays">Дни рождения</Link>
                 <Link href="/creativeWorkshops">Мастерские</Link>
                 <a href="#contacts">Контакты</a>

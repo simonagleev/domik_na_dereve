@@ -33,7 +33,8 @@ export default function BurgerMenu() {
                         <Link href="/" onClick={closeMenu}>Главная </Link>
                         <Link href="/shows" onClick={closeMenu}>Спектакли</Link>
                         {/* <Link href="/camp" onClick={closeMenu}>Летний лагерь</Link> */}
-                        <Link href="/workshops" onClick={closeMenu}>Мастер-классы</Link>
+                        {/* <Link href="/workshops" onClick={closeMenu}>Мастер-классы</Link> */}
+                        <Link href="/afterSchoolCare" onClick={closeMenu}>Продленка</Link>
                         <Link href="/birthdays" onClick={closeMenu}>Дни рождения</Link>
                         <Link href="/creativeWorkshops" onClick={closeMenu}>Творческие мастерские</Link>
                         <a href="#contacts" onClick={closeMenu}>Контакты</a>
