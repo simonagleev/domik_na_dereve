@@ -9,6 +9,8 @@ import WorkshopsTable from './components/workshops/WorkshopsTable';
 import { useShowsEventConstructorStore } from './components/shows/store/showsEventConstructorStore';
 import { useEventConstructorStore } from './store/eventConstructorStore';
 import { useWorkshopsEventConstructorStore } from './components/workshops/store/workshopsEventConstructorStore';
+import CreativeWorkshopsEditor from './components/creativeWorkshops/CreativeWorkshopsEditor';
+import { isCreativeWorkshopsTech } from './components/creativeWorkshops/store/creativeWorkshopsEventConstructorStore';
 
 export default function AdminEventConstructorPage() {
   const eventTypes = useEventConstructorStore((s) => s.eventTypes);
@@ -115,11 +117,12 @@ export default function AdminEventConstructorPage() {
                 onCreate={openCreateWorkshopsModal}
                 onEdit={openEditWorkshopsModal}
               />
+            ) : isCreativeWorkshopsTech(t.tech_name) ? (
+              <CreativeWorkshopsEditor title={t.name} />
             ) : (
               <Card withBorder radius="md" p="lg">
                 <Text c="dimmed">
-                  Таблица для типа «{t.name}» ({t.tech_name}) будет подключена позже - сейчас реализованы только спектакли
-                  (shows).
+                  Редактор для типа «{t.name}» ({t.tech_name}) будет подключен позже.
                 </Text>
               </Card>
             )}

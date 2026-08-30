@@ -1,0 +1,118 @@
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.grip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 10px;
+  background: #eef3ee;
+  color: #4d624c;
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.grip:active {
+  cursor: grabbing;
+}
+
+.dragging {
+  opacity: 0.45;
+}
+
+.dropTarget {
+  outline: 2px solid #7c9878;
+  outline-offset: 2px;
+}
+
+.hiddenCard {
+  opacity: 0.55;
+}
+
+.imageHit {
+  position: relative;
+  cursor: pointer;
+}
+
+.imageHit:hover .imageOverlay {
+  opacity: 1;
+}
+
+.imagePlaceholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #6b6b6b;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 12px;
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.fileInput {
+  display: none;
+}
+
+.scheduleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.scheduleRow > :first-child {
+  flex: 1;
+}
+
+.addLine {
+  margin-top: 4px;
+  background: none;
+  border: none;
+  color: #4d624c;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.hint {
+  color: var(--mantine-color-dimmed);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.visibilityToggle,
+.visibilityToggle :global(*) {
+  cursor: pointer;
+}
+
+.fakeBtn {
+  pointer-events: none;
+}

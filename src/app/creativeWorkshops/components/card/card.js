@@ -14,14 +14,16 @@ export default function CwCard({ data, index }) {
             <div className={styles.workshop_items_container}>
                 <div className={styles.workshop_item}>
                     <div className={styles.card_image_container}>
-                        <Image
-                            className={styles.card_image}
-                            src={data.imageUrl}
-                            alt="мк фото"
-                            width={300}
-                            height={350}
-                            sizes="(max-width: 480px) 100vw, 33vw"
-                        />
+                        {data.imageUrl ? (
+                            <Image
+                                className={styles.card_image}
+                                src={data.imageUrl}
+                                alt="мк фото"
+                                width={300}
+                                height={350}
+                                sizes="(max-width: 480px) 100vw, 33vw"
+                            />
+                        ) : null}
                     </div>
                     <h2 className={styles.card_title}>
                         {data.name}
@@ -42,14 +44,13 @@ export default function CwCard({ data, index }) {
                         Цена : {data.price} рублей
                     </p>
                     <div className={styles.description}>
-                        Расписание : {data.schedule.map((e, index) => {
+                        Расписание : {(Array.isArray(data.schedule) ? data.schedule : []).map((e, index) => {
                             return <p key={index + 's'}>{e}</p>
                         })}
                     </div>
                     <button
                         className={styles.buy_btn}
                         onClick={() => {
-                                console.log('TEST action')
                                 openFeedbackRequestForm({type: 'creative_workshops'})
                                 updateFormData('cw_name', data.name)
                         }}
