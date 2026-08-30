@@ -101,11 +101,13 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     cursor: pointer;
+    white-space: pre-wrap;
 }
 
 .card_text {
     font-weight: 500;
     transition: all 0.3s ease;
+    white-space: pre-wrap;
 }
 
 .card_text:hover {
