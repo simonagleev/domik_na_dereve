@@ -145,7 +145,7 @@
     border-radius: 20px;
     width: 100%;
     flex: 1 1 160px;
-    min-width: 0;
+    min-width: 150px;
     max-width: min(100%, 220px);
     box-sizing: border-box;
 }
@@ -191,6 +191,14 @@
     max-width: 100%;
 }
 
+.remainings {
+    margin: 0;
+    padding: 6px 0;
+    font-size: 0.75rem;
+    line-height: 1.25;
+    font-weight: 600;
+}
+
 /* COUNTER */
 .counter {
     display: flex;
@@ -222,7 +230,7 @@
 
 
 .buy_btn {
-    margin: 10px 0 20px;
+    margin: 10px 0 0;
     background-color: rgba(124, 152, 120, 1);
     color: #fff;
     border: none;
@@ -283,7 +291,7 @@
         padding: 10px;
         border-radius: 20px;
         flex: 1;
-        min-width: 0;
+        min-width: 150px;
         max-width: 100%;
     }
 

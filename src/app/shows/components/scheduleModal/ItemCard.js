@@ -40,6 +40,10 @@ export default function ItemCard({ data }) {
 
   const { datePart, timeHm } = parseStartParts(data.StartDateTime);
 
+  let statusText = '';
+  if (disabled) statusText = 'Билеты закончились';
+  else if (lowStock) statusText = `Осталось билетов: ${remaining}`;
+
   return (
     <div className={styles.item} key={data.ID}>
       <div className={`${styles.item_line} ${styles.item_line_date}`}>
@@ -48,16 +52,14 @@ export default function ItemCard({ data }) {
       <div className={`${styles.item_line} ${styles.item_line_time}`}>
         <p className={styles.time}>{timeHm || '—'}</p>
       </div>
-      {lowStock ? (
-        <div className={styles.item_line}>
-          <p className={styles.remainings}>Осталось билетов: {remaining}</p>
-        </div>
-      ) : null}
-      {remaining <= 0 ? (
-        <div className={styles.item_line}>
-          <p className={styles.remainings}>Билеты закончились</p>
-        </div>
-      ) : null}
+
+      {/* Всегда рендерим строку, просто прячем текст, если статус не нужен */}
+      <div
+        className={styles.item_line}
+        style={{ visibility: statusText ? 'visible' : 'hidden' }}
+      >
+        <p className={styles.remainings}>{statusText || '\u00A0'}</p>
+      </div>
 
       <button
         type="button"
