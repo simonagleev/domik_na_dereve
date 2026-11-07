@@ -23,6 +23,7 @@ const navItems = [
   { href: '/admin/eventConstructor', label: 'Конструктор мероприятий' },
   { href: '/admin/transactions', label: 'Транзакции' },
   { href: '/admin/requests', label: 'Заявки' },
+  { href: '/admin/questionnaires', label: 'Анкеты' },
   { href: '/admin/logs', label: 'Логи' },
   { href: '/admin/users', label: 'Пользователи' },
 ];

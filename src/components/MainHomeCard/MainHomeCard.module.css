@@ -13,6 +13,11 @@
     padding: 0 35px;
     /* flex-grow: 1; */
     /* flex-shrink: 0; */
+    /* Заполняем обёртку слайда целиком — обводка не «прыгает» между слайдами.
+       stretch вместо height: 100% — надёжнее в мобильных браузерах */
+    flex: 1;
+    align-self: stretch;
+    box-sizing: border-box;
     box-shadow: 3px 3px 8px rgb(195, 248, 171);
 }
 

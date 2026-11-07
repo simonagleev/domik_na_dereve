@@ -48,6 +48,9 @@
     flex: 0 0 calc(100% / var(--slide-count, 4));
     min-width: 0;
     box-sizing: border-box;
+    /* Растягиваем карточку на высоту трека — все слайды одинаковой высоты */
+    display: flex;
+    align-items: stretch;
 }
 
 .arrow {

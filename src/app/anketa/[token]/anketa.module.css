@@ -1,0 +1,476 @@
+/* Страница анкеты. Палитра, радиусы и тени взяты с главной страницы:
+   голубой фон, белые карточки 30px, тень 3px 3px 8px, зелёный акцент для действий. */
+
+.section {
+  --accent-blue: rgba(103, 151, 175, 1);
+  --accent-blue-light: rgba(163, 201, 220, 1);
+  --accent-pink: rgba(255, 213, 205, 1);
+  --card-shadow: 3px 3px 8px rgba(103, 151, 175, 1);
+
+  width: 100%;
+  min-height: calc(100vh - 70px - 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26px;
+  padding: clamp(20px, 4vw, 48px) 4vw clamp(32px, 5vw, 64px);
+  box-sizing: border-box;
+  background: linear-gradient(
+    180deg,
+    rgba(186, 214, 228, 1) 0%,
+    rgba(255, 255, 255, 1) 60%,
+    rgba(186, 214, 228, 1) 100%
+  );
+}
+
+/* ---------- Верхний баннер ---------- */
+
+.hero {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  min-height: clamp(220px, 34vw, 340px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: clamp(20px, 3.5vw, 40px);
+  border-radius: 30px;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: #fff;
+  background-image:
+    linear-gradient(to top, rgba(38, 38, 38, 0.62) 0%, rgba(38, 38, 38, 0.08) 75%),
+    url('/img/anketa.png'),
+    linear-gradient(135deg, rgba(103, 159, 191, 1), rgba(163, 201, 220, 1));
+  background-size: cover, cover, cover;
+  background-position: center, center, center;
+  background-repeat: no-repeat;
+  box-shadow: var(--card-shadow);
+}
+
+.heroTitle {
+  margin: 0;
+  max-width: 14em;
+  font-size: clamp(1.75rem, 3.2vw + 1rem, 3.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: #fff;
+  text-wrap: balance;
+}
+
+.heroLead {
+  margin: 0;
+  max-width: 34em;
+  font-size: clamp(1rem, 0.6vw + 0.8rem, 1.2rem);
+  font-weight: 500;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+/* ---------- Карточки ---------- */
+
+.card {
+  width: 100%;
+  max-width: 860px;
+  background: #fff;
+  border-radius: 30px;
+  padding: clamp(20px, 3.5vw, 40px);
+  box-sizing: border-box;
+  box-shadow: var(--card-shadow);
+}
+
+/* Карточка статуса (загрузка / ошибка / неподдерживаемый тип) */
+.statusCard {
+  composes: card;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.statusTitle {
+  margin: 0;
+  font-size: clamp(1.4rem, 2vw + 0.8rem, 2rem);
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.statusText {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.5;
+  color: rgba(38, 38, 38, 0.75);
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 20px;
+  margin-bottom: 22px;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: clamp(1.4rem, 1.4vw + 1rem, 2rem);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--foreground);
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: rgba(38, 38, 38, 0.6);
+}
+
+/* ---------- Прогресс ---------- */
+
+.progress {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progressRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.progressTrack {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(103, 151, 175, 0.35);
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--main-green);
+  transition: width 0.3s ease;
+}
+
+/* ---------- Плашка «анкета закрыта» ---------- */
+
+.closedBanner {
+  margin: 0;
+  width: 100%;
+  max-width: 860px;
+  padding: 14px 20px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: center;
+  color: #8a5a00;
+  background: rgba(255, 237, 179, 1);
+  border-radius: 20px;
+}
+
+/* ---------- Поля ---------- */
+
+.fields {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+}
+
+.field {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Инпуты в одной строке сетки выравниваются по нижнему краю,
+   даже если подписи занимают разное число строк */
+.field :is(input, select, textarea) {
+  margin-top: auto;
+}
+
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+.singleColumn {
+  grid-template-columns: 1fr;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--foreground);
+}
+
+.input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: var(--foreground);
+  background: rgba(248, 248, 248, 1);
+  border: 1.5px solid rgba(124, 152, 120, 0.35);
+  border-radius: 16px;
+  padding: 13px 16px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:hover:not(:disabled) {
+  border-color: rgba(124, 152, 120, 0.7);
+}
+
+.input:focus-visible {
+  background: #fff;
+  border-color: var(--main-green);
+  box-shadow: 0 0 0 4px rgba(124, 152, 120, 0.2);
+}
+
+.input:disabled {
+  background: rgba(245, 245, 245, 1);
+  border-color: rgba(38, 38, 38, 0.1);
+  color: rgba(38, 38, 38, 0.6);
+  cursor: default;
+}
+
+/* Стрелка у select: в одном стиле на всех браузерах */
+select.input {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='%237C9878' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+
+select.input:disabled {
+  cursor: default;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.counter {
+  align-self: flex-end;
+  font-size: 0.85rem;
+  color: rgba(38, 38, 38, 0.5);
+}
+
+/* ---------- Достижения по годам ---------- */
+
+.years {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.yearCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 18px 20px;
+  border-radius: 24px;
+  background: rgba(248, 248, 248, 1);
+}
+
+.yearNumber {
+  flex: 0 0 auto;
+  min-width: 2.2ch;
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+  text-align: center;
+  color: rgba(108, 181, 106, 1);
+}
+
+.yearCard:nth-child(3n + 2) .yearNumber {
+  color: rgba(247, 168, 152, 1);
+}
+
+.yearCard:nth-child(3n) .yearNumber {
+  color: rgba(119, 171, 199, 1);
+}
+
+.yearBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.yearCard .input {
+  background: #fff;
+}
+
+.yearCard .input:disabled {
+  background: rgba(245, 245, 245, 1);
+}
+
+/* ---------- Кнопка сохранения ---------- */
+
+.footer {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 0 4px;
+}
+
+.saveButton {
+  font-family: inherit;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #fff;
+  background: var(--main-green);
+  border-radius: 20px;
+  padding: 15px 56px;
+  box-shadow: 2px 3px 7px rgb(65, 62, 62);
+  transition: transform 0.3s, opacity 0.15s ease;
+}
+
+.saveButton:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.saveButton:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.saveButton:focus-visible {
+  outline: 3px solid rgba(103, 151, 175, 1);
+  outline-offset: 3px;
+}
+
+.saveButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.savedText {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--main-green);
+  text-align: center;
+}
+
+.closedText {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: rgba(38, 38, 38, 0.55);
+  text-align: center;
+}
+
+.errorText {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  color: #c92a2a;
+  text-align: center;
+}
+
+/* ---------- Единственное анимированное появление: баннер ---------- */
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero {
+  animation: hero-in 0.5s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    animation: none;
+  }
+
+  .saveButton,
+  .progressBar,
+  .input {
+    transition: none;
+  }
+}
+
+/* ---------- Адаптив ---------- */
+
+@media (max-width: 768px) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    gap: 18px;
+  }
+
+  .cardHead {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 16px 4vw 28px;
+  }
+
+  .hero,
+  .card {
+    border-radius: 20px;
+  }
+
+  .hero {
+    min-height: 200px;
+  }
+
+  .yearCard {
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+  }
+
+  .yearNumber {
+    font-size: 2rem;
+    text-align: left;
+  }
+
+  .yearBody {
+    width: 100%;
+  }
+
+  .saveButton {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.25rem;
+  }
+}

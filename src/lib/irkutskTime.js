@@ -1,13 +1,13 @@
 /**
  * Расписание: в БД хранится `timestamp without time zone` как «настенное» время Иркутска.
- * Не используем toISOString() для этих полей — иначе сдвиг в UTC.
+ * Не используем toISOString() для этих полей - иначе сдвиг в UTC.
  */
 
 export const IRKUTSK_TIMEZONE = 'Asia/Irkutsk';
 
 /**
  * Сегодняшняя дата по календарю Иркутска (YYYY-MM-DD).
- * Для `min` у input type="date" — без сдвига UTC, как у `toISOString().split('T')[0]`.
+ * Для `min` у input type="date" - без сдвига UTC, как у `toISOString().split('T')[0]`.
  */
 export function irkutskTodayDateString() {
   const d = new Date();
@@ -73,7 +73,7 @@ export function formatNaiveIrkutskForAdminTable(value) {
   const { date, time } = parseNaiveIrkutskDateTimeParts(value);
   if (!date || !time) {
     if (value != null && value !== '') return String(value);
-    return '—';
+    return '-';
   }
   const [y, m, d] = date.split('-');
   return `${d}.${m}.${y}, ${time}`;
@@ -85,7 +85,7 @@ export function formatNaiveIrkutskForAdminTable(value) {
 export function formatNaiveIrkutskForTransactionPopup(value) {
   const { date, time } = parseNaiveIrkutskDateTimeParts(value);
   if (!date || !time) {
-    return { datePart: '—', timePart: '—' };
+    return { datePart: '-', timePart: '-' };
   }
   const [y, m, d] = date.split('-');
   return {
@@ -112,8 +112,64 @@ const RU_MONTHS_GEN = [
 /** Карточка МК: «30 марта в 15:00» по полям строки Иркутска. */
 export function formatNaiveIrkutskWorkshopCardLine(startDateTime) {
   const { date, time } = parseNaiveIrkutskDateTimeParts(startDateTime);
-  if (!date || !time) return '—';
+  if (!date || !time) return '-';
   const [y, mo, da] = date.split('-').map(Number);
   const monthName = RU_MONTHS_GEN[mo - 1] || '';
   return `${String(da).padStart(2, '0')} ${monthName} в ${time}`;
+}
+
+/* ---------------------------------------------------------------------------
+ * Анкеты (questionnaires): created_at / updated_at / expires_at - timestamptz,
+ * т.е. абсолютный момент времени (не «настенное» время как у расписаний).
+ * Значение из БД НЕ сдвигаем - форматируем его в часовом поясе Иркутска,
+ * чтобы на экране было то же «настенное» время, что и у расписаний.
+ * ------------------------------------------------------------------------- */
+
+function irkutskPartsMap(value, withTime) {
+  const d = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(d.getTime())) return null;
+  const parts = new Intl.DateTimeFormat('ru-RU', {
+    timeZone: IRKUTSK_TIMEZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    ...(withTime ? { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' } : {}),
+  }).formatToParts(d);
+  return Object.fromEntries(parts.map((p) => [p.type, p.value]));
+}
+
+/** timestamptz → «ДД.ММ.ГГГГ, ЧЧ:ММ» по Иркутску (как в таблицах расписаний). */
+export function formatTimestamptzIrkutskDateTime(value) {
+  const map = irkutskPartsMap(value, true);
+  if (!map) return value != null && value !== '' ? String(value) : '-';
+  return `${map.day}.${map.month}.${map.year}, ${map.hour}:${map.minute}`;
+}
+
+/** timestamptz → «ДД.ММ.ГГГГ» по Иркутску. */
+export function formatTimestamptzIrkutskDate(value) {
+  const map = irkutskPartsMap(value, false);
+  if (!map) return value != null && value !== '' ? String(value) : '-';
+  return `${map.day}.${map.month}.${map.year}`;
+}
+
+/**
+ * Дата YYYY-MM-DD по календарю Иркутска, сдвинутая на months месяцев.
+ * Для значения по умолчанию у input type="date" (срок жизни анкеты).
+ */
+export function irkutskDatePlusMonthsDateString(months) {
+  const [y, m, d] = irkutskTodayDateString().split('-').map(Number);
+  const dt = new Date(y, m - 1 + months, d); // избыточные месяцы/дни JS переносит сам
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate())}`;
+}
+
+/**
+ * Строка из input type="date" (календарь Иркутска) → ISO с иркутским смещением для timestamptz.
+ * +08:00 у Иркутска фиксирован (без перехода на летнее время).
+ * ВАЖНО: просто "YYYY-MM-DD" НЕ передавать - Postgres прочитал бы его в таймзоне сервера,
+ * и дедлайн «до конца дня» по Иркутску поехал бы.
+ */
+export function irkutskDateInputToTimestamptzIso(dateStr) {
+  if (!dateStr) return null;
+  return `${dateStr}T00:00:00+08:00`;
 }
