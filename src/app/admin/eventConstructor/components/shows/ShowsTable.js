@@ -51,9 +51,9 @@ export default function ShowsTable({ title, loading, rows, onCreate, onEdit }) {
                     <Table.Td>{row.name}</Table.Td>
                     <Table.Td>{row.price}</Table.Td>
                     <Table.Td>{row.max_tickets}</Table.Td>
-                    <Table.Td>{row.age != null && row.age !== '' ? row.age : '—'}</Table.Td>
+                    <Table.Td>{row.age != null && row.age !== '' ? row.age : '-'}</Table.Td>
                     <Table.Td>
-                      <Text size="sm">{row.duration != null && row.duration !== '' ? row.duration : '—'}</Text>
+                      <Text size="sm">{row.duration != null && row.duration !== '' ? row.duration : '-'}</Text>
                       <Text size="xs" c="dimmed">
                         ({formatDurationRu(row.duration)})
                       </Text>
@@ -61,7 +61,7 @@ export default function ShowsTable({ title, loading, rows, onCreate, onEdit }) {
                     <Table.Td>
                       {row.people_per_ticket != null && row.people_per_ticket !== ''
                         ? row.people_per_ticket
-                        : '—'}
+                        : '-'}
                     </Table.Td>
                   </Table.Tr>
                 );

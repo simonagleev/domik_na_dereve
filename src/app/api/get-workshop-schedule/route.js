@@ -14,7 +14,7 @@ function imageFileNameFromPath(imagePath) {
 
 /**
  * Расписание мастер-классов для публичной страницы /workshops.
- * [Раньше: Supabase таблица workshopSchedule — см. старый роут.]
+ * [Раньше: Supabase таблица workshopSchedule - см. старый роут.]
  */
 export async function GET(request) {
   try {
@@ -58,7 +58,7 @@ export async function GET(request) {
       const imageSrc = imagePath.startsWith('/') ? imagePath : imagePath ? `/img/workshops/${imagePath}` : '/img/workshops/venok_bg.svg';
       const durationMin = r.duration != null && r.duration !== '' ? Number(r.duration) : null;
       const durationLabel =
-        durationMin != null && Number.isFinite(durationMin) ? `${Math.round(durationMin)} мин` : '—';
+        durationMin != null && Number.isFinite(durationMin) ? `${Math.round(durationMin)} мин` : '-';
 
       return {
         ID: r.id,

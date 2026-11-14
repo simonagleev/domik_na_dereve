@@ -9,19 +9,19 @@ import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
 
 const stations = [{
     icon: '🎨 ',
-    title: 'Станция «Творить» —',
+    title: 'Станция «Творить» -',
     text: 'мастер-класс, где каждый сможет почувствовать себя художником.',
     color: 'var(--pale-green-bg)'
 },
 {
     icon: '💭 ',
-    title: 'Станция «Мечтать» —',
+    title: 'Станция «Мечтать» -',
     text: ' квест с сюрпризами и загадками, который увлечёт даже самых непоседливых.',
     color: 'var(--pale-red-bg)'
 },
 {
     icon: '✨ ',
-    title: 'Станция «Волшебничать» —',
+    title: 'Станция «Волшебничать» -',
     text: 'мини-спектакль с интерактивом, где дети становятся частью сказки.',
     color: 'var(--pale-blue-bg)'
 },]
@@ -71,7 +71,7 @@ export default function AboutBirthdays() {
         <div className={styles.container}>
             <h3 className={styles.about_header}>Праздник, о котором будут вспоминать весь год!</h3>
             <p className={styles.about_text}>
-                Наша программа — это 2,5–3 часа волшебства, радости и настоящих приключений!
+                Наша программа - это 2,5–3 часа волшебства, радости и настоящих приключений!
             </p>
             <p className={styles.about_text}>
                 Детей ждут три тематические станции, каждая из которых раскроет их фантазию и подарит незабываемые впечатления:
@@ -95,8 +95,8 @@ export default function AboutBirthdays() {
                         })}
                     </div>
                     <div className={styles.block_container}>
-                        <p className={styles.block_text}>Максимум — 16 детей.</p>
-                        <p className={styles.block_text}>Мы — камерное пространство, поэтому внимание и уют гарантированы каждому.</p>
+                        <p className={styles.block_text}>Максимум - 16 детей.</p>
+                        <p className={styles.block_text}>Мы - камерное пространство, поэтому внимание и уют гарантированы каждому.</p>
                     </div>
                     <div className={styles.buttons_container}>
                         <BasicButton

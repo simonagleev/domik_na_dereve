@@ -5,7 +5,7 @@
     color: rgba(38, 38, 38, 0.85);
 }
 
-/* Оверлей и базовая карточка — globals.css (.client-modal-*); здесь только дополнения к .payment_form */
+/* Оверлей и базовая карточка - globals.css (.client-modal-*); здесь только дополнения к .payment_form */
 
 .payment_form {
     min-width: 0;

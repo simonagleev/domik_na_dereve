@@ -341,7 +341,7 @@ export default function ShowFormModal({ opened, onClose, mode, initialRow, onSav
                 value={form.image_path}
                 onChange={(e) => setForm((f) => ({ ...f, image_path: inputChangeValue(e) }))}
                 placeholder="/uploads/shows/… или /img/shows/…"
-                description="Вставьте путь к уже существующему файлу или загрузите файл выше — путь подставится автоматически."
+                description="Вставьте путь к уже существующему файлу или загрузите файл выше - путь подставится автоматически."
               />
               {previewSrc ? <Image src={previewSrc} alt="preview" w={200} radius="md" fit="contain" /> : null}
               {error ? (

@@ -5,7 +5,7 @@ import { naiveIrkutskRowToStartDateTimeString } from '@/lib/irkutskTime';
 
 /**
  * Время начала слота и название мероприятия по item_id из транзакции.
- * Query: type=show | workshop — id слота уникален только в своей таблице.
+ * Query: type=show | workshop - id слота уникален только в своей таблице.
  * Ответ: { start_datetime, event_name }
  */
 export async function GET(request, { params }) {

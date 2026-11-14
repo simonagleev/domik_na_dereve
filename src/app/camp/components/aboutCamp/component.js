@@ -16,7 +16,7 @@ export default function AboutCamp() {
     return (
         <div className={styles.container}>
             <div className={styles.about_text_block}>
-                <h3 className={styles.about_header}>Лето — время приключений, новых друзей и творчества</h3>
+                <h3 className={styles.about_header}>Лето - время приключений, новых друзей и творчества</h3>
                 <h4 className={styles.about_header_small}>Приглашаем детей от 7 до 12 лет </h4>
                 <p className={styles.text}>Что ждёт участников:</p>
                 <ul className={styles.list}>
@@ -33,10 +33,10 @@ export default function AboutCamp() {
                 </div>
                 <div className={styles.seasons_container}>
                     <div style={{ textAlign: 'center' }}>
-                        <p className={styles.text}>2 июня — 13 июня </p>
+                        <p className={styles.text}>2 июня - 13 июня </p>
                         <span className={styles.span}>(набор завершен)</span>
                     </div>
-                    <p className={styles.text}>16 июня — 27 июня</p>
+                    <p className={styles.text}>16 июня - 27 июня</p>
                 </div>
                 <div className={styles.highlight_container}>
                     <p className={styles.text}>Место:</p>

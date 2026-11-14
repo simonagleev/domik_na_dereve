@@ -101,7 +101,7 @@ export default function ScheduleCard({ data }) {
             </div>
           ) : null}
           <p className={styles.price}>
-            Цена билета: {first ? first.Price : '—'} рублей
+            Цена билета: {first ? first.Price : '-'} рублей
           </p>
         </div>
 

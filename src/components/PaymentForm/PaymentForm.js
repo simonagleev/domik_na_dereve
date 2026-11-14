@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 /**
- * @param {'standalone' | 'embedded'} variant — embedded: без второго оверлея (внутри модалки расписания)
+ * @param {'standalone' | 'embedded'} variant - embedded: без второго оверлея (внутри модалки расписания)
  */
 export default function PaymentForm({ type, data, variant = 'standalone' }) {
   const isEmbedded = variant === 'embedded';

@@ -76,17 +76,17 @@ export default function AdminUsersPage() {
                   const id = rowField(row, 'id', 'ID');
                   return (
                     <Table.Tr key={id != null ? String(id) : JSON.stringify(row)}>
-                      <Table.Td>{id ?? '—'}</Table.Td>
-                      <Table.Td>{rowField(row, 'name', 'Name') ?? '—'}</Table.Td>
-                      <Table.Td>{rowField(row, 'phone', 'Phone') ?? '—'}</Table.Td>
-                      <Table.Td>{rowField(row, 'role', 'Role') ?? '—'}</Table.Td>
+                      <Table.Td>{id ?? '-'}</Table.Td>
+                      <Table.Td>{rowField(row, 'name', 'Name') ?? '-'}</Table.Td>
+                      <Table.Td>{rowField(row, 'phone', 'Phone') ?? '-'}</Table.Td>
+                      <Table.Td>{rowField(row, 'role', 'Role') ?? '-'}</Table.Td>
                       <Table.Td>
                         {formatUserCreatedAt(rowField(row, 'created_at', 'createdAt', 'CreatedAt'))}
                       </Table.Td>
-                      <Table.Td>{rowField(row, 'email', 'Email') ?? '—'}</Table.Td>
-                      <Table.Td>{rowField(row, 'sex', 'Sex') ?? '—'}</Table.Td>
-                      <Table.Td>{rowField(row, 'age', 'Age') ?? '—'}</Table.Td>
-                      <Table.Td>{rowField(row, 'password_clue', 'passwordClue', 'PasswordClue') ?? '—'}</Table.Td>
+                      <Table.Td>{rowField(row, 'email', 'Email') ?? '-'}</Table.Td>
+                      <Table.Td>{rowField(row, 'sex', 'Sex') ?? '-'}</Table.Td>
+                      <Table.Td>{rowField(row, 'age', 'Age') ?? '-'}</Table.Td>
+                      <Table.Td>{rowField(row, 'password_clue', 'passwordClue', 'PasswordClue') ?? '-'}</Table.Td>
                     </Table.Tr>
                   );
                 })}

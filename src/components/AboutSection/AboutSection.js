@@ -33,7 +33,7 @@ export default function AboutSection() {
     return (
         <>
             <h2 className={styles.content_header}>
-                Домик на дереве — <br /><span className={styles.content_header_span}>это место, где</span>
+                Домик на дереве - <br /><span className={styles.content_header_span}>это место, где</span>
             </h2>
             <div
                 className={`${styles.about_container} ${isVisible ? styles.visible : ""}`}

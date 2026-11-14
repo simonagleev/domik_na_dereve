@@ -122,7 +122,7 @@ export default function AdminTransactionsPage() {
   };
 
   const formattedDate = (v) => {
-    if (v == null || v === '') return '—';
+    if (v == null || v === '') return '-';
     const s = String(v);
     return s.length > 19 ? s.slice(0, 19).replace('T', ' ') : s;
   };
@@ -381,17 +381,17 @@ export default function AdminTransactionsPage() {
                           {row.item_id}
                         </button>
                       ) : (
-                        row.item_id ?? '—'
+                        row.item_id ?? '-'
                       )}
                     </Table.Td>
                     <Table.Td>{row.ticket_count}</Table.Td>
                     <Table.Td>
                       <Text size="xs" lineClamp={2}>
-                        {row.info || '—'}
+                        {row.info || '-'}
                       </Text>
                     </Table.Td>
-                    <Table.Td>{row.child_name ?? '—'}</Table.Td>
-                    <Table.Td>{row.client_name ?? '—'}</Table.Td>
+                    <Table.Td>{row.child_name ?? '-'}</Table.Td>
+                    <Table.Td>{row.client_name ?? '-'}</Table.Td>
                     <Table.Td>
                       <Button
                         type="button"

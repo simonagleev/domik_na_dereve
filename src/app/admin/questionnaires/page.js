@@ -17,7 +17,7 @@ import {
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import { IconCopy, IconEye, IconLock, IconLockOpen, IconPlus, IconTrash } from '@tabler/icons-react';
+import { IconCopy, IconFileTypePdf, IconLock, IconLockOpen, IconPlus, IconTrash } from '@tabler/icons-react';
 import AdminTableScroll from '@/components/AdminShell/AdminTableScroll';
 import { normalizeRuPhoneInput } from '@/lib/phoneInput';
 import {
@@ -37,7 +37,9 @@ import {
   computeQuestionnaireStatus,
   computeQuestionnaireProgress,
 } from '@/lib/questionnaireTypes';
-import { achievementYearLabel } from '@/lib/birthdayAnketa';
+import { achievementYearLabel, BIRTHDAY_TYPE } from '@/lib/birthdayAnketa';
+import { SANTA_TYPE } from '@/lib/santaAnketa';
+import { downloadQuestionnairePdf } from '@/lib/questionnairePdf';
 
 const LIST_LIMIT = 200;
 
@@ -78,6 +80,16 @@ function achievementsOf(row) {
   return Array.isArray(row?.payload?.achievements) ? row.payload.achievements : [];
 }
 
+function rowDetailColumn(row) {
+  const answers = answersOf(row);
+  if (row.type === BIRTHDAY_TYPE) return answers.birthdayDate || '-';
+  if (row.type === SANTA_TYPE) {
+    const age = String(answers.age ?? '').trim();
+    return age || '-';
+  }
+  return '-';
+}
+
 /** Модалка создания анкеты. После создания возвращает строку со ссылкой. */
 function CreateQuestionnaireModal({ opened, type, onClose, onCreated }) {
   const typeConfig = getQuestionnaireType(type);
@@ -85,6 +97,7 @@ function CreateQuestionnaireModal({ opened, type, onClose, onCreated }) {
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
   const [yearsCount, setYearsCount] = useState(7);
+  const [birthdayDate, setBirthdayDate] = useState('');
   const [expiresAt, setExpiresAt] = useState(defaultExpiresAt);
   const [saving, setSaving] = useState(false);
 
@@ -94,6 +107,7 @@ function CreateQuestionnaireModal({ opened, type, onClose, onCreated }) {
       setPhone('');
       setEmail('');
       setYearsCount(7);
+      setBirthdayDate('');
       setExpiresAt(defaultExpiresAt());
       setSaving(false);
     }
@@ -110,16 +124,24 @@ function CreateQuestionnaireModal({ opened, type, onClose, onCreated }) {
     }
     setSaving(true);
     try {
+      const insertData = {
+        type,
+        child_name: childName.trim() || null,
+        phone: phone.trim() || null,
+        email: email.trim() || null,
+        years_count: Number(yearsCount) || 7,
+        expires_at: irkutskDateInputToTimestamptzIso(expiresAt),
+      };
+      if (type === BIRTHDAY_TYPE && birthdayDate.trim()) {
+        insertData.payload = {
+          answers: { birthdayDate: birthdayDate.trim() },
+          achievements: [],
+        };
+      }
+
       const { data } = await adminCrud('POST', {
         table: 'questionnaires',
-        data: {
-          type,
-          child_name: childName.trim() || null,
-          phone: phone.trim() || null,
-          email: email.trim() || null,
-          years_count: Number(yearsCount) || 7,
-          expires_at: irkutskDateInputToTimestamptzIso(expiresAt),
-        },
+        data: insertData,
       });
       notifications.show({ color: 'green', title: 'Анкета создана', message: 'Ссылка готова к копированию' });
       onCreated(data);
@@ -143,6 +165,7 @@ function CreateQuestionnaireModal({ opened, type, onClose, onCreated }) {
         <TextInput
           label="Телефон"
           placeholder="+7XXXXXXXXXX"
+          maxLength={12}
           value={phone}
           onChange={(e) => setPhone(normalizeRuPhoneInput(e.target.value))}
         />
@@ -153,6 +176,15 @@ function CreateQuestionnaireModal({ opened, type, onClose, onCreated }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+        {type === BIRTHDAY_TYPE ? (
+          <TextInput
+            label="Дата дня рождения"
+            description="Необязательно, родители смогут изменить в анкете"
+            type="date"
+            value={birthdayDate}
+            onChange={(e) => setBirthdayDate(e.target.value)}
+          />
+        ) : null}
         {typeConfig?.hasAchievements ? (
           <NumberInput
             label="Количество лет (достижения)"
@@ -302,6 +334,7 @@ function ViewQuestionnaireModal({ row, onClose, onChanged }) {
           <TextInput
             label="Телефон"
             placeholder="+7XXXXXXXXXX"
+            maxLength={12}
             value={phone}
             onChange={(e) => setPhone(normalizeRuPhoneInput(e.target.value))}
           />
@@ -494,12 +527,12 @@ export default function AdminQuestionnairesPage() {
                     <Table.Th>ID</Table.Th>
                     <Table.Th>Имя ребёнка</Table.Th>
                     <Table.Th>Телефон</Table.Th>
-                    <Table.Th>Email</Table.Th>
+                    <Table.Th>{activeType === SANTA_TYPE ? 'Возраст' : 'Дата дня рождения'}</Table.Th>
                     <Table.Th>Статус</Table.Th>
                     <Table.Th>Создана</Table.Th>
                     <Table.Th>Открыта до</Table.Th>
                     <Table.Th>Ссылка</Table.Th>
-                    <Table.Th></Table.Th>
+                    <Table.Th>Действия</Table.Th>
                   </Table.Tr>
                 </Table.Thead>
                 <Table.Tbody>
@@ -507,11 +540,15 @@ export default function AdminQuestionnairesPage() {
                     const expired = isRowExpired(row);
                     const status = computeQuestionnaireStatus(row);
                     return (
-                      <Table.Tr key={String(row.id)}>
+                      <Table.Tr
+                        key={String(row.id)}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => setViewRow(row)}
+                      >
                         <Table.Td>{row.id}</Table.Td>
                         <Table.Td>{row.child_name ?? '-'}</Table.Td>
                         <Table.Td>{row.phone ?? '-'}</Table.Td>
-                        <Table.Td>{row.email ?? '-'}</Table.Td>
+                        <Table.Td>{rowDetailColumn(row)}</Table.Td>
                         <Table.Td>
                           <Badge color={QUESTIONNAIRE_STATUS_COLORS[status]}>
                             {QUESTIONNAIRE_STATUS[status]}
@@ -524,7 +561,7 @@ export default function AdminQuestionnairesPage() {
                             {expired ? ' (истёк)' : ''}
                           </Text>
                         </Table.Td>
-                        <Table.Td>
+                        <Table.Td onClick={(e) => e.stopPropagation()}>
                           <Button
                             size="compact-xs"
                             variant="light"
@@ -534,15 +571,16 @@ export default function AdminQuestionnairesPage() {
                             Копировать
                           </Button>
                         </Table.Td>
-                        <Table.Td>
+                        <Table.Td onClick={(e) => e.stopPropagation()}>
                           <Group gap="xs" wrap="nowrap">
                             <Button
                               size="compact-xs"
                               variant="subtle"
-                              leftSection={<IconEye size={14} />}
-                              onClick={() => setViewRow(row)}
+                              color="blue"
+                              leftSection={<IconFileTypePdf size={14} />}
+                              onClick={() => downloadQuestionnairePdf(row)}
                             >
-                              Просмотр
+                              PDF
                             </Button>
                             {status === 'closed' ? (
                               <Button
@@ -596,7 +634,10 @@ export default function AdminQuestionnairesPage() {
         opened={createOpened}
         type={activeType}
         onClose={() => setCreateOpened(false)}
-        onCreated={(data) => setCreatedLink(`${window.location.origin}${questionnaireLink(data.token)}`)}
+        onCreated={(data) => {
+          setCreatedLink(`${window.location.origin}${questionnaireLink(data.token)}`);
+          void load();
+        }}
       />
 
       <ViewQuestionnaireModal

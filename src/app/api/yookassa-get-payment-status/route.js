@@ -25,7 +25,7 @@ export async function GET(request) {
 
   /*
    * [СТАРАЯ БД SUPABASE] Раньше здесь обновляли onlineTransactions в Supabase.
-   * Актуальное обновление статуса в Postgres — через /api/yookassa-webhook и
+   * Актуальное обновление статуса в Postgres - через /api/yookassa-webhook и
    * syncOnlineTransactionWithYooKassa (yookassa-sync-payment-status, админ «Проверить оплату»).
    *
    * const { error } = await supabase

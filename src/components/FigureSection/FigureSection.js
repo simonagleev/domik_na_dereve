@@ -9,7 +9,7 @@ export default function FiguretSection() {
                 Домик на
             </h2>
             <h2 className={styles.header}>
-                дереве — это
+                дереве - это
             </h2>
             <div className={styles.figure_element}>
                 <img

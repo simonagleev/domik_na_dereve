@@ -144,7 +144,7 @@ export default function AdminCwCard({
             <ClickToEdit
               value={row.description}
               multiline
-              placeholder="Описание — нажмите, чтобы изменить"
+              placeholder="Описание - нажмите, чтобы изменить"
               onSave={(description) => void onUpdate({ description: String(description ?? '') })}
             />
           </p>

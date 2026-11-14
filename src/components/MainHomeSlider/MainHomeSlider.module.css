@@ -48,7 +48,7 @@
     flex: 0 0 calc(100% / var(--slide-count, 4));
     min-width: 0;
     box-sizing: border-box;
-    /* Растягиваем карточку на высоту трека — все слайды одинаковой высоты */
+    /* Растягиваем карточку на высоту трека - все слайды одинаковой высоты */
     display: flex;
     align-items: stretch;
 }
@@ -120,7 +120,7 @@
     }
 }
 
-/* Пульс стрелок — только если пользователь не отключил анимации в системе */
+/* Пульс стрелок - только если пользователь не отключил анимации в системе */
 @media (prefers-reduced-motion: no-preference) {
     .arrowAttention {
         animation: arrowAttentionPulseDesk 1.75s ease-in-out infinite;

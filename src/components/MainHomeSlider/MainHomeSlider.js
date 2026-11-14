@@ -98,7 +98,7 @@ export default function MainHomeSlider() {
         return () => cancelAnimationFrame(id);
     }, [instantMove]);
 
-    /* Без CSS-transition события transitionend нет — подменяем прыжок с клона вручную */
+    /* Без CSS-transition события transitionend нет - подменяем прыжок с клона вручную */
     useEffect(() => {
         if (!useInfiniteLoop || !reduceMotion) return;
         if (activeIndex === slideCount - 1) {

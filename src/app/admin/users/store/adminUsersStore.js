@@ -16,7 +16,7 @@ export function rowField(row, ...keys) {
 }
 
 export function formatUserCreatedAt(v) {
-  if (v == null || v === '') return '—';
+  if (v == null || v === '') return '-';
   const d = new Date(v);
   if (Number.isNaN(d.getTime())) return String(v);
   return new Intl.DateTimeFormat('ru-RU', {

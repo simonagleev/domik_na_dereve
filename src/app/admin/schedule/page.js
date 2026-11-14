@@ -75,11 +75,11 @@ export default function AdminSchedulePage() {
         <div style={{ minWidth: 0, flex: '1 1 220px' }}>
           <Title order={2}>Расписание</Title>
           <Text c="dimmed" size="sm">
-            Слоты хранятся в PostgreSQL: для шоу — таблица{' '}
+            Слоты хранятся в PostgreSQL: для шоу - таблица{' '}
             <Text span fw={600} component="span">
               shows_schedule
             </Text>
-            , для мастер-классов —{' '}
+            , для мастер-классов -{' '}
             <Text span fw={600} component="span">
               workshop_schedule
             </Text>
@@ -147,9 +147,9 @@ export default function AdminSchedulePage() {
                         >
                           <Table.Td>{formatNaiveIrkutskForAdminTable(row.start_datetime)}</Table.Td>
                           <Table.Td>{row.show_name ?? `#${row.show_id}`}</Table.Td>
-                          <Table.Td>{row.remaining_count ?? '—'}</Table.Td>
+                          <Table.Td>{row.remaining_count ?? '-'}</Table.Td>
                           <Table.Td>{row.is_active ? 'да' : 'нет'}</Table.Td>
-                          <Table.Td>{row.comments ?? '—'}</Table.Td>
+                          <Table.Td>{row.comments ?? '-'}</Table.Td>
                           <Table.Td onClick={(e) => e.stopPropagation()}>
                             <Button
                               color="red"
@@ -209,9 +209,9 @@ export default function AdminSchedulePage() {
                         >
                           <Table.Td>{formatNaiveIrkutskForAdminTable(row.start_datetime)}</Table.Td>
                           <Table.Td>{row.workshop_name ?? `#${row.workshop_id}`}</Table.Td>
-                          <Table.Td>{row.remaining_count ?? '—'}</Table.Td>
+                          <Table.Td>{row.remaining_count ?? '-'}</Table.Td>
                           <Table.Td>{row.is_active ? 'да' : 'нет'}</Table.Td>
-                          <Table.Td>{row.comments ?? '—'}</Table.Td>
+                          <Table.Td>{row.comments ?? '-'}</Table.Td>
                           <Table.Td onClick={(e) => e.stopPropagation()}>
                             <Button
                               color="red"

@@ -24,7 +24,7 @@ export function getCurrentMonthIndexIrkutsk() {
   return new Date().getMonth();
 }
 
-/** Сезон по текущей дате в Иркутске — вызывать при рендере, не на уровне модуля. */
+/** Сезон по текущей дате в Иркутске - вызывать при рендере, не на уровне модуля. */
 export function getSeasonIrkutskNow() {
   return getSeason(getCurrentMonthIndexIrkutsk());
 }

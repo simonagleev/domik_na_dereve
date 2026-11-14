@@ -38,7 +38,7 @@ export function getYooKassaCredentials() {
 
   if (wantTest && (!shopIdTest || !secretKeyTest)) {
     console.warn(
-      '[YooKassa] Режим разработки, но YOOKASSA_SHOP_ID_TEST / YOOKASSA_SECRET_KEY_TEST не заданы — используются боевые ключи.'
+      '[YooKassa] Режим разработки, но YOOKASSA_SHOP_ID_TEST / YOOKASSA_SECRET_KEY_TEST не заданы - используются боевые ключи.'
     );
   }
 

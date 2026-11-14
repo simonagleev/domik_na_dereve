@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 /**
- * showSchedules — массив с сервера /api/showsSchedule: { id, name, age, image_*, schedules[] }.
+ * showSchedules - массив с сервера /api/showsSchedule: { id, name, age, image_*, schedules[] }.
  */
 export const useShowsStore = create((set, get) => ({
   isModalOpen: false,

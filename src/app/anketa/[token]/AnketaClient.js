@@ -1,18 +1,41 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BIRTHDAY_TITLE,
-  BIRTHDAY_FIELDS,
-  BIRTHDAY_CONDITIONAL_FIELDS,
   BIRTHDAY_TYPE,
+  BIRTHDAY_HERO_LEAD,
+  BIRTHDAY_FORM_SECTION,
   achievementYearLabel,
 } from '@/lib/birthdayAnketa';
+import {
+  SANTA_TITLE,
+  SANTA_TYPE,
+  SANTA_HERO_LEAD,
+  SANTA_FORM_SECTION,
+} from '@/lib/santaAnketa';
+import {
+  getQuestionnaireFields,
+  getQuestionnaireConditionalFields,
+} from '@/lib/questionnaireTypes';
 import { irkutskTodayDateString, formatTimestamptzIrkutskDateTime } from '@/lib/irkutskTime';
 import styles from './anketa.module.css';
 
 const ANSWER_MAX_LENGTH = 500;
 const ACHIEVEMENT_MAX_LENGTH = 2000;
+
+const TYPE_UI = {
+  [BIRTHDAY_TYPE]: {
+    title: BIRTHDAY_TITLE,
+    lead: BIRTHDAY_HERO_LEAD,
+    section: BIRTHDAY_FORM_SECTION,
+  },
+  [SANTA_TYPE]: {
+    title: SANTA_TITLE,
+    lead: SANTA_HERO_LEAD,
+    section: SANTA_FORM_SECTION,
+  },
+};
 
 function onlyDigits(value) {
   return value.replace(/[^0-9]/g, '');
@@ -22,13 +45,95 @@ function isFilled(value) {
   return typeof value === 'string' && value.trim() !== '';
 }
 
+function pruneHiddenConditionalAnswers(answers, conditionalFields) {
+  const next = { ...answers };
+  for (const f of conditionalFields) {
+    if (!f.when(answers)) delete next[f.key];
+  }
+  return next;
+}
+
+function FieldControl({ field, editable, value, onChange }) {
+  const id = `field-${field.key}`;
+
+  if (field.input === 'select') {
+    return (
+      <select
+        id={id}
+        className={styles.input}
+        disabled={!editable}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <option value="">Выберите…</option>
+        {(field.options ?? []).map((opt) => (
+          <option key={opt} value={opt}>
+            {opt}
+          </option>
+        ))}
+      </select>
+    );
+  }
+
+  if (field.input === 'date') {
+    return (
+      <input
+        id={id}
+        className={styles.input}
+        type="date"
+        max={irkutskTodayDateString()}
+        disabled={!editable}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    );
+  }
+
+  if (field.input === 'textarea') {
+    const rows = field.rows ?? 3;
+    const sizeClass =
+      field.textareaSize === 'compact'
+        ? styles.textareaCompact
+        : field.textareaSize === 'tall'
+          ? styles.textareaTall
+          : '';
+    const maxLen = field.maxLength ?? ANSWER_MAX_LENGTH;
+
+    return (
+      <textarea
+        id={id}
+        className={`${styles.input} ${styles.textarea} ${sizeClass}`.trim()}
+        rows={rows}
+        maxLength={maxLen}
+        disabled={!editable}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    );
+  }
+
+  return (
+    <input
+      id={id}
+      className={styles.input}
+      type="text"
+      inputMode={field.input === 'digits' ? 'numeric' : undefined}
+      maxLength={field.input === 'digits' ? 3 : ANSWER_MAX_LENGTH}
+      disabled={!editable}
+      value={value}
+      onChange={(e) => onChange(field.input === 'digits' ? onlyDigits(e.target.value) : e.target.value)}
+    />
+  );
+}
+
 export default function AnketaClient({ token }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [editable, setEditable] = useState(true);
-  const [closeReason, setCloseReason] = useState(null); // 'expired' | 'closed' | null
+  const [closeReason, setCloseReason] = useState(null);
   const [unsupportedType, setUnsupportedType] = useState(false);
 
+  const [anketaType, setAnketaType] = useState(null);
   const [answers, setAnswers] = useState({});
   const [achievements, setAchievements] = useState([]);
   const [yearsCount, setYearsCount] = useState(0);
@@ -37,6 +142,20 @@ export default function AnketaClient({ token }) {
   const [savedAt, setSavedAt] = useState(null);
   const [saveError, setSaveError] = useState('');
   const dirtyRef = useRef(false);
+
+  const baseFields = useMemo(
+    () => (anketaType ? getQuestionnaireFields(anketaType) ?? [] : []),
+    [anketaType]
+  );
+  const conditionalFields = useMemo(
+    () => (anketaType ? getQuestionnaireConditionalFields(anketaType) : []),
+    [anketaType]
+  );
+  const visibleConditional = useMemo(
+    () => conditionalFields.filter((f) => f.when(answers)),
+    [conditionalFields, answers]
+  );
+  const ui = anketaType ? TYPE_UI[anketaType] : null;
 
   useEffect(() => {
     let cancelled = false;
@@ -53,7 +172,7 @@ export default function AnketaClient({ token }) {
         }
 
         const q = json.questionnaire;
-        if (!q || q.type !== BIRTHDAY_TYPE) {
+        if (!q?.type || !getQuestionnaireFields(q.type)) {
           setUnsupportedType(true);
           return;
         }
@@ -62,6 +181,7 @@ export default function AnketaClient({ token }) {
         const loadedAchievements = Array.isArray(q?.payload?.achievements) ? q.payload.achievements : [];
         const count = q?.yearsCount || 0;
 
+        setAnketaType(q.type);
         setEditable(Boolean(json.editable));
         setCloseReason(json.reason || null);
         setAnswers(loadedAnswers);
@@ -83,7 +203,6 @@ export default function AnketaClient({ token }) {
     };
   }, [token]);
 
-  // предупреждение об уходе с несохранёнными изменениями
   useEffect(() => {
     const handler = (e) => {
       if (!dirtyRef.current) return;
@@ -99,16 +218,9 @@ export default function AnketaClient({ token }) {
       if (!editable) return;
       dirtyRef.current = true;
       setSaveError('');
-      setAnswers((prev) => {
-        const next = { ...prev, [key]: value };
-        // ответ изменился не на «Да» - прячем условный вопрос и чистим его ответ
-        if (key === 'wasAtBirthdayGuest' && value !== 'Да') {
-          delete next.wasAtBirthdayDetails;
-        }
-        return next;
-      });
+      setAnswers((prev) => pruneHiddenConditionalAnswers({ ...prev, [key]: value }, conditionalFields));
     },
-    [editable]
+    [editable, conditionalFields]
   );
 
   const handleAchievementChange = useCallback(
@@ -125,12 +237,13 @@ export default function AnketaClient({ token }) {
     setSaving(true);
     setSaveError('');
     try {
+      const payloadAnswers = pruneHiddenConditionalAnswers(answers, conditionalFields);
       const res = await fetch('/api/public/questionnaires', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           token,
-          payload: { answers, achievements },
+          payload: { answers: payloadAnswers, achievements },
         }),
       });
       const json = await res.json();
@@ -155,7 +268,7 @@ export default function AnketaClient({ token }) {
     } finally {
       setSaving(false);
     }
-  }, [token, answers, achievements]);
+  }, [token, answers, achievements, conditionalFields]);
 
   if (loading) {
     return (
@@ -171,7 +284,7 @@ export default function AnketaClient({ token }) {
     return (
       <section className={styles.section}>
         <div className={styles.statusCard}>
-          <h1 className={styles.statusTitle}>{BIRTHDAY_TITLE}</h1>
+          <h1 className={styles.statusTitle}>{ui?.title ?? 'Анкета'}</h1>
           <p className={styles.errorText} role="alert">
             {error}
           </p>
@@ -180,7 +293,7 @@ export default function AnketaClient({ token }) {
     );
   }
 
-  if (unsupportedType) {
+  if (unsupportedType || !ui) {
     return (
       <section className={styles.section}>
         <div className={styles.statusCard}>
@@ -195,21 +308,19 @@ export default function AnketaClient({ token }) {
       ? 'Срок заполнения анкеты истёк. Просмотр доступен, редактирование нет.'
       : 'Анкета закрыта для редактирования.';
 
-  // Прогресс считаем только для отображения, на payload он не влияет
-  const totalCount = BIRTHDAY_FIELDS.length + yearsCount;
+  const totalCount =
+    baseFields.length + visibleConditional.length + yearsCount;
   const filledCount =
-    BIRTHDAY_FIELDS.filter((f) => isFilled(answers[f.key])).length +
+    baseFields.filter((f) => isFilled(answers[f.key])).length +
+    visibleConditional.filter((f) => isFilled(answers[f.key])).length +
     achievements.filter((v) => isFilled(v)).length;
   const progressPercent = totalCount ? Math.round((filledCount / totalCount) * 100) : 0;
 
   return (
     <section className={styles.section}>
       <header className={styles.hero}>
-        <h1 className={styles.heroTitle}>{BIRTHDAY_TITLE}</h1>
-        <p className={styles.heroLead}>
-          Расскажите об имениннике - чем больше мы знаем, тем ярче получится праздник. Анкету можно заполнять не
-          спеша: сохраните её и вернитесь по этой же ссылке в любой момент.
-        </p>
+        <h1 className={styles.heroTitle}>{ui.title}</h1>
+        <p className={styles.heroLead}>{ui.lead}</p>
       </header>
 
       {!editable ? <p className={styles.closedBanner}>{closedNotice}</p> : null}
@@ -237,74 +348,37 @@ export default function AnketaClient({ token }) {
 
       <div className={styles.card}>
         <div className={styles.cardHead}>
-          <h2 className={styles.subtitle}>О имениннике</h2>
+          <h2 className={styles.subtitle}>{ui.section}</h2>
         </div>
 
         <div className={styles.fields}>
-          {BIRTHDAY_FIELDS.map((field) => (
-            <div className={styles.field} key={field.key}>
+          {baseFields.map((field) => (
+            <div
+              className={`${styles.field} ${field.fullWidth ? styles.fullWidth : ''}`}
+              key={field.key}
+            >
               <label className={styles.label} htmlFor={`field-${field.key}`}>
                 {field.label}
               </label>
-              {field.input === 'select' ? (
-                <select
-                  id={`field-${field.key}`}
-                  className={styles.input}
-                  disabled={!editable}
-                  value={answers[field.key] ?? ''}
-                  onChange={(e) => handleAnswerChange(field.key, e.target.value)}
-                >
-                  <option value="">Выберите…</option>
-                  {field.options.map((opt) => (
-                    <option key={opt} value={opt}>
-                      {opt}
-                    </option>
-                  ))}
-                </select>
-              ) : field.input === 'date' ? (
-                <input
-                  id={`field-${field.key}`}
-                  className={styles.input}
-                  type="date"
-                  max={irkutskTodayDateString()}
-                  disabled={!editable}
-                  value={answers[field.key] ?? ''}
-                  onChange={(e) => handleAnswerChange(field.key, e.target.value)}
-                />
-              ) : (
-                <input
-                  id={`field-${field.key}`}
-                  className={styles.input}
-                  type="text"
-                  inputMode={field.input === 'digits' ? 'numeric' : undefined}
-                  maxLength={field.input === 'digits' ? 3 : ANSWER_MAX_LENGTH}
-                  disabled={!editable}
-                  value={answers[field.key] ?? ''}
-                  onChange={(e) =>
-                    handleAnswerChange(
-                      field.key,
-                      field.input === 'digits' ? onlyDigits(e.target.value) : e.target.value
-                    )
-                  }
-                />
-              )}
+              <FieldControl
+                field={field}
+                editable={editable}
+                value={answers[field.key] ?? ''}
+                onChange={(v) => handleAnswerChange(field.key, v)}
+              />
             </div>
           ))}
 
-          {/* Условные вопросы: на всю ширину сетки, только когда выполнено условие */}
-          {BIRTHDAY_CONDITIONAL_FIELDS.filter((f) => f.when(answers)).map((field) => (
+          {visibleConditional.map((field) => (
             <div className={`${styles.field} ${styles.fullWidth}`} key={field.key}>
               <label className={styles.label} htmlFor={`field-${field.key}`}>
                 {field.label}
               </label>
-              <input
-                id={`field-${field.key}`}
-                className={styles.input}
-                type="text"
-                maxLength={ANSWER_MAX_LENGTH}
-                disabled={!editable}
+              <FieldControl
+                field={{ ...field, input: field.input ?? 'text' }}
+                editable={editable}
                 value={answers[field.key] ?? ''}
-                onChange={(e) => handleAnswerChange(field.key, e.target.value)}
+                onChange={(v) => handleAnswerChange(field.key, v)}
               />
             </div>
           ))}

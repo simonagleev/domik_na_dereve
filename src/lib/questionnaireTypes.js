@@ -4,6 +4,12 @@ import {
   BIRTHDAY_CONDITIONAL_FIELDS,
   birthdayProgress,
 } from '@/lib/birthdayAnketa';
+import {
+  SANTA_TYPE,
+  SANTA_FIELDS,
+  SANTA_CONDITIONAL_FIELDS,
+  santaProgress,
+} from '@/lib/santaAnketa';
 
 /**
  * Реестр видов анкет. Новый вид = новый элемент в QUESTIONNAIRE_TYPES
@@ -21,10 +27,10 @@ export const QUESTIONNAIRE_TYPES = [
     hasAchievements: true,
   },
   {
-    type: 'santa',
+    type: SANTA_TYPE,
     label: 'Анкета для поздравления Деда Мороза',
-    progress: null,
-    hasAchievements: false,
+    progress: santaProgress,
+    hasAchievements: true,
   },
 ];
 
@@ -51,6 +57,8 @@ export function getQuestionnaireFields(type) {
   switch (type) {
     case BIRTHDAY_TYPE:
       return BIRTHDAY_FIELDS;
+    case SANTA_TYPE:
+      return SANTA_FIELDS;
     default:
       return null;
   }
@@ -61,6 +69,8 @@ export function getQuestionnaireConditionalFields(type) {
   switch (type) {
     case BIRTHDAY_TYPE:
       return BIRTHDAY_CONDITIONAL_FIELDS;
+    case SANTA_TYPE:
+      return SANTA_CONDITIONAL_FIELDS;
     default:
       return [];
   }

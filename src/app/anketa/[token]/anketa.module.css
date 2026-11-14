@@ -272,6 +272,14 @@ select.input:disabled {
   min-height: 96px;
 }
 
+.textareaCompact {
+  min-height: 3.25rem;
+}
+
+.textareaTall {
+  min-height: 9.5rem;
+}
+
 .counter {
   align-self: flex-end;
   font-size: 0.85rem;

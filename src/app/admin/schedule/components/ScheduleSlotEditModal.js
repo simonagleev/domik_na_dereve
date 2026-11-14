@@ -112,7 +112,7 @@ export default function ScheduleSlotEditModal({ opened, onClose, eventType, row,
             <Text size="sm" fw={500} mb={4}>
               {titleLabel}
             </Text>
-            <Text size="sm">{row ? displayName : '—'}</Text>
+            <Text size="sm">{row ? displayName : '-'}</Text>
           </div>
 
           <Group grow align="flex-start">

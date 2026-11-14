@@ -1,4 +1,4 @@
-/* Оверлей и широкая панель — globals.css (.client-modal-*) */
+/* Оверлей и широкая панель - globals.css (.client-modal-*) */
 
 .modal_top_bar {
     display: grid;
@@ -162,7 +162,7 @@
     box-sizing: border-box;
 }
 
-/* Дата DD.MM.YYYY — всегда одна строка, шрифт чуть меньше, чем у времени */
+/* Дата DD.MM.YYYY - всегда одна строка, шрифт чуть меньше, чем у времени */
 .item_line_date {
     overflow-wrap: normal;
     word-break: normal;

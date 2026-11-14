@@ -341,7 +341,7 @@ export default function WorkshopFormModal({ opened, onClose, mode, initialRow, o
                 value={form.image_path}
                 onChange={(e) => setForm((f) => ({ ...f, image_path: inputChangeValue(e) }))}
                 placeholder="/uploads/workshops/… или /img/workshops/…"
-                description="Вставьте путь к уже существующему файлу или загрузите файл выше — путь подставится автоматически."
+                description="Вставьте путь к уже существующему файлу или загрузите файл выше - путь подставится автоматически."
               />
               {previewSrc ? <Image src={previewSrc} alt="preview" w={200} radius="md" fit="contain" /> : null}
               {error ? (

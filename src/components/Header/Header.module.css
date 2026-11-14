@@ -1,4 +1,4 @@
-/* Перелив сезонного градиента — только шапка, keyframes с префиксом header, без globals */
+/* Перелив сезонного градиента - только шапка, keyframes с префиксом header, без globals */
 @keyframes headerGradientShimmer {
   0%,
   100% {

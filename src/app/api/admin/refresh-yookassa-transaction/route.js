@@ -3,7 +3,7 @@ import { getAdminPayload } from '@/lib/adminAuth';
 import { syncOnlineTransactionWithYooKassa } from '@/lib/yookassaSyncPaymentStatus';
 
 /**
- * POST JSON: { paymentId: string } — order_acquiring_id платежа YooKassa.
+ * POST JSON: { paymentId: string } - order_acquiring_id платежа YooKassa.
  * Только для админки: сверка статуса с API YooKassa и обновление online_transactions при расхождении.
  */
 export async function POST(request) {

@@ -45,7 +45,7 @@ function tgDateParts(raw) {
     return { d: s.split('T')[0], t: s.split('T')[1].substring(0, 5) };
   }
   const parts = s.trim().split(/\s+/);
-  return { d: parts[0] || '—', t: (parts[1] || '').slice(0, 5) };
+  return { d: parts[0] || '-', t: (parts[1] || '').slice(0, 5) };
 }
 
 export async function POST(request) {

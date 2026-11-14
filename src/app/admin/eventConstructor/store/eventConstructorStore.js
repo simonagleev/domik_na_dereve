@@ -21,7 +21,7 @@ function normalizeEventTypeRow(t) {
 
 /**
  * Общий контекст страницы «Конструктор мероприятий»: вкладки (типы из API), активная вкладка.
- * Данные и модалки по вкладкам — в отдельных сторах (shows / workshops / …).
+ * Данные и модалки по вкладкам - в отдельных сторах (shows / workshops / …).
  */
 export const useEventConstructorStore = create((set) => ({
   eventTypes: [],

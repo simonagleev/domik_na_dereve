@@ -3,8 +3,8 @@ import { pgQuery } from '@/lib/postgres';
 
 /**
  * Неуспешная оплата (отмена до списания): возвращаем места на слот и ставим canceled.
- * Идемпотентно — повторный вебхук/sync не удваивает remaining_count.
- * Денежных возвратов после оплаты у нас нет — статус refunded только обновляем в БД, слот не трогаем.
+ * Идемпотентно - повторный вебхук/sync не удваивает remaining_count.
+ * Денежных возвратов после оплаты у нас нет - статус refunded только обновляем в БД, слот не трогаем.
  */
 export async function applyCanceledPaymentAndRestoreSeats(paymentId) {
   const r = await pgQuery(
@@ -47,7 +47,7 @@ export async function applyCanceledPaymentAndRestoreSeats(paymentId) {
  * Запрашивает платёж в YooKassa и приводит строку online_transactions в соответствие
  * (как вебхук и публичный /api/yookassa-sync-payment-status).
  *
- * @param {string} paymentId — order_acquiring_id / id платежа в YooKassa
+ * @param {string} paymentId - order_acquiring_id / id платежа в YooKassa
  * @returns {Promise<
  *   | { ok: true; ykStatus: string; previousDbStatus: string; updated: boolean }
  *   | { ok: false; error: string; status?: number }

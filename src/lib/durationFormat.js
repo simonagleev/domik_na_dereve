@@ -10,7 +10,7 @@ function pluralRu(n, one, few, many) {
  * Преобразует длительность в минутах (или строку вида "1.24") в человекочитаемый вид на русском.
  */
 export function formatDurationRu(input) {
-  if (input == null || input === '') return '—';
+  if (input == null || input === '') return '-';
 
   let totalMinutes;
   if (typeof input === 'string' && input.includes('.')) {
@@ -20,7 +20,7 @@ export function formatDurationRu(input) {
     totalMinutes = Number(input);
   }
 
-  if (!Number.isFinite(totalMinutes) || totalMinutes < 0) return '—';
+  if (!Number.isFinite(totalMinutes) || totalMinutes < 0) return '-';
 
   const minutes = Math.round(totalMinutes);
   const hours = Math.floor(minutes / 60);

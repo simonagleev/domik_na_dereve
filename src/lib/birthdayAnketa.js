@@ -2,6 +2,12 @@ export const BIRTHDAY_TYPE = 'birthday';
 
 export const BIRTHDAY_TITLE = 'Анкета для дня рождения';
 
+export const BIRTHDAY_HERO_LEAD =
+  'Расскажите об имениннике - чем больше мы знаем, тем ярче получится праздник. Анкету можно заполнять не ' +
+  'спеша: сохраните её и вернитесь по этой же ссылке в любой момент.';
+
+export const BIRTHDAY_FORM_SECTION = 'О имениннике';
+
 /**
  * Поля анкеты: key = ключ в payload.answers, label = подпись в форме и в админке.
  * input: 'select' - выпадающий список из options; 'date' - календарь; 'digits' - только цифры.

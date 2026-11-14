@@ -96,7 +96,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         error:
-          'Этот тип оплаты не поддерживается. Спектакли и мастер-классы — через type show или workshop.',
+          'Этот тип оплаты не поддерживается. Спектакли и мастер-классы - через type show или workshop.',
       },
       { status: 400 }
     );
@@ -199,10 +199,10 @@ export async function POST(request) {
 
     /*
      * [СТАРАЯ БД SUPABASE] Для других type раньше писали в onlineTransactions и вызывали
-     * decrease_remaining_count_birthdays — перенесено на отказ: поддерживаются только show/workshop (см. проверку выше).
+     * decrease_remaining_count_birthdays - перенесено на отказ: поддерживаются только show/workshop (см. проверку выше).
      */
     try {
-      // Одна транзакция: запись платежа + списание мест. Если UPDATE не прошёл (нет билетов) — ROLLBACK и INSERT тоже откатится.
+      // Одна транзакция: запись платежа + списание мест. Если UPDATE не прошёл (нет билетов) - ROLLBACK и INSERT тоже откатится.
       await withTransaction(async (client) => {
         await insertOnlineTransactionPg(client, {
           orderId,

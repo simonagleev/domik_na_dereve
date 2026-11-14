@@ -28,7 +28,7 @@ const emptyFilters = {
 };
 
 function formatCreatedAt(v) {
-  if (v == null || v === '') return '—';
+  if (v == null || v === '') return '-';
   const d = new Date(v);
   if (Number.isNaN(d.getTime())) return String(v);
   return new Intl.DateTimeFormat('ru-RU', {
@@ -160,7 +160,7 @@ export default function AdminRequestsPage() {
   };
 
   const displayTypeName = (rowType) => {
-    if (rowType == null || rowType === '') return '—';
+    if (rowType == null || rowType === '') return '-';
     return typeNameByCode.get(String(rowType)) ?? String(rowType);
   };
 
@@ -265,14 +265,14 @@ export default function AdminRequestsPage() {
                   const eventDateVal = rowField(row, 'event_date', 'EventDate');
                   return (
                     <Table.Tr key={idVal != null ? String(idVal) : `request-${index}`}>
-                      <Table.Td>{idVal ?? '—'}</Table.Td>
+                      <Table.Td>{idVal ?? '-'}</Table.Td>
                       <Table.Td>{formatCreatedAt(created)}</Table.Td>
-                      <Table.Td>{nameVal ?? '—'}</Table.Td>
-                      <Table.Td>{phoneVal ?? '—'}</Table.Td>
+                      <Table.Td>{nameVal ?? '-'}</Table.Td>
+                      <Table.Td>{phoneVal ?? '-'}</Table.Td>
                       <Table.Td>{displayTypeName(typeVal)}</Table.Td>
-                      <Table.Td>{childNameVal ?? '—'}</Table.Td>
-                      <Table.Td>{childAgeVal != null ? childAgeVal : '—'}</Table.Td>
-                      <Table.Td>{eventDateVal ?? '—'}</Table.Td>
+                      <Table.Td>{childNameVal ?? '-'}</Table.Td>
+                      <Table.Td>{childAgeVal != null ? childAgeVal : '-'}</Table.Td>
+                      <Table.Td>{eventDateVal ?? '-'}</Table.Td>
                     </Table.Tr>
                   );
                 })}
