@@ -15,7 +15,6 @@ export function isDedMorozBookingDate(value) {
 
 export const DED_MOROZ_BANNER_STORAGE_KEY = 'ded_moroz_banner_hidden_until';
 
-export const DED_MOROZ_BANNER_DELAY_MS = 1600;
+export const DED_MOROZ_BANNER_DELAY_MS = 1200;
 
-// export const DED_MOROZ_BANNER_HIDE_MS = 24 * 60 * 60 * 1000;
-export const DED_MOROZ_BANNER_HIDE_MS = 0;
+export const DED_MOROZ_BANNER_HIDE_MS = 12 * 60 * 60 * 1000;
