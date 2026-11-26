@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { useFeedbackRequestFormStore } from "@/store/feedbackRequestFormStore";
 import { normalizeRuPhoneInput } from "@/lib/phoneInput";
 import { irkutskTodayDateString } from "@/lib/irkutskTime";
+import {
+    DED_MOROZ_REQUEST_TYPE,
+    DED_MOROZ_BOOKING_FROM,
+    DED_MOROZ_BOOKING_TO,
+    isDedMorozBookingDate,
+} from "@/lib/dedMorozRequest";
 
 export default function FeedbackRequestForm({ type }) {
     const {
@@ -58,6 +64,15 @@ export default function FeedbackRequestForm({ type }) {
         // Убираем все символы, кроме цифр
         value = value.replace(/[^0-9]/g, '');
         updateFormData('childAge', value);
+    };
+
+    const handleGuestCountChange = (e) => {
+        const value = e.target.value.replace(/[^0-9]/g, '');
+        updateFormData('guestCount', value);
+    };
+
+    const handleGuestAgesChange = (e) => {
+        updateFormData('guestAges', e.target.value);
     };
     const successHandler = () => {
         setIsSuccess(true)
@@ -117,6 +132,15 @@ export default function FeedbackRequestForm({ type }) {
         updateFormData('eventDate', value);
     };
 
+    const showEventDate = type === 'birthday' || type === DED_MOROZ_REQUEST_TYPE;
+    const eventDateMin =
+        type === DED_MOROZ_REQUEST_TYPE
+            ? DED_MOROZ_BOOKING_FROM
+            : type === 'birthday'
+                ? irkutskTodayDateString()
+                : undefined;
+    const eventDateMax = type === DED_MOROZ_REQUEST_TYPE ? DED_MOROZ_BOOKING_TO : undefined;
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -130,7 +154,26 @@ export default function FeedbackRequestForm({ type }) {
             return;
         }
 
-        const isBirthdayOrCreative = type === 'birthday' || type === 'creative_workshops' || type === 'after_school_care';
+        if (type === DED_MOROZ_REQUEST_TYPE) {
+            if (!isDedMorozBookingDate(formData.eventDate)) {
+                alert('Выберите дату с 26 по 31 декабря 2026');
+                return;
+            }
+            if (!formData.guestCount || Number(formData.guestCount) < 1) {
+                alert('Укажите предварительное количество гостей');
+                return;
+            }
+            if (!String(formData.guestAges || '').trim()) {
+                alert('Укажите возраст гостей');
+                return;
+            }
+        }
+
+        const isBirthdayOrCreative =
+            type === 'birthday' ||
+            type === 'creative_workshops' ||
+            type === 'after_school_care' ||
+            type === DED_MOROZ_REQUEST_TYPE;
 
         setLoading(true);
         try {
@@ -215,10 +258,10 @@ export default function FeedbackRequestForm({ type }) {
                             maxLength={3}
                         />
                     </div>
-                    {type === 'birthday' ?
+                    {showEventDate ?
                         <div
                             className={`${styles.form_group} ${styles.date_wrapper} ${styles.form_field_full_span}`}
-                            onClick={() => document.getElementById('eventDate').showPicker()}
+                            onClick={() => document.getElementById('eventDate')?.showPicker?.()}
                         >
                             <input
                                 className={styles.date_input}
@@ -226,11 +269,40 @@ export default function FeedbackRequestForm({ type }) {
                                 id="eventDate"
                                 name="eventDate"
                                 value={formData.eventDate ? formData.eventDate : ''}
-                                min={irkutskTodayDateString()}
+                                min={eventDateMin}
+                                max={eventDateMax}
                                 onChange={e => handleEventDateChange(e)}
                             />
                         </div> : null
                     }
+                    {type === DED_MOROZ_REQUEST_TYPE ? (
+                        <>
+                            <div className={styles.form_group}>
+                                <input
+                                    type="text"
+                                    inputMode="numeric"
+                                    id="guestCount"
+                                    name="guestCount"
+                                    placeholder="Количество гостей"
+                                    value={formData.guestCount || ''}
+                                    onChange={handleGuestCountChange}
+                                    maxLength={3}
+                                    required
+                                />
+                            </div>
+                            <div className={styles.form_group}>
+                                <input
+                                    type="text"
+                                    id="guestAges"
+                                    name="guestAges"
+                                    placeholder="Возраст гостей"
+                                    value={formData.guestAges || ''}
+                                    onChange={handleGuestAgesChange}
+                                    required
+                                />
+                            </div>
+                        </>
+                    ) : null}
                     </div>
 
                     <button className={styles.submit_btn} type="submit">
@@ -239,6 +311,7 @@ export default function FeedbackRequestForm({ type }) {
                                 : type === 'birthday' ? 'Узнать стоимость'
                                     : type === 'after_school_care' ? 'Присоединиться'
                                         : type === 'camp' ? 'Записаться'
+                                            : type === DED_MOROZ_REQUEST_TYPE ? 'Отправить заявку'
                                             : 'Отправить'
                         }
                     </button>

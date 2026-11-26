@@ -64,7 +64,7 @@ export async function GET(request) {
 
     const dataRes = await pgQuery(
       `
-      SELECT id, created_at, name, phone, type, child_name, child_age, event_date
+      SELECT id, created_at, name, phone, type, child_name, child_age, event_date, guest_count, guest_ages
       FROM feedback_requests
       ${whereSql}
       ORDER BY created_at DESC

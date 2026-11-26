@@ -24,6 +24,9 @@ export async function POST(request) {
             case 'after_school_care':
                 event = 'ПРОДЛЕНКУ'
                 break;
+            case 'ded_moroz_request':
+                event = 'ПОЗДРАВЛЕНИЕ ДЕДА МОРОЗА'
+                break;
             default:
                 event = 'Неизвестно (что-то пошло не так)'
                 break;
@@ -35,7 +38,9 @@ export async function POST(request) {
             Имя ребенка: ${data.childName ? data.childName : ''}
             Возраст: ${data.childAge ? data.childAge : ''}
             ${data.eventDate ? 'Планируемая дата: ' + data.eventDate : ''}
-            ${(data.type === 'creative_workshops' && data.cw_name) ? 'Название: ' + data.cw_name : ''}`
+            ${(data.type === 'creative_workshops' && data.cw_name) ? 'Название: ' + data.cw_name : ''}
+            ${data.type === 'ded_moroz_request' && data.guestCount ? 'Гостей: ' + data.guestCount : ''}
+            ${data.type === 'ded_moroz_request' && data.guestAges ? 'Возраст гостей: ' + data.guestAges : ''}`
 
         for (const chatId of chatIds) {
             await fetch(url, {

@@ -10,6 +10,8 @@ export const useFeedbackRequestFormStore = create((set) => ({
         childAge: '',
         eventDate: '',
         cw_name: '',
+        guestCount: '',
+        guestAges: '',
     },
     isSuccess: false,
     /** Тост после отправки заявки (дни рождения / творческие мастерские); живёт после закрытия модалки */
@@ -33,6 +35,8 @@ export const useFeedbackRequestFormStore = create((set) => ({
             childAge: '',
             eventDate: '',
             cw_name: '',
+            guestCount: '',
+            guestAges: '',
         }
     }),
     setIsSuccess: (value) => set({ isSuccess: value }),

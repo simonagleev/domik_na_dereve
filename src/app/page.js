@@ -7,6 +7,7 @@ import News from "@/components/News/News";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import MainHomeSlider from "@/components/MainHomeSlider/MainHomeSlider";
 import FiguretSection from "@/components/FigureSection/FigureSection";
+import DedMorozBanner from "@/components/DedMorozBanner/DedMorozBanner";
 import { getSeasonIrkutskNow } from "@/utils/season";
 
 /** Чтобы фон «по сезону» не залипал на дате сборки при статическом кэше. */
@@ -191,6 +192,7 @@ export default function Home() {
           {/* <News /> */}
         </div>
       </div>
+      <DedMorozBanner />
     </div>
   );
 }

@@ -251,6 +251,8 @@ export default function AdminRequestsPage() {
                   <Table.Th>Имя ребёнка</Table.Th>
                   <Table.Th>Возраст</Table.Th>
                   <Table.Th>Дата мероприятия</Table.Th>
+                  <Table.Th>Гостей</Table.Th>
+                  <Table.Th>Возраст гостей</Table.Th>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
@@ -263,6 +265,8 @@ export default function AdminRequestsPage() {
                   const childNameVal = rowField(row, 'child_name', 'ChildName');
                   const childAgeVal = rowField(row, 'child_age', 'ChildAge');
                   const eventDateVal = rowField(row, 'event_date', 'EventDate');
+                  const guestCountVal = rowField(row, 'guest_count', 'GuestCount');
+                  const guestAgesVal = rowField(row, 'guest_ages', 'GuestAges');
                   return (
                     <Table.Tr key={idVal != null ? String(idVal) : `request-${index}`}>
                       <Table.Td>{idVal ?? '-'}</Table.Td>
@@ -273,6 +277,8 @@ export default function AdminRequestsPage() {
                       <Table.Td>{childNameVal ?? '-'}</Table.Td>
                       <Table.Td>{childAgeVal != null ? childAgeVal : '-'}</Table.Td>
                       <Table.Td>{eventDateVal ?? '-'}</Table.Td>
+                      <Table.Td>{guestCountVal != null && guestCountVal !== '' ? guestCountVal : '-'}</Table.Td>
+                      <Table.Td>{guestAgesVal ? guestAgesVal : '-'}</Table.Td>
                     </Table.Tr>
                   );
                 })}
